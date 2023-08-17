@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from "@apollo/client";
+import { ApolloQueryResult, InMemoryCache } from "@apollo/client";
 import buildApolloClient, {
   buildQuery as buildQueryFactory,
 } from "ra-data-graphql-simple";
@@ -6,6 +6,9 @@ import { BuildQueryFactory } from "ra-data-graphql";
 import { CREATE, DataProvider, DELETE } from "react-admin";
 import gql from "graphql-tag";
 import { IntrospectionType } from "graphql";
+import { ApolloLink, concat } from "apollo-link";
+import { HttpLink } from "apollo-link-http";
+import configFile from "../configFile";
 
 const getGqlResource = (resource: string) => {
   switch (resource) {
@@ -32,78 +35,100 @@ const getGqlResource = (resource: string) => {
   }
 };
 
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  const token = localStorage.getItem("token");
+  operation.setContext({
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+  if (forward) {
+    return forward(operation);
+  } else {
+    return null;
+  }
+});
+
+const httpLink = new HttpLink({ uri: configFile.ip });
+
 const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
   const buildQuery = buildQueryFactory(introspectionResults);
 
   return (type, resource, params) => {
-    if (type === DELETE) {
-      return {
-        query: gql`mutation remove${resource}($id: ID!) {
-                    remove${resource}(id: $id) {
-                        id
-                    }
-                }`,
-        variables: { id: params.id },
-        parseResponse: ({ data }: ApolloQueryResult<any>) => {
-          if (data[`remove${resource}`]) {
-            return { data: { id: params.id } };
-          }
+    if (resource === "User" && type === "GET_LIST") {
+      let defaultORderBtCreation: string;
+      if (params.filter.role === undefined) {
+        params.filter.role = [
+          "SUPERADMIN",
+          "ADMIN",
+          "USER",
+          "ANON",
+          "CONTENTCREATOR",
+          "SERVICE",
+          "QA",
+        ];
+      }
+      if (params.sort.field === undefined && params.sort.order === undefined) {
+        defaultORderBtCreation = "createdAt_ASC";
+      } else {
+        defaultORderBtCreation = `${params.sort.field}_${params.sort.order}`;
+      }
 
-          throw new Error(`Could not delete ${resource}`);
-        },
-      };
-    }
-
-    if (resource === "Customer" && type === CREATE) {
       return {
         query: gql`
-          mutation createCustomer(
-            $first_name: String!
-            $last_name: String!
-            $email: String!
-            $address: String
-            $zipcode: String
-            $city: String
-            $stateAbbr: String
-            $birthday: Date
-            $first_seen: Date!
-            $last_seen: Date!
-            $has_ordered: Boolean!
-            $latest_purchase: Date
-            $has_newsletter: Boolean!
-            $groups: [String]!
-            $nb_commands: Int!
-            $total_spent: Float!
+          query AllUsers(
+            $filter: UserWhereInput
+            $orderBy: UserOrderByInput
+            $take: Int
+            $skip: Int
           ) {
-            createCustomer(
-              first_name: $first_name
-              last_name: $last_name
-              email: $email
-              address: $address
-              zipcode: $zipcode
-              city: $city
-              stateAbbr: $stateAbbr
-              birthday: $birthday
-              first_seen: $first_seen
-              last_seen: $last_seen
-              has_ordered: $has_ordered
-              latest_purchase: $latest_purchase
-              has_newsletter: $has_newsletter
-              groups: $groups
-              nb_commands: $nb_commands
-              total_spent: $total_spent
+            data: allUsersV1(
+              filter: $filter
+              orderBy: $orderBy
+              take: $take
+              skip: $skip
             ) {
               id
+              createdAt
+              email
+              name
+              artistName
+              role
+              avatarUrl
+              audioCorePluginAllowUser
+              headerImage
+              isValidated
+              isDeveloper
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+            }
+            usersMeta(where: $filter) {
+              count
             }
           }
         `,
-        variables: params.data,
-        parseResponse: ({ data }: ApolloQueryResult<any>) => {
-          if (data.createCustomer) {
-            return { data: { id: data.createCustomer.id } };
-          }
-
-          throw new Error(`Could not create Customer`);
+        variables: {
+          filter: {
+            ...((params.filter.artistName || params.filter.q) && {
+              artistName_contains: params.filter.artistName || params.filter.q,
+            }),
+            ...(params.filter.email && { email_contains: params.filter.email }),
+            ...(params.filter.role && { role_in: params.filter.role }),
+          },
+          orderBy: defaultORderBtCreation,
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.usersMeta.count,
+          };
         },
       };
     }
@@ -115,7 +140,8 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
 export default async () => {
   const dataProvider = await buildApolloClient({
     clientOptions: {
-      uri: "http://localhost:4000/graphql",
+      link: concat(authMiddleware, httpLink) as any,
+      cache: new InMemoryCache() as any,
     },
     introspection: {
       operationNames: {
