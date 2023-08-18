@@ -1,5 +1,6 @@
 import "proxy-polyfill";
 
+import React from "react";
 import App from "./App";
 import ReactDOM from "react-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";

@@ -1,54 +1,55 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import LabelIcon from '@mui/icons-material/Label';
+import * as React from "react";
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import LabelIcon from "@mui/icons-material/Label";
 
 import {
-    useTranslate,
-    DashboardMenuItem,
-    MenuItemLink,
-    MenuProps,
-    useSidebarState,
-} from 'react-admin';
+  useTranslate,
+  DashboardMenuItem,
+  MenuItemLink,
+  MenuProps,
+  useSidebarState,
+} from "react-admin";
 
-import visitors from '../visitors';
-import orders from '../orders';
-import invoices from '../invoices';
-import products from '../products';
-import categories from '../categories';
-import reviews from '../reviews';
-import SubMenu from './SubMenu';
+import visitors from "../visitors";
+import orders from "../orders";
+import invoices from "../invoices";
+import products from "../products";
+import categories from "../categories";
+import reviews from "../reviews";
+import SubMenu from "./SubMenu";
+import UsersList from "../Users";
 
-type MenuName = 'menuCatalog' | 'menuSales' | 'menuCustomers';
+type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
 const Menu = ({ dense = false }: MenuProps) => {
-    const [state, setState] = useState({
-        menuCatalog: true,
-        menuSales: true,
-        menuCustomers: true,
-    });
-    const translate = useTranslate();
-    const [open] = useSidebarState();
+  const [state, setState] = useState({
+    menuCatalog: true,
+    menuSales: true,
+    menuCustomers: true,
+  });
+  const translate = useTranslate();
+  const [open] = useSidebarState();
 
-    const handleToggle = (menu: MenuName) => {
-        setState(state => ({ ...state, [menu]: !state[menu] }));
-    };
+  const handleToggle = (menu: MenuName) => {
+    setState((state) => ({ ...state, [menu]: !state[menu] }));
+  };
 
-    return (
-        <Box
-            sx={{
-                width: open ? 200 : 50,
-                marginTop: 1,
-                marginBottom: 1,
-                transition: theme =>
-                    theme.transitions.create('width', {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.leavingScreen,
-                    }),
-            }}
-        >
-            <DashboardMenuItem />
-            <SubMenu
+  return (
+    <Box
+      sx={{
+        width: open ? 200 : 50,
+        marginTop: 1,
+        marginBottom: 1,
+        transition: (theme) =>
+          theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+      }}
+    >
+      <DashboardMenuItem />
+      {/* <SubMenu
                 handleToggle={() => handleToggle('menuSales')}
                 isOpen={state.menuSales}
                 name="pos.menu.sales"
@@ -134,9 +135,18 @@ const Menu = ({ dense = false }: MenuProps) => {
                 })}
                 leftIcon={<reviews.icon />}
                 dense={dense}
-            />
-        </Box>
-    );
+            /> */}
+      <MenuItemLink
+        to="/users"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.users.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<UsersList.icon />}
+        dense={dense}
+      />
+    </Box>
+  );
 };
 
 export default Menu;

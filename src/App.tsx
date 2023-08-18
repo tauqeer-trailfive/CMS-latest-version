@@ -15,6 +15,7 @@ import products from "./products";
 import invoices from "./invoices";
 import categories from "./categories";
 import reviews from "./reviews";
+import users from "./Users";
 import dataProviderFactory from "./dataProvider";
 import Segments from "./segments/Segments";
 
@@ -48,17 +49,18 @@ const App = () => (
     disableTelemetry
     theme={lightTheme}
     darkTheme={darkTheme}
-    defaultTheme="light"
+    defaultTheme="dark"
   >
     {/* <CustomRoutes>
       <Route path="/segments" element={<Segments />} />
     </CustomRoutes> */}
-    <Resource name="customers" {...visitors} />
+    {/* <Resource name="customers" {...visitors} />
     <Resource name="commands" {...orders} options={{ label: "Orders" }} />
     <Resource name="invoices" {...invoices} />
     <Resource name="products" {...products} />
     <Resource name="categories" {...categories} />
-    <Resource name="reviews" {...reviews} />
+    <Resource name="reviews" {...reviews} /> */}
+    <Resource name="users" {...users} />
   </Admin>
 );
 

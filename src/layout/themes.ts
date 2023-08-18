@@ -13,6 +13,9 @@ export const darkTheme = {
     },
     mode: "dark" as "dark", // Switching the dark mode on is a single property value change.
   },
+  shape: {
+    borderRadius: 10,
+  },
   sidebar: {
     width: 200,
   },
@@ -21,18 +24,41 @@ export const darkTheme = {
     RaMenuItemLink: {
       styleOverrides: {
         root: {
-          borderLeft: "dark",
           "&.RaMenuItemLink-active": {
-            borderLeft: "3px solid #fb5eb5",
+            borderLeft: "5px solid #fb5eb5",
           },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        elevation1: {
+          boxShadow: "none",
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         colorSecondary: {
-          color: "#ffffffb3",
-          backgroundColor: "#616161e6",
+          color: "#fff",
+          backgroundColor: "#222",
+        },
+      },
+    },
+    MuiLinearProgress: {
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: "#f5f5f5",
+        },
+        barColorPrimary: {
+          backgroundColor: "#d7d7d7",
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          "&:last-child td": { border: 0 },
         },
       },
     },
@@ -45,7 +71,7 @@ export const lightTheme = {
   },
   palette: {
     primary: {
-      main: "#4f3cc9",
+      main: "#fb5eb5",
     },
     secondary: {
       light: "#5f5fc4",
@@ -71,7 +97,7 @@ export const lightTheme = {
         root: {
           borderLeft: "3px solid #fff",
           "&.RaMenuItemLink-active": {
-            borderLeft: "3px solid #4f3cc9",
+            borderLeft: "5px solid #fb5eb5",
           },
         },
       },
@@ -90,7 +116,7 @@ export const lightTheme = {
     MuiAppBar: {
       styleOverrides: {
         colorSecondary: {
-          color: "#808080",
+          color: "#444",
           backgroundColor: "#fff",
         },
       },
