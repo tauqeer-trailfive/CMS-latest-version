@@ -9,8 +9,10 @@ import {
   Card,
   CardActions,
   CircularProgress,
+  Typography,
+  Backdrop,
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
+import LockIcon from "@mui/icons-material/LockPersonTwoTone";
 import {
   Form,
   required,
@@ -21,6 +23,7 @@ import {
 } from "react-admin";
 
 import Box from "@mui/material/Box";
+import logo from "../images/logo.png";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -67,71 +70,78 @@ const Login = () => {
           minHeight: "100vh",
           alignItems: "center",
           justifyContent: "flex-start",
-          background: "url(https://source.unsplash.com/featured/1600x900)",
+          background:
+            "url(https://scontent.fisb17-1.fna.fbcdn.net/v/t39.30808-6/347111076_243268244966016_4529504025547613309_n.png?stp=dst-jpg&_nc_cat=107&ccb=1-7&_nc_sid=19026a&_nc_ohc=VSjOSiUxcrwAX8TRJtF&_nc_ht=scontent.fisb17-1.fna&oh=00_AfCyRJPS5X9UO29PmnhW2zAbtki7Fkz8hoJyBIv0zI8GTQ&oe=64E4501D)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        <Card sx={{ minWidth: 300, my: "auto" }}>
-          <Box
-            sx={{
-              margin: "1em",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Avatar sx={{ bgcolor: "secondary.main" }}>
-              <LockIcon />
-            </Avatar>
-          </Box>
-          <Box
-            sx={{
-              marginTop: "1em",
-              display: "flex",
-              justifyContent: "center",
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            Hint: demo / demo
-          </Box>
-          <Box sx={{ padding: "0 1em 1em 1em" }}>
-            <Box sx={{ marginTop: "1em" }}>
-              <TextInput
-                autoFocus
-                source="username"
-                label={translate("ra.auth.username")}
-                disabled={loading}
-                validate={required()}
-                fullWidth
-              />
-            </Box>
-            <Box sx={{ marginTop: "1em" }}>
-              <TextInput
-                source="password"
-                label={translate("ra.auth.password")}
-                type="password"
-                disabled={loading}
-                validate={required()}
-                fullWidth
-              />
-            </Box>
-          </Box>
-          <CardActions sx={{ padding: "0 1em 1em 1em" }}>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              disabled={loading}
-              fullWidth
+        <Backdrop open>
+          <Card sx={{ minWidth: 300, my: "auto" }}>
+            <Box
+              sx={{
+                margin: "1em",
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
-              {loading ? (
-                <CircularProgress size={25} thickness={2} color="inherit" />
-              ) : (
-                translate("ra.auth.sign_in")
-              )}
-            </Button>
-          </CardActions>
-        </Card>
+              <Avatar sx={{ bgcolor: "secondary.main" }}>
+                <LockIcon />
+              </Avatar>
+            </Box>
+            <Box
+              sx={{
+                marginTop: "1em",
+                display: "flex",
+                justifyContent: "center",
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <img
+                style={{ height: "2rem", width: "auto" }}
+                alt={"djaminn_logo"}
+                src={logo}
+              />
+            </Box>
+            <Box sx={{ padding: "0 1em 1em 1em" }}>
+              <Box sx={{ marginTop: "1em" }}>
+                <TextInput
+                  autoFocus
+                  source="username"
+                  label={"Email Address"}
+                  disabled={loading}
+                  validate={required()}
+                  fullWidth
+                />
+              </Box>
+              <Box sx={{ marginTop: "1em" }}>
+                <TextInput
+                  source="password"
+                  label={translate("ra.auth.password")}
+                  type="password"
+                  disabled={loading}
+                  validate={required()}
+                  fullWidth
+                />
+              </Box>
+            </Box>
+            <CardActions sx={{ padding: "0 1em 1em 1em" }}>
+              <Button
+                variant="contained"
+                type="submit"
+                color="primary"
+                disabled={loading}
+                fullWidth
+              >
+                {loading ? (
+                  <CircularProgress size={25} thickness={2} color="inherit" />
+                ) : (
+                  translate("ra.auth.sign_in")
+                )}
+              </Button>
+            </CardActions>
+          </Card>
+        </Backdrop>
       </Box>
     </Form>
   );
