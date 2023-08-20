@@ -11,7 +11,7 @@ const CustomerLinkField = (_: FieldProps<User>) => {
   }
   return (
     <Link to={`/user/${record.id}`}>
-      <NameField />
+      <NameField size="40" />
     </Link>
   );
 };

@@ -63,7 +63,7 @@ const authProvider: AuthProvider = {
     Promise.resolve({
       id: `${localStorage.getItem("user_id")}`,
       fullName: `${localStorage.getItem("user_email")}`,
-      //   avatar: `${localStorage.getItem("avatarUrl")}`,
+      avatar: `${localStorage.getItem("avatarUrl")}`,
     }),
 };
 

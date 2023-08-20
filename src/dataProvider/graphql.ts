@@ -117,8 +117,11 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: {
           filter: {
-            ...((params.filter.artistName || params.filter.q) && {
-              artistName_contains: params.filter.artistName || params.filter.q,
+            ...(params.filter.name && {
+              name_contains: params.filter.name,
+            }),
+            ...(params.filter.artistName && {
+              artistName_contains: params.filter.artistName,
             }),
             ...(params.filter.email && { email_contains: params.filter.email }),
             ...(params.filter.role && { role_in: params.filter.role }),

@@ -15,14 +15,17 @@ import {
   ReferenceArrayField,
   Datagrid,
   SearchInput,
+  BooleanField,
 } from "react-admin";
 import { useMediaQuery, Theme } from "@mui/material";
 
 import UserLinkField from "./UserLinkField";
 import MobileGrid from "./MobileGrid";
 import UsersListAside from "./UsersListAside";
+import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
+import CancelCircle from "@mui/icons-material/CancelTwoTone";
 
-const visitorFilters = [<SearchInput source="artistName" alwaysOn />];
+const userFilters = [<SearchInput source="artistName" alwaysOn />];
 
 const PostListActions = () => (
   <TopToolbar>
@@ -39,7 +42,7 @@ const UsersList = () => {
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("md"));
   return (
     <List
-      filters={isSmall ? visitorFilters : undefined}
+      filters={isSmall ? userFilters : undefined}
       sort={{ field: "createdAt", order: "DESC" }}
       perPage={10}
       aside={<UsersListAside />}
@@ -56,11 +59,17 @@ const UsersList = () => {
             },
           }}
         >
-          <UserLinkField label="Name" />
+          <UserLinkField label="Avatar & Name" />
           <TextField source="artistName" label="Artist Name" />
           <EmailField source="email" />
           <ChipField source="role" />
-          <DateField source="createdAt" showTime />
+          <BooleanField
+            source="audioCorePluginAllowUser"
+            label="Audio Core Plugin"
+            TrueIcon={CheckCircle}
+            FalseIcon={CancelCircle}
+          />
+          <DateField source="createdAt" showTime label="Created At" />
           <ArrayField source="musicalInstruments">
             <SingleFieldList linkType={false}>
               <ChipField source="name" size="small" />
