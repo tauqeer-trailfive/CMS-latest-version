@@ -140,39 +140,39 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
       };
     }
 
-    // if (resource === "User" && type === "GET_ONE") {
-    //   return {
-    //     query: gql`
-    //       query User($filter: UserWhereUniqueInput) {
-    //         data: UserV1(filter: $filter) {
-    //           createdAt
-    //           email
-    //           name
-    //           artistName
-    //           role
-    //           id
-    //           isValidated
-    //           avatarUrl
-    //           audioCorePluginAllowUser
-    //           headerImage
-    //           musicalInstruments {
-    //             id
-    //             name
-    //             rank
-    //           }
-    //         }
-    //       }
-    //     `,
-    //     variables: { filter: { id: params.id } },
-    //     options: { fetchPolicy: "network-only" },
-    //     // tslint:disable-next-line:object-literal-sort-keys
-    //     parseResponse: (response: any) => {
-    //       return {
-    //         data: response.data.data,
-    //       };
-    //     },
-    //   };
-    // }
+    if (resource === "User" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query User($filter: UserWhereUniqueInput) {
+            data: UserV1(filter: $filter) {
+              createdAt
+              email
+              name
+              artistName
+              role
+              id
+              isValidated
+              avatarUrl
+              audioCorePluginAllowUser
+              headerImage
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+            }
+          }
+        `,
+        variables: { filter: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
 
     // if (resource === "User" && type === "UPDATE") {
     //   delete params.data.id;

@@ -1,12 +1,10 @@
 import * as React from "react";
 import {
-  DateInput,
   Edit,
-  NullableBooleanInput,
   TextInput,
-  PasswordInput,
   SimpleForm,
   useTranslate,
+  SelectInput,
 } from "react-admin";
 import { Grid, Box, Typography } from "@mui/material";
 
@@ -27,64 +25,46 @@ const VisitorEdit = () => {
               </Typography>
               <Box display={{ xs: "block", sm: "flex" }}>
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                  <TextInput source="first_name" isRequired fullWidth />
+                  <TextInput source="name" label="Name" isRequired fullWidth />
                 </Box>
                 <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-                  <TextInput source="last_name" isRequired fullWidth />
+                  <TextInput
+                    source="artistName"
+                    label="Artist Name"
+                    isRequired
+                    fullWidth
+                  />
                 </Box>
               </Box>
               <TextInput type="email" source="email" isRequired fullWidth />
+
               <Box display={{ xs: "block", sm: "flex" }}>
-                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                  <DateInput source="birthday" fullWidth helperText={false} />
+                <Box flex={1}>
+                  <SelectInput
+                    source="role"
+                    isRequired
+                    fullWidth
+                    choices={[
+                      { id: "QA", name: "QA" },
+                      { id: "SUPERADMIN", name: "SUPERADMIN" },
+                      { id: "CONTENTCREATOR", name: "CONTENTCREATOR" },
+                      { id: "SERVICE", name: "SERVICE" },
+                      { id: "ADMIN", name: "ADMIN" },
+                      { id: "USER", name: "USER" },
+                      { id: "ANON", name: "ANON" },
+                    ]}
+                  />
                 </Box>
-                <Box flex={2} ml={{ xs: 0, sm: "0.5em" }} />
               </Box>
-
-              <Box mt="1em" />
-
-              <Typography variant="h6" gutterBottom>
-                {translate("resources.customers.fieldGroups.address")}
-              </Typography>
-              <TextInput
-                source="address"
-                multiline
-                fullWidth
-                helperText={false}
-              />
               <Box display={{ xs: "block", sm: "flex" }}>
-                <Box flex={2} mr={{ xs: 0, sm: "0.5em" }}>
-                  <TextInput source="city" fullWidth helperText={false} />
-                </Box>
-                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                  <TextInput source="stateAbbr" fullWidth helperText={false} />
-                </Box>
-                <Box flex={2}>
-                  <TextInput source="zipcode" fullWidth helperText={false} />
+                <Box flex={1}>
+                  <TextInput source="bio" multiline rows={5} fullWidth />
                 </Box>
               </Box>
 
               <Box mt="1em" />
-
-              <Typography variant="h6" gutterBottom>
-                {translate("resources.customers.fieldGroups.change_password")}
-              </Typography>
-              <Box display={{ xs: "block", sm: "flex" }}>
-                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                  <PasswordInput source="password" fullWidth />
-                </Box>
-                <Box flex={1} ml={{ xs: 0, sm: "0.5em" }}>
-                  <PasswordInput source="confirm_password" fullWidth />
-                </Box>
-              </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" gutterBottom>
-                {translate("resources.customers.fieldGroups.stats")}
-              </Typography>
-
-              <NullableBooleanInput fullWidth source="has_newsletter" />
-            </Grid>
+            <Grid item xs={12} md={4}></Grid>
           </Grid>
         </div>
       </SimpleForm>

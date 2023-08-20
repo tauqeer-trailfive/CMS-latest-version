@@ -62,7 +62,7 @@ const UsersList = () => {
           <UserLinkField label="Avatar & Name" />
           <TextField source="artistName" label="Artist Name" />
           <EmailField source="email" />
-          <ChipField source="role" />
+          <ChipField source="role" variant="outlined" color="primary" />
           <BooleanField
             source="audioCorePluginAllowUser"
             label="Audio Core Plugin"
