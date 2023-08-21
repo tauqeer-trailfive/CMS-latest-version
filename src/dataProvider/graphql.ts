@@ -9,26 +9,10 @@ import { IntrospectionType } from "graphql";
 import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
+import { RandomAvatars } from "../utils/utils";
 
 const getGqlResource = (resource: string) => {
   switch (resource) {
-    case "customers":
-      return "Customer";
-
-    case "categories":
-      return "Category";
-
-    case "commands":
-      return "Command";
-
-    case "products":
-      return "Product";
-
-    case "reviews":
-      return "Review";
-
-    case "invoices":
-      return "Invoice";
     case "users":
       return "User";
     default:
@@ -109,6 +93,10 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                 name
                 rank
               }
+              favoriteGenres {
+                id
+                name
+              }
             }
             usersMeta(where: $filter) {
               count
@@ -151,6 +139,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               artistName
               role
               id
+              bio
               isValidated
               avatarUrl
               audioCorePluginAllowUser
@@ -408,6 +397,60 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     //     },
     //   };
     // }
+
+    if (resource === "User" && type === "CREATE") {
+      const randomAvatar =
+        RandomAvatars[Math.floor(Math.random() * RandomAvatars.length)];
+      return {
+        query: gql`
+          mutation createUserByCMS(
+            $password: String!
+            $email: String!
+            $artistName: String!
+            $role: UserRoles!
+            $name: String!
+            $avatarUrl: String!
+          ) {
+            data: createUserByCMS(
+              password: $password
+              email: $email
+              artistName: $artistName
+              role: $role
+              name: $name
+              avatarUrl: $avatarUrl
+            ) {
+              user {
+                id
+                email
+                name
+                artistName
+                role
+                bio
+                isValidated
+                avatarUrl
+                audioCorePluginAllowUser
+                headerImage
+              }
+            }
+          }
+        `,
+        variables: {
+          password: params.data.password,
+          email: params.data.email,
+          artistName: params.data.artistName,
+          role: params.data.role,
+          name: params.data.name,
+          bio: params.data.bio,
+          avatarUrl: randomAvatar,
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data.user,
+          };
+        },
+      };
+    }
 
     return buildQuery(type, resource, params);
   };
