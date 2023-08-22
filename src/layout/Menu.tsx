@@ -19,6 +19,7 @@ import categories from "../categories";
 import reviews from "../reviews";
 import SubMenu from "./SubMenu";
 import UsersList from "../Users";
+import Instruments from "../Instruments";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -143,6 +144,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<UsersList.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/musicalInstruments"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.musicalInstruments.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Instruments.icon />}
         dense={dense}
       />
     </Box>

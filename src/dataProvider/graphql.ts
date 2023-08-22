@@ -15,6 +15,8 @@ const getGqlResource = (resource: string) => {
   switch (resource) {
     case "users":
       return "User";
+    case "musicalInstruments":
+      return "Instrument";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -73,10 +75,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                 name
                 rank
               }
-              favoriteGenres {
-                id
-                name
-              }
             }
             usersMeta(where: $filter) {
               count
@@ -85,10 +83,10 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: {
           filter: {
-            ...(params.filter.name && {
+            ...((params.filter.name || params.filter.q) && {
               name_contains: params.filter.name,
             }),
-            ...(params.filter.artistName && {
+            ...((params.filter.artistName || params.filter.q) && {
               artistName_contains: params.filter.artistName,
             }),
             ...(params.filter.email && { email_contains: params.filter.email }),
@@ -119,7 +117,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               artistName
               role
               id
-              bio
               isValidated
               avatarUrl
               audioCorePluginAllowUser
@@ -134,7 +131,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: { filter: { id: params.id } },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
@@ -186,6 +182,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             artistName: params.data.artistName,
             role: params.data.role,
             audioCorePluginAllowUser: params.data.audioCorePluginAllowUser,
+            // avatarUrl: params.data.avatarUrl,
             // musicalInstruments: params.data.musicalInstruments,
           },
           where: { id: params.id },
@@ -261,11 +258,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: { where: { id: params.id } },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
-            // total: response.data.data.length,
           };
         },
       };
@@ -284,11 +279,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           where: { id_in: params.ids },
         },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: [response.data.data],
-            // total: response.data.data.length,
           };
         },
       };
@@ -341,6 +334,207 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: response.data.data.user,
+          };
+        },
+      };
+    }
+
+    /* Instruments */
+    if (resource === "Instrument" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query MusicalInstruments(
+            $orderBy: MusicalInstrumentOrderByInput
+            $where: MusicalInstrumentWhereInput
+            $take: Int
+            $skip: Int
+          ) {
+            data: musicalInstruments(
+              orderBy: $orderBy
+              where: $where
+              take: $take
+              skip: $skip
+            ) {
+              id
+              name
+              rank
+              createdAt
+            }
+            musicalInstrumentMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.musicalInstrumentMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Instrument" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query MusicalInstrument($where: MusicalInstrumentWhereUniqueInput!) {
+            data: musicalInstrument(where: $where) {
+              id
+              createdAt
+              name
+              rank
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Instrument" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query MusicalInstruments(
+            $orderBy: MusicalInstrumentOrderByInput
+            $where: MusicalInstrumentWhereInput
+          ) {
+            data: musicalInstruments(orderBy: $orderBy, where: $where) {
+              id
+              name
+              rank
+              createdAt
+            }
+            musicalInstrumentMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.musicalInstrumentMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Instrument" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation DeleteMusicalInstrument(
+            $where: MusicalInstrumentWhereUniqueInput!
+          ) {
+            data: deleteMusicalInstrument(where: $where) {
+              id
+              createdAt
+              name
+              rank
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Instrument" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation DeleteMusicalInstruments(
+            $where: MusicalInstrumentWhereInput
+          ) {
+            data: deleteMusicalInstruments(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "Instrument" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation CreateMusicalInstrument(
+            $data: MusicalInstrumentCreateInput!
+          ) {
+            data: createMusicalInstrument(data: $data) {
+              id
+              createdAt
+              name
+              rank
+            }
+          }
+        `,
+        options: { fetchPolicy: "network-only" },
+        variables: params,
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Instrument" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation UpdateMusicalInstrument(
+            $where: MusicalInstrumentWhereUniqueInput!
+            $data: MusicalInstrumentUpdateInput
+          ) {
+            data: updateMusicalInstrument(where: $where, data: $data) {
+              id
+              name
+              rank
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            rank: params.data.rank,
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
           };
         },
       };

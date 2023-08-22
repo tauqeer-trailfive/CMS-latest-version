@@ -291,6 +291,29 @@ const customEnglishMessages: TranslationMessages = {
         rejected_error: "Error: User not rejected",
       },
     },
+    musicalInstruments: {
+      name: "Instrument |||| Instruments",
+      fields: {
+        name: "Name",
+        Rank: "Rank",
+        createdAt: "Created At",
+      },
+      filters: {
+        name: "by Name",
+        description: "Description",
+        createdAt: "Created At",
+      },
+      fieldGroups: {
+        name: "Name",
+        rank: "Rank",
+        createdAt: "Created At",
+        editInstrument: "Edit Musical Instrument",
+        createInstrument: "Create Musical Instrument",
+      },
+      page: {
+        delete: "Delete Musical Instrument",
+      },
+    },
   },
 };
 

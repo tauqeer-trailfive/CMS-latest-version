@@ -5,9 +5,12 @@ import {
   SimpleForm,
   useTranslate,
   SelectInput,
-  useEditContext,
   useGetOne,
   BooleanInput,
+  ArrayInput,
+  SimpleFormIterator,
+  ReferenceInput,
+  AutocompleteInput,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Grid, Box, Typography, Modal, Button } from "@mui/material";
@@ -165,8 +168,29 @@ const VisitorEdit = () => {
               <HeaderModal url={data?.headerImage} />
               <HeaderImageField />
             </Grid>
-            <Grid item xs={12} md={4}></Grid>
           </Grid>
+          <Box mt="1em" />
+          <ArrayInput
+            source="musicalInstruments"
+            label="Musical Instruments (Search by name)"
+          >
+            <SimpleFormIterator disableReordering={true} fullWidth>
+              <ReferenceInput
+                label="musicalInstruments"
+                source="id"
+                reference="musicalInstruments"
+              >
+                <AutocompleteInput
+                  optionText={(choice) =>
+                    `${choice.name}  /  ${choice.rank}  /  (${choice.id})`
+                  }
+                  optionValue="id"
+                  label="Name / Rank / id"
+                  fullWidth
+                />
+              </ReferenceInput>
+            </SimpleFormIterator>
+          </ArrayInput>
         </div>
       </SimpleForm>
     </Edit>
