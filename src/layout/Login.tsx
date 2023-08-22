@@ -24,6 +24,7 @@ import {
 
 import Box from "@mui/material/Box";
 import logo from "../images/logo.png";
+import cover from "../images/login_image.png";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -70,7 +71,7 @@ const Login = () => {
           minHeight: "100vh",
           alignItems: "center",
           justifyContent: "flex-start",
-          backgroundImage: `url("src/images/login_image.png")`,
+          backgroundImage: `url("${cover}")`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}

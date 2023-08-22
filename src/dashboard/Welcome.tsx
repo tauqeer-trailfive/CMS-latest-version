@@ -5,6 +5,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import { useTranslate } from "react-admin";
 
 import djaminnlogo from "../images/logo.png";
+import cover from "../images/login_image.png";
 
 const Welcome = () => {
   const translate = useTranslate();
@@ -12,7 +13,7 @@ const Welcome = () => {
   return (
     <Card
       sx={{
-        backgroundImage: `url("src/images/login_image.png")`,
+        backgroundImage: `url("${cover}")`,
         color: "#fff",
         padding: "50px",
         marginTop: 2,
