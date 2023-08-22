@@ -48,7 +48,7 @@ export const darkTheme = {
     MuiLinearProgress: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "#fb5eb5",
         },
         barColorPrimary: {
           backgroundColor: "#d7d7d7",
@@ -124,7 +124,7 @@ export const lightTheme = {
     MuiLinearProgress: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "#fb5eb5",
         },
         barColorPrimary: {
           backgroundColor: "#d7d7d7",

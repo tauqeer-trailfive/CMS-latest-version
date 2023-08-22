@@ -70,8 +70,7 @@ const Login = () => {
           minHeight: "100vh",
           alignItems: "center",
           justifyContent: "flex-start",
-          background:
-            "url(https://scontent.fisb17-1.fna.fbcdn.net/v/t39.30808-6/347111076_243268244966016_4529504025547613309_n.png?stp=dst-jpg&_nc_cat=107&ccb=1-7&_nc_sid=19026a&_nc_ohc=VSjOSiUxcrwAX8TRJtF&_nc_ht=scontent.fisb17-1.fna&oh=00_AfCyRJPS5X9UO29PmnhW2zAbtki7Fkz8hoJyBIv0zI8GTQ&oe=64E4501D)",
+          backgroundImage: `url("src/images/login_image.png")`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
