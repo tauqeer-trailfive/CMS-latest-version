@@ -7,6 +7,7 @@ import {
   SelectInput,
   useEditContext,
   useGetOne,
+  BooleanInput,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Grid, Box, Typography, Modal, Button } from "@mui/material";
@@ -144,10 +145,23 @@ const VisitorEdit = () => {
                 </Box>
               </Box>
               <Box mt="1em" />
-              <Button onClick={handleOpenAvatar}>Show Avatar Image</Button>
+              <BooleanInput
+                label="Allow Audio core Plugin"
+                source="audioCorePluginAllowUser"
+              />
+              <Box mt="1em" />
+              {data?.avatarUrl !== "" ? (
+                <Button onClick={handleOpenAvatar}>Show Avatar Image</Button>
+              ) : (
+                <span>No Avatar Image</span>
+              )}
               <AvatarModal url={data?.avatarUrl} />
               <AvatarUrlField />
-              <Button onClick={handleOpenHeader}>Show Avatar Image</Button>
+              {data?.headerImage !== "" ? (
+                <Button onClick={handleOpenHeader}>Show Header Image</Button>
+              ) : (
+                <span>No Header Image</span>
+              )}
               <HeaderModal url={data?.headerImage} />
               <HeaderImageField />
             </Grid>

@@ -185,7 +185,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             email: params.data.email,
             artistName: params.data.artistName,
             role: params.data.role,
-            // bio: params.data.bio,
+            audioCorePluginAllowUser: params.data.audioCorePluginAllowUser,
             // musicalInstruments: params.data.musicalInstruments,
           },
           where: { id: params.id },

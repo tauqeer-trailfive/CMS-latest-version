@@ -171,7 +171,6 @@ const AvatarUrlField = (props: Props) => {
                           setuseravataruploaded(true);
                         }, 1000);
                       }
-                      1;
                     }}
                   />
                 </Button>

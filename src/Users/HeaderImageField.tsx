@@ -47,7 +47,6 @@ let header_image_config_data: any = {
 };
 
 const HeaderImageField = (props: Props) => {
-  const translate = useTranslate();
   const { id } = useParams();
   const refresh = useRefresh();
   const notify = useNotify();
