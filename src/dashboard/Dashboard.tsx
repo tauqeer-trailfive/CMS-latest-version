@@ -1,11 +1,8 @@
-import React, { useMemo, CSSProperties } from "react";
-import { useGetList } from "react-admin";
-import { useMediaQuery, Theme } from "@mui/material";
-import { subDays, startOfDay } from "date-fns";
+import React, { CSSProperties, useEffect } from "react";
+import { useMediaQuery, Theme, Box, CircularProgress } from "@mui/material";
 
 import Welcome from "./Welcome";
 
-import { Order } from "../types";
 import TotalProjects from "./TotalProjects";
 import TotalTracks from "./TotalTracks";
 import TotalUsers from "./TotalUsers";
@@ -15,19 +12,17 @@ import UsersChart from "./UsersChart";
 import DailyActiveUsersChart from "./DailyActiveUsersChart";
 import WeeklyActiveUsersChart from "./WeeklyActiveUsersChart";
 import MonthlyActiveUsersChart from "./MonthlyActiveUsersChart";
+import UserEngagementCard from "./UserEngagmentCard";
+import { gql, useLazyQuery } from "@apollo/client";
+import DayIcon from "@mui/icons-material/InsertInvitation";
+import WeekIcon from "@mui/icons-material/DateRange";
+import MonthIcon from "@mui/icons-material/CalendarMonth";
 
-interface OrderStats {
-  revenue: number;
-  nbNewOrders: number;
-  pendingOrders: Order[];
-}
-
-interface State {
-  nbNewOrders?: number;
-  pendingOrders?: Order[];
-  recentOrders?: Order[];
-  revenue?: string;
-}
+const GET_ACTIVE_USER = gql`
+  query Query($where: ActiveUserWhereInput) {
+    getActiveUsersCount(where: $where)
+  }
+`;
 
 const styles = {
   flex: { display: "flex" },
@@ -41,10 +36,94 @@ const Spacer = () => <span style={{ width: "1em" }} />;
 const VerticalSpacer = () => <span style={{ height: "1em" }} />;
 
 const Dashboard = () => {
+  const [
+    getDailyActiveUsers,
+    { data: dataDaily, loading: loadingDaily, error: errorDaily },
+  ] = useLazyQuery(GET_ACTIVE_USER);
+
+  const [
+    getWeeklyActiveUsers,
+    { data: dataWeekly, loading: loadingWeekly, error: errorWeekly },
+  ] = useLazyQuery(GET_ACTIVE_USER);
+
+  const [
+    getMonthlyActiveUsers,
+    { data: dataMonthly, loading: loadingMonthly, error: errorMonthly },
+  ] = useLazyQuery(GET_ACTIVE_USER);
+
+  const caluculateData = (days: 1 | 7 | 30) => {
+    let today = new Date();
+
+    if (days === 1) {
+      let past1day = new Date(
+        today.getTime() - 1 * 24 * 60 * 60 * 1000
+      ).toISOString();
+      if (past1day) {
+        getDailyActiveUsers({
+          variables: {
+            where: {
+              lastActive_gte: past1day,
+            },
+          },
+        });
+      }
+    }
+    if (days === 7) {
+      let past7days = new Date(
+        today.getTime() - 7 * 24 * 60 * 60 * 1000
+      ).toISOString();
+      if (past7days) {
+        getWeeklyActiveUsers({
+          variables: {
+            where: {
+              lastActive_gte: past7days,
+            },
+          },
+        });
+      }
+    }
+    if (days === 30) {
+      let past30days = new Date(
+        today.getTime() - 30 * 24 * 60 * 60 * 1000
+      ).toISOString();
+
+      if (past30days) {
+        getMonthlyActiveUsers({
+          variables: {
+            where: {
+              lastActive_gte: past30days,
+            },
+          },
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    caluculateData(1);
+    caluculateData(7);
+    caluculateData(30);
+    return () => {};
+  }, []);
+
   const isXSmall = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
+
+  const loader = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={20} />
+      </Box>
+    );
+  };
 
   return isXSmall ? (
     <div>
@@ -109,6 +188,31 @@ const Dashboard = () => {
   ) : (
     <>
       <Welcome />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <UserEngagementCard
+          title="Daily Active Users"
+          icon={dataDaily ? DayIcon : loader}
+          subtitle={dataDaily && dataDaily?.getActiveUsersCount}
+        />
+        <Spacer />
+        <UserEngagementCard
+          title="Weekly Active Users"
+          icon={dataWeekly ? WeekIcon : loader}
+          subtitle={dataWeekly && dataWeekly?.getActiveUsersCount}
+        />
+        <Spacer />
+        <UserEngagementCard
+          title="Monthly Active Users"
+          icon={dataMonthly ? MonthIcon : loader}
+          subtitle={dataMonthly && dataMonthly?.getActiveUsersCount}
+        />
+      </div>
       <div style={styles.flex}>
         <div style={styles.leftCol}>
           <div style={styles.flex}>
