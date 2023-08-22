@@ -1,11 +1,20 @@
 import * as React from "react";
-import { Box, Card, CardActions, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  Button,
+  Typography,
+  Link,
+} from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import CodeIcon from "@mui/icons-material/Code";
 import { useTranslate } from "react-admin";
 
 import djaminnlogo from "../images/logo.png";
 import cover from "../images/login_image.png";
+import playstore from "../images/playstore.png";
+import appstore from "../images/appstore.png";
 
 const Welcome = () => {
   const translate = useTranslate();
@@ -21,6 +30,7 @@ const Welcome = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        opacity: 20,
       }}
     >
       <Box display="flex">
@@ -49,20 +59,18 @@ const Welcome = () => {
               },
             }}
           >
-            <Button
-              variant="contained"
-              href="https://marmelab.com/react-admin"
-              startIcon={<HomeIcon />}
+            <Link
+              href="https://play.google.com/store/apps/details?id=com.djamin"
+              target="_blank"
             >
-              {translate("pos.dashboard.welcome.ra_button")}
-            </Button>
-            <Button
-              variant="contained"
-              href="https://github.com/marmelab/react-admin/tree/master/examples/demo"
-              startIcon={<CodeIcon />}
+              <img src={playstore} width={"160px"} height={"53px"} />
+            </Link>
+            <Link
+              href="https://apps.apple.com/tt/app/djaminn-create-songs-together/id1634589883"
+              target="_blank"
             >
-              {translate("pos.dashboard.welcome.demo_button")}
-            </Button>
+              <img src={appstore} width={"160px"} height={"53px"} />
+            </Link>
           </CardActions>
         </Box>
         <Box

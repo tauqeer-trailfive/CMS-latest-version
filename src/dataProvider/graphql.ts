@@ -144,23 +144,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "User" && type === "UPDATE") {
-      delete params.data.id;
-      delete params.data.__typename;
-      delete params.data.createdAt;
-      if (
-        (params.previousData.isValidated === null ||
-          params.previousData.isValidated === false) &&
-        params.data.isValidated === false
-      ) {
-        params.data.isValidated = false;
-      } else {
-        // const decodedToken = decodeJwt(localStorage.getItem("token"));
-        // params.data.validatedBy = { connect: { id: decodedToken.userId } };
-        params.data.validatedBy = {
-          connect: { id: localStorage.getItem("user_id") },
-        };
-      }
-
       // if (
       //   params.data.musicalInstruments
       //   //  && params.data.tracks.length !== 0
@@ -182,7 +165,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               name
               artistName
               role
-              bio
               avatarUrl
               audioCorePluginAllowUser
               headerImage
@@ -203,7 +185,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             email: params.data.email,
             artistName: params.data.artistName,
             role: params.data.role,
-            bio: params.data.bio,
+            // bio: params.data.bio,
             // musicalInstruments: params.data.musicalInstruments,
           },
           where: { id: params.id },
@@ -248,16 +230,8 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: {
           filter: { id_in: params.ids },
-          // data: params,
-          // orderBy: `${params.sort.order}`,
-          // where: {name_contains: params.filter.name},
-          // where:{
-          // name_contains: (params.filter.name || params.filter.q),
-          // // role_in: params.filter.role,
-          // },
         },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
@@ -347,7 +321,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                 name
                 artistName
                 role
-                bio
                 isValidated
                 avatarUrl
                 audioCorePluginAllowUser
@@ -362,7 +335,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           artistName: params.data.artistName,
           role: params.data.role,
           name: params.data.name,
-          bio: params.data.bio,
           avatarUrl: randomAvatar,
         },
         options: { fetchPolicy: "network-only" },

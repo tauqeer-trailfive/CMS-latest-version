@@ -20,8 +20,14 @@ const VisitorEdit = () => {
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} md={8}>
-              <Typography variant="h6" gutterBottom>
-                {translate("resources.customers.fieldGroups.identity")}
+              <Typography
+                variant="h4"
+                gutterBottom
+                color={"primary"}
+                align="left"
+                fontWeight={"800"}
+              >
+                {translate("resources.users.fieldGroups.editUser")}
               </Typography>
               <Box display={{ xs: "block", sm: "flex" }}>
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
@@ -56,12 +62,6 @@ const VisitorEdit = () => {
                   />
                 </Box>
               </Box>
-              <Box display={{ xs: "block", sm: "flex" }}>
-                <Box flex={1}>
-                  <TextInput source="bio" multiline rows={5} fullWidth />
-                </Box>
-              </Box>
-
               <Box mt="1em" />
             </Grid>
             <Grid item xs={12} md={4}></Grid>

@@ -21,8 +21,8 @@ import Segments from "./segments/Segments";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
-    if (locale === "fr") {
-      return import("./i18n/fr").then((messages) => messages.default);
+    if (locale === "nl") {
+      return import("./i18n/nl").then((messages) => messages.default);
     }
 
     // Always fallback on english
@@ -31,7 +31,7 @@ const i18nProvider = polyglotI18nProvider(
   "en",
   [
     { locale: "en", name: "English" },
-    { locale: "fr", name: "Français" },
+    { locale: "nl", name: "Dutch" },
   ]
 );
 

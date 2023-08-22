@@ -90,7 +90,6 @@ const VisitorCreate = () => {
         <TextInput type="email" source="email" isRequired fullWidth />
         <Separator />
         <PasswordInput source="password" fullWidth />
-        <TextInput source="bio" multiline rows={5} fullWidth />
       </SimpleForm>
     </Create>
   );
