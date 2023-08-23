@@ -17,6 +17,8 @@ const getGqlResource = (resource: string) => {
       return "User";
     case "musicalInstruments":
       return "Instrument";
+    case "genres":
+      return "Genre";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -506,6 +508,210 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
+          };
+        },
+      };
+    }
+
+    /* Genres */
+    if (resource === "Genre" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query genres(
+            $orderBy: GenreOrderByInput
+            $where: GenreWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: genres(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              createdAt
+              name
+              description
+              rank
+            }
+            genresMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+          },
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.genresMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Genre" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query genre($where: GenreWhereUniqueInput!) {
+            data: genre(where: $where) {
+              id
+              createdAt
+              name
+              description
+              rank
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Genre" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query genres($orderBy: GenreOrderByInput, $where: GenreWhereInput) {
+            data: genres(orderBy: $orderBy, where: $where) {
+              id
+              name
+              createdAt
+              rank
+              description
+            }
+          }
+        `,
+        variables: {},
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Genre" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteGenre($where: GenreWhereUniqueInput!) {
+            data: deleteGenre(where: $where) {
+              id
+              name
+              createdAt
+              description
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Genre" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteGenres($where: GenreWhereInput!) {
+            data: deleteGenres(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "Genre" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createGenre($data: GenreCreateInput!) {
+            data: createGenre(data: $data) {
+              name
+              id
+              createdAt
+              description
+              rank
+            }
+          }
+        `,
+        options: { fetchPolicy: "network-only" },
+        variables: {
+          data: {
+            name: params.data.name,
+            description: params.data.description,
+            rank: params.data.rank,
+          },
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Genre" && type === "UPDATE") {
+      delete params.data.id;
+      delete params.data.__typename;
+      delete params.data.createdAt;
+      return {
+        query: gql`
+          mutation updateGenre(
+            $data: GenreUpdateInput!
+            $where: GenreWhereUniqueInput!
+          ) {
+            data: updateGenre(data: $data, where: $where) {
+              name
+              id
+              rank
+              createdAt
+              description
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            description: params.data.description,
+            rank: params.data.rank,
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
           };
         },
       };

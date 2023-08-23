@@ -314,6 +314,31 @@ const customEnglishMessages: TranslationMessages = {
         delete: "Delete Musical Instrument",
       },
     },
+    genres: {
+      name: "Genre |||| Genres",
+      fields: {
+        name: "Name",
+        description: "Description",
+        createdAt: "Created At",
+        rank: "Rank",
+      },
+      filters: {
+        name: "by Name",
+        description: "Description",
+        createdAt: "Created At",
+      },
+      fieldGroups: {
+        name: "Name",
+        description: "Description",
+        createdAt: "Created At",
+        editGenre: "Edit Genre",
+        createGenre: "Create Genre",
+        rank: "Rank",
+      },
+      page: {
+        delete: "Delete Genre",
+      },
+    },
   },
 };
 

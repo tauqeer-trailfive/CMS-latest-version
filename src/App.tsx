@@ -17,6 +17,7 @@ import categories from "./categories";
 import reviews from "./reviews";
 import users from "./Users";
 import instruments from "./Instruments";
+import genres from "./Genres";
 import dataProviderFactory from "./dataProvider";
 import Segments from "./segments/Segments";
 
@@ -63,6 +64,7 @@ const App = () => (
     <Resource name="reviews" {...reviews} /> */}
     <Resource name="users" {...users} />
     <Resource name="musicalInstruments" {...instruments} />
+    <Resource name="genres" {...genres} />
   </Admin>
 );
 

@@ -20,6 +20,7 @@ import reviews from "../reviews";
 import SubMenu from "./SubMenu";
 import UsersList from "../Users";
 import Instruments from "../Instruments";
+import Genres from "../Genres";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -153,6 +154,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Instruments.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/genres"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.genres.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Genres.icon />}
         dense={dense}
       />
     </Box>
