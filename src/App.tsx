@@ -32,7 +32,7 @@ const i18nProvider = polyglotI18nProvider(
   "en",
   [
     { locale: "en", name: "English" },
-    { locale: "nl", name: "Dutch" },
+    // { locale: "nl", name: "Dutch" },
   ]
 );
 
