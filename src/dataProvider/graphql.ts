@@ -9,7 +9,7 @@ import { IntrospectionType } from "graphql";
 import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
-import { RandomAvatars } from "../utils/utils";
+import { musicallnstrumentConnector, RandomAvatars } from "../utils/utils";
 
 const getGqlResource = (resource: string) => {
   switch (resource) {
@@ -140,15 +140,10 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "User" && type === "UPDATE") {
-      // if (
-      //   params.data.musicalInstruments
-      //   //  && params.data.tracks.length !== 0
-      // ) {
-      //   params.data.musicalInstruments = updateInstrumentsinUser(
-      //     params.data.musicalInstruments,
-      //     params.previousData.musicalInstruments
-      //   );
-      // }
+      const UIns: { id: string; name: string; rank: number }[] =
+        params.data.musicalInstruments;
+      const PIns: { id: string; name: string; rank: number }[] =
+        params.previousData.musicalInstruments;
       return {
         query: gql`
           mutation updateUser(
@@ -157,20 +152,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           ) {
             data: updateUser(data: $data, where: $where) {
               id
-              email
-              name
-              artistName
-              role
-              avatarUrl
-              audioCorePluginAllowUser
-              headerImage
-              isDeveloper
-              isValidated
-              musicalInstruments {
-                id
-                name
-                rank
-              }
             }
           }
         `,
@@ -182,8 +163,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             artistName: params.data.artistName,
             role: params.data.role,
             audioCorePluginAllowUser: params.data.audioCorePluginAllowUser,
-            // avatarUrl: params.data.avatarUrl,
-            // musicalInstruments: params.data.musicalInstruments,
+            musicalInstruments: musicallnstrumentConnector(UIns, PIns),
           },
           where: { id: params.id },
         },
@@ -244,15 +224,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           mutation deleteUser($where: UserWhereUniqueInput!) {
             data: deleteUser(where: $where) {
               id
-              createdAt
-              email
-              name
-              artistName
-              role
-              isValidated
-              avatarUrl
-              audioCorePluginAllowUser
-              headerImage
             }
           }
         `,

@@ -21,3 +21,37 @@ export const RandomAvatars = [
   "https://storage.googleapis.com/djam_rn/img/users/avatars/1672726862068-Asset 22.png",
   "https://storage.googleapis.com/djam_rn/img/users/avatars/1672726912545-Asset 23.png",
 ];
+
+export const musicallnstrumentConnector = (
+  curr: { id: string; name: string; rank: number }[],
+  prev: { id: string; name: string; rank: number }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedInstruments = prev.filter(
+    (prevObj: { id: string; name: string; rank: number }) => {
+      return !curr.some(
+        (currObj: { id: string; name: string; rank: number }) =>
+          currObj.name === prevObj.name
+      );
+    }
+  );
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ name, id }, index: number) => {
+    return {
+      // create: {
+      //   name: name,
+      // },
+      // where: {
+      //   name: name,
+      // },
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedInstruments.map(({ id }, index: number) => {
+    return { id: id };
+  });
+
+  return { connect: connector, disconnect: disconnector };
+};

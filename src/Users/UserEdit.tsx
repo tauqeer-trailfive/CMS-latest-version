@@ -13,7 +13,16 @@ import {
   AutocompleteInput,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { Grid, Box, Typography, Modal, Button } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Typography,
+  Modal,
+  Button,
+  IconButton,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/AddCircleTwoTone";
+import MinusIcon from "@mui/icons-material/RemoveCircleTwoTone";
 
 import Aside from "./Aside";
 import FullNameField from "./NameField";
@@ -174,7 +183,21 @@ const VisitorEdit = () => {
             source="musicalInstruments"
             label="Musical Instruments (Search by name)"
           >
-            <SimpleFormIterator disableReordering={true} fullWidth>
+            <SimpleFormIterator
+              disableReordering={true}
+              fullWidth
+              addButton={
+                <IconButton title="Add Instrument">
+                  <AddIcon color="success" />
+                </IconButton>
+              }
+              removeButton={
+                <IconButton title="Remove Instrument">
+                  <MinusIcon color="secondary" />
+                </IconButton>
+              }
+              disableClear
+            >
               <ReferenceInput
                 label="musicalInstruments"
                 source="id"
