@@ -1,6 +1,6 @@
-# DJAMINN CMS ADMINISTRATION
+### ![image info](./src/images/logo.png)
 
-![image info](./src/images/logo.png)
+# DJAMINN CMS ADMINISTRATION
 
 To explore the source code, start with [src/App.tsx].
 
