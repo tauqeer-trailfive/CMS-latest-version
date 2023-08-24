@@ -22,6 +22,7 @@ import UsersList from "../Users";
 import Instruments from "../Instruments";
 import Genres from "../Genres";
 import Effects from "../Effects";
+import Presets from "../Presets";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -173,6 +174,16 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Effects.icon />}
+        dense={dense}
+      />
+
+      <MenuItemLink
+        to="/presets"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.presets.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Presets.icon />}
         dense={dense}
       />
     </Box>

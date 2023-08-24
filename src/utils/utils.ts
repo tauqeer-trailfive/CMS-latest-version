@@ -39,17 +39,44 @@ export const musicallnstrumentConnector = (
   /* Making connect and disconnect form for query variable for createOrConnect is not working */
   const connector = curr.map(({ name, id }, index: number) => {
     return {
-      // create: {
-      //   name: name,
-      // },
-      // where: {
-      //   name: name,
-      // },
       id: id,
     };
   });
 
   const disconnector = disconnectedInstruments.map(({ id }, index: number) => {
+    return { id: id };
+  });
+
+  return { connect: connector, disconnect: disconnector };
+};
+
+export const effectConnectorOnCreatePreset = (curr: string[]) => {
+  const connector = curr.map((id: string) => {
+    return {
+      id: id,
+    };
+  });
+
+  return { connect: connector };
+};
+
+export const effectConnectorOnEditPreset = (
+  curr: { id: string }[],
+  prev: { id: string }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedInstruments = prev.filter((prevObj: { id: string }) => {
+    return !curr.some((currObj: { id: string }) => currObj.id === prevObj.id);
+  });
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ id }) => {
+    return {
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedInstruments.map(({ id }) => {
     return { id: id };
   });
 

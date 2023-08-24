@@ -9,7 +9,12 @@ import { IntrospectionType } from "graphql";
 import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
-import { musicallnstrumentConnector, RandomAvatars } from "../utils/utils";
+import {
+  effectConnectorOnCreatePreset,
+  effectConnectorOnEditPreset,
+  musicallnstrumentConnector,
+  RandomAvatars,
+} from "../utils/utils";
 
 const getGqlResource = (resource: string) => {
   switch (resource) {
@@ -21,6 +26,8 @@ const getGqlResource = (resource: string) => {
       return "Genre";
     case "effects":
       return "Effects";
+    case "presets":
+      return "PreSet";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -797,7 +804,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             }
           }
         `,
-        variables: {},
+        variables: {
+          where: { id_in: params.ids },
+        },
         options: { fetchPolicy: "network-only" },
         parseResponse: (response: any) => {
           return {
@@ -924,6 +933,250 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         query: gql`
           mutation deleteEffects($where: EffectWhereInput!) {
             data: deleteEffects(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    /* Presets */
+
+    if (resource === "PreSet" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query preSets(
+            $orderBy: PreSetOrderByInput
+            $where: PreSetWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: preSets(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              name
+              category
+              imageUrl
+              createdAt
+              effects {
+                id
+                name
+                typeOfEffect
+                effectValues
+              }
+            }
+            preSetsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+            ...(params.filter.category && {
+              category: params.filter.category,
+            }),
+          },
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.preSetsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "PreSet" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query preSets(
+            $orderBy: PreSetOrderByInput
+            $where: PreSetWhereInput
+          ) {
+            data: preSets(orderBy: $orderBy, where: $where) {
+              id
+              name
+              category
+              imageUrl
+              createdAt
+              effects {
+                id
+                name
+                typeOfEffect
+                effectValues
+              }
+            }
+            preSetsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.preSetsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "PreSet" && type === "UPDATE") {
+      const UEffects = params.data.effects;
+      const PEffects = params.previousData.effects;
+
+      return {
+        query: gql`
+          mutation updatePreSet(
+            $data: PreSetUpdateInput!
+            $where: PreSetWhereUniqueInput!
+          ) {
+            data: updatePreSet(data: $data, where: $where) {
+              id
+              name
+              category
+              imageUrl
+              createdAt
+              effects {
+                id
+                name
+                typeOfEffect
+                effectValues
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            category: params.data.category,
+            effects: effectConnectorOnEditPreset(UEffects, PEffects),
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "PreSet" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query preSet($where: PreSetWhereUniqueInput!) {
+            data: preSet(where: $where) {
+              id
+              name
+              category
+              imageUrl
+              createdAt
+              effects {
+                id
+                name
+                typeOfEffect
+                effectValues
+              }
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "PreSet" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createPreSet($data: PreSetCreateInput!) {
+            data: createPreSet(data: $data) {
+              id
+              name
+              category
+              imageUrl
+              createdAt
+              effects {
+                id
+                name
+                typeOfEffect
+                effectValues
+              }
+              updatedAt
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            category: params.data.category,
+            effects: effectConnectorOnCreatePreset(params.data.effects),
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "PreSet" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deletePreSet($where: PreSetWhereUniqueInput!) {
+            data: deletePreSet(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "PreSet" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deletePreSets($where: PreSetWhereInput!) {
+            data: deletePreSets(where: $where) {
               count
             }
           }
