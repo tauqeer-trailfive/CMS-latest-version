@@ -1,5 +1,7 @@
 # DJAMINN CMS ADMINISTRATION
 
+![image info](./src/images/logo.png)
+
 To explore the source code, start with [src/App.tsx].
 
 **Note**: This project is bootstrapped with [Vite React TypeScript](https://vitejs.dev/).
