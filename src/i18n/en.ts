@@ -480,6 +480,59 @@ const customEnglishMessages: TranslationMessages = {
         rejected_error: "Error: Preset not rejected",
       },
     },
+    bpms: {
+      name: "BPM / Tempo |||| BPM's / Tempo's",
+      amount: "1 BPM |||| %{smart_count} BPM",
+      relative_to_poster: "BPM on poster",
+      detail: "BPM detail",
+      action: {
+        accept: "Accept",
+        reject: "Reject",
+      },
+      fields: {
+        id: "id",
+        name: "Sample BPM's",
+        created_at: "Created_at",
+        description: "Description",
+        value: "Value",
+        mp3file: "Mp3 File",
+        audiofile: "Audio File",
+        changemp3file: "Change MP3 File",
+        changeaudiofile: "Change Audio File",
+        audiochanged: "Audio File Changed",
+        mp3changed: "Mp3 File Changed",
+        searchbyname: "Search By Name",
+        searchbybpm: "Search By BPM",
+        serialnumber: "Sr. ",
+      },
+      filters: {
+        id: "id",
+        created_at: "Created_at",
+        description: "Description",
+        value: "value",
+      },
+      fieldGroups: {
+        id: "id",
+        created_at: "Created_at",
+        description: "Description",
+        value: "value",
+        CreateBpm: "CreateBpm",
+        EditBpm: "EditBpm",
+      },
+      page: {
+        delete: "Delete BPM",
+      },
+      errors: {
+        password_mismatch:
+          "The password confirmation is not the same as the password.",
+      },
+      notification: {
+        approved_success: "BPM approved",
+        approved_error: "Error: User not approved",
+        rejected_success: "User rejected",
+        rejected_error: "Error: User not rejected",
+      },
+    },
   },
 };
 

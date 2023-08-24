@@ -28,6 +28,8 @@ const getGqlResource = (resource: string) => {
       return "Effects";
     case "presets":
       return "PreSet";
+    case "bpmTemp":
+      return "Samples_BPM";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -1188,6 +1190,208 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    /* BPMS */
+
+    if (resource === "Samples_BPM" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query allBpms(
+            $take: Int
+            $where: BpmWhereInput
+            $orderBy: BpmOrderByInput
+            $skip: Int
+          ) {
+            data: allBpms(
+              take: $take
+              where: $where
+              orderBy: $orderBy
+              skip: $skip
+            ) {
+              mp3Url
+              id
+              value
+              audioUrl
+              createdAt
+            }
+            bpmMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...(params.filter.value && {
+              value_in: parseFloat(params.filter.value),
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.bpmMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Samples_BPM" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query bpm($where: BpmWhereUniqueInput!) {
+            data: bpm(where: $where) {
+              id
+              mp3Url
+              value
+              audioUrl
+              createdAt
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Samples_BPM" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updateBpm(
+            $where: BpmWhereUniqueInput
+            $data: BpmUpdateInput
+          ) {
+            data: updateBpm(where: $where, data: $data) {
+              mp3Url
+              id
+              value
+              audioUrl
+              createdAt
+            }
+          }
+        `,
+        variables: {
+          data: {
+            value: params.data.value,
+          },
+          where: {
+            id: params.id,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Samples_BPM" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query allBpms($where: BpmWhereInput) {
+            data: allBpms(where: $where) {
+              mp3Url
+              id
+              value
+              audioUrl
+              createdAt
+            }
+            bpmMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id: { id_in: params.ids } },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.bpmMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Samples_BPM" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteBpm($where: BpmWhereUniqueInput) {
+            data: deleteBpm(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Samples_BPM" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteBpm($where: BpmWhereUniqueInput) {
+            data: deleteBpm(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.deleteBpm],
+          };
+        },
+      };
+    }
+
+    if (resource === "Samples_BPM" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createBpm($data: BpmCreateInput!) {
+            data: createBpm(data: $data) {
+              id
+            }
+          }
+        `,
+        variables: {
+          data: {
+            value: params.data.value,
+            mp3Url: localStorage.getItem("bpmmp3file"),
+            audioUrl: localStorage.getItem("bpmaudiofile"),
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          localStorage.removeItem("bpmmp3file");
+          localStorage.removeItem("bpmaudiofile");
+          return {
+            data: response.data.createBpm,
           };
         },
       };

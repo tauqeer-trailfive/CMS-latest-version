@@ -22,6 +22,7 @@ import effects from "./Effects";
 import dataProviderFactory from "./dataProvider";
 import Segments from "./segments/Segments";
 import presets from "./Presets";
+import bpms from "./Bpms";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -69,6 +70,8 @@ const App = () => (
     <Resource name="genres" {...genres} />
     <Resource name="effects" {...effects} />
     <Resource name="presets" {...presets} />
+    <Resource name="presets" {...presets} />
+    <Resource name="bpmTemp" {...bpms} />
   </Admin>
 );
 
