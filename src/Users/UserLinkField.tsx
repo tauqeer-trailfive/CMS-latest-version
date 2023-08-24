@@ -4,7 +4,7 @@ import { Link, FieldProps, useRecordContext } from "react-admin";
 import NameField from "./NameField";
 import { User } from "../types";
 
-const CustomerLinkField = (_: FieldProps<User>) => {
+const UserLinkField = (_: FieldProps<User>) => {
   const record = useRecordContext<User>();
   if (!record) {
     return null;
@@ -16,8 +16,8 @@ const CustomerLinkField = (_: FieldProps<User>) => {
   );
 };
 
-CustomerLinkField.defaultProps = {
+UserLinkField.defaultProps = {
   source: "id",
 };
 
-export default CustomerLinkField;
+export default UserLinkField;

@@ -30,7 +30,7 @@ import { validateForm } from "./UserCreate";
 import AvatarUrlField from "./AvatarUrlField";
 import HeaderImageField from "./HeaderImageField";
 
-const VisitorEdit = () => {
+const UserEdit = () => {
   const [openAvatar, setOpenAvatar] = React.useState(false);
   const [openheader, setOpenHeader] = React.useState(false);
   const handleOpenAvatar = () => setOpenAvatar(true);
@@ -222,4 +222,4 @@ const VisitorEdit = () => {
 
 const VisitorTitle = () => <FullNameField size="32" sx={{ margin: "5px 0" }} />;
 
-export default VisitorEdit;
+export default UserEdit;

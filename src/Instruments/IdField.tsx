@@ -10,7 +10,7 @@ interface Props extends FieldProps<User> {
   sx?: SxProps;
 }
 
-const NameField = (props: Props) => {
+const IdField = (props: Props) => {
   const { size } = props;
   const record = useRecordContext<User>();
   return record ? (
@@ -27,9 +27,9 @@ const NameField = (props: Props) => {
   ) : null;
 };
 
-NameField.defaultProps = {
+IdField.defaultProps = {
   source: "id" as const,
   label: "resources.customers.fields.id",
 };
 
-export default memo<Props>(NameField);
+export default memo<Props>(IdField);

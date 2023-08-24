@@ -23,7 +23,7 @@ import {
 
 import segments from "../segments/data";
 
-const Aside = () => {
+const UsersListAside = () => {
   return (
     <Card
       sx={{
@@ -108,4 +108,4 @@ const Aside = () => {
   );
 };
 
-export default Aside;
+export default UsersListAside;
