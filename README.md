@@ -8,7 +8,7 @@ To explore the source code, start with [src/App.tsx].
 
 ## How to run
 
-After having cloned the DJAMINN CMS repository, run the following commands at the react-admin root:
+After having cloned the DJAMINN CMS repository, run the following commands at the root:
 
 ```sh
 yarn
