@@ -75,11 +75,6 @@ const UsersList = () => {
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>
-          <ArrayField source="favoriteGenres">
-            <SingleFieldList linkType={false}>
-              <ChipField source="name" size="small" />
-            </SingleFieldList>
-          </ArrayField>
         </DatagridConfigurable>
       )}
     </List>

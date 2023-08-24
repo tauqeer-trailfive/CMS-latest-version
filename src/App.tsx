@@ -18,6 +18,7 @@ import reviews from "./reviews";
 import users from "./Users";
 import instruments from "./Instruments";
 import genres from "./Genres";
+import effects from "./Effects";
 import dataProviderFactory from "./dataProvider";
 import Segments from "./segments/Segments";
 
@@ -65,6 +66,7 @@ const App = () => (
     <Resource name="users" {...users} />
     <Resource name="musicalInstruments" {...instruments} />
     <Resource name="genres" {...genres} />
+    <Resource name="effects" {...effects} />
   </Admin>
 );
 

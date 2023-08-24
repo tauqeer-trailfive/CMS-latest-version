@@ -19,6 +19,8 @@ const getGqlResource = (resource: string) => {
       return "Instrument";
     case "genres":
       return "Genre";
+    case "effects":
+      return "Effects";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -681,9 +683,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Genre" && type === "UPDATE") {
-      delete params.data.id;
-      delete params.data.__typename;
-      delete params.data.createdAt;
       return {
         query: gql`
           mutation updateGenre(
@@ -712,6 +711,230 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           return {
             data: response.data.data,
             total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    /* Effects */
+    if (resource === "Effects" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query effects(
+            $orderBy: EffectOrderByInput
+            $where: EffectWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: effects(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              name
+              createdAt
+              typeOfEffect
+              effectValues
+            }
+            effectsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+            ...(params.filter.typeOfEffect && {
+              typeOfEffect: params.filter.typeOfEffect,
+            }),
+          },
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.effectsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Effects" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query effects(
+            $orderBy: EffectOrderByInput
+            $where: EffectWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: effects(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              name
+              createdAt
+              typeOfEffect
+              preSets {
+                id
+                name
+              }
+              updatedAt
+              effectValues
+            }
+            effectsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {},
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.effectsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Effects" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updateEffect(
+            $data: EffectUpdateInput!
+            $where: EffectWhereUniqueInput!
+          ) {
+            data: updateEffect(data: $data, where: $where) {
+              id
+              name
+              createdAt
+              effectValues
+              typeOfEffect
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            effectValues: params.data.effectValues,
+            typeOfEffect: params.data.typeOfEffect,
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Effects" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query effect($where: EffectWhereUniqueInput!) {
+            data: effect(where: $where) {
+              id
+              name
+              createdAt
+              typeOfEffect
+              effectValues
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Effects" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createEffect($data: EffectCreateInput!) {
+            data: createEffect(data: $data) {
+              id
+              name
+              createdAt
+              typeOfEffect
+              effectValues
+              preSets {
+                id
+                name
+              }
+              updatedAt
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            effectValues: params.data.effectValues,
+            typeOfEffect: params.data.typeOfEffect,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Effects" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteEffect($where: EffectWhereUniqueInput!) {
+            data: deleteEffect(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Effects" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteEffects($where: EffectWhereInput!) {
+            data: deleteEffects(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
           };
         },
       };
