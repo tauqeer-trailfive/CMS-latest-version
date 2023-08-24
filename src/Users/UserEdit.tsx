@@ -30,7 +30,7 @@ import { validateForm } from "./UserCreate";
 import AvatarUrlField from "./AvatarUrlField";
 import HeaderImageField from "./HeaderImageField";
 
-const VisitorEdit = () => {
+const UserEdit = () => {
   const [openAvatar, setOpenAvatar] = React.useState(false);
   const [openheader, setOpenHeader] = React.useState(false);
   const handleOpenAvatar = () => setOpenAvatar(true);
@@ -109,7 +109,7 @@ const VisitorEdit = () => {
   }
 
   return (
-    <Edit title={<VisitorTitle />} aside={<Aside />}>
+    <Edit title={<UserTitle />} aside={<Aside />}>
       <SimpleForm validate={validateForm}>
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
@@ -220,6 +220,6 @@ const VisitorEdit = () => {
   );
 };
 
-const VisitorTitle = () => <FullNameField size="32" sx={{ margin: "5px 0" }} />;
+const UserTitle = () => <FullNameField size="32" sx={{ margin: "5px 0" }} />;
 
-export default VisitorEdit;
+export default UserEdit;

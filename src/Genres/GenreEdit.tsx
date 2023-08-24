@@ -15,7 +15,7 @@ import { validateForm } from "./GenreCreate";
 const GenreEdit = () => {
   const translate = useTranslate();
   return (
-    <Edit title={<VisitorTitle />} aside={<Aside />}>
+    <Edit title={<GenreTitle />} aside={<Aside />}>
       <SimpleForm validate={validateForm}>
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
@@ -61,6 +61,6 @@ const GenreEdit = () => {
   );
 };
 
-const VisitorTitle = () => <FullNameField size="32" sx={{ margin: "5px 0" }} />;
+const GenreTitle = () => <FullNameField size="32" sx={{ margin: "5px 0" }} />;
 
 export default GenreEdit;

@@ -23,7 +23,7 @@ import {
 
 import segments from "../segments/data";
 
-const GenresListAside = () => {
+const PresetsListAside = () => {
   return (
     <Card
       sx={{
@@ -81,4 +81,4 @@ const GenresListAside = () => {
   );
 };
 
-export default GenresListAside;
+export default PresetsListAside;

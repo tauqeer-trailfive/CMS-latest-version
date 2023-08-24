@@ -3,7 +3,7 @@ import { ReferenceField, ReferenceFieldProps } from "react-admin";
 
 import IdField from "./IdField";
 
-const CustomerReferenceField = (
+const GenreReferenceField = (
   props: Omit<ReferenceFieldProps, "reference" | "children" | "source"> & {
     source?: string;
   }
@@ -13,8 +13,8 @@ const CustomerReferenceField = (
   </ReferenceField>
 );
 
-CustomerReferenceField.defaultProps = {
+GenreReferenceField.defaultProps = {
   source: "id",
 };
 
-export default CustomerReferenceField;
+export default GenreReferenceField;

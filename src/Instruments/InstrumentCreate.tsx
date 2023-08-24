@@ -24,7 +24,7 @@ export const validateForm = (
   return errors;
 };
 
-const VisitorCreate = () => {
+const InstrumentCreate = () => {
   const translate = useTranslate();
   return (
     <Create redirect="list">
@@ -82,4 +82,4 @@ const SectionTitle = ({ label }: { label: string }) => {
 
 const Separator = () => <Box pt="1em" />;
 
-export default VisitorCreate;
+export default InstrumentCreate;
