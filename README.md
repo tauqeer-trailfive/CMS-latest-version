@@ -1,4 +1,4 @@
-### ![image info](./src/images/logo.png)
+![image info](./src/images/logo.png)
 
 # DJAMINN CMS ADMINISTRATION
 
