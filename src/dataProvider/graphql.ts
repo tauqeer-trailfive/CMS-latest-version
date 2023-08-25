@@ -30,6 +30,8 @@ const getGqlResource = (resource: string) => {
       return "PreSet";
     case "bpmTemp":
       return "Samples_BPM";
+    case "projectcategories":
+      return "ProjectCategory";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -1392,6 +1394,194 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           localStorage.removeItem("bpmaudiofile");
           return {
             data: response.data.createBpm,
+          };
+        },
+      };
+    }
+
+    /* Project Category */
+
+    if (resource === "ProjectCategory" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query projectCategories($where: ProjectCategoryWhereInput) {
+            data: projectCategories(where: $where) {
+              id
+              name
+              Project {
+                id
+                name
+                slug
+                private
+              }
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data[0],
+          };
+        },
+      };
+    }
+
+    if (resource === "ProjectCategory" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query projectCategories(
+            $where: ProjectCategoryWhereInput
+            $orderBy: ProjectCategoryOrderByInput
+            $take: Int
+            $skip: Int
+          ) {
+            data: projectCategories(
+              where: $where
+              orderBy: $orderBy
+              take: $take
+              skip: $skip
+            ) {
+              id
+              name
+              Project {
+                id
+                name
+                slug
+                private
+              }
+            }
+            projectCategoriesMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.projectCategoriesMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "ProjectCategory" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updateProjectCategory(
+            $where: ProjectCategoryWhereUniqueInput!
+            $data: ProjectCategoryUpdateInput
+          ) {
+            data: updateProjectCategory(where: $where, data: $data) {
+              id
+              name
+              Project {
+                id
+                createdAt
+                name
+                slug
+                status
+                private
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "ProjectCategory" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createProjectCategory($data: ProjectCategoryCreateInput!) {
+            data: createProjectCategory(data: $data) {
+              id
+              name
+              Project {
+                id
+                name
+                slug
+                private
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "ProjectCategory" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteProjectCategories($where: ProjectCategoryWhereInput!) {
+            data: deleteProjectCategories(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "ProjectCategory" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteProjectCategories($where: ProjectCategoryWhereInput!) {
+            data: deleteProjectCategories(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
           };
         },
       };

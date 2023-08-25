@@ -23,6 +23,7 @@ import dataProviderFactory from "./dataProvider";
 import Segments from "./segments/Segments";
 import presets from "./Presets";
 import bpms from "./Bpms";
+import projectCategories from "./ProjectCategories";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -72,6 +73,7 @@ const App = () => (
     <Resource name="presets" {...presets} />
     <Resource name="presets" {...presets} />
     <Resource name="bpmTemp" {...bpms} />
+    <Resource name="projectcategories" {...projectCategories} />
   </Admin>
 );
 

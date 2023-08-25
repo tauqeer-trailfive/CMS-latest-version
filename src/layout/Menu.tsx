@@ -24,6 +24,7 @@ import Genres from "../Genres";
 import Effects from "../Effects";
 import Presets from "../Presets";
 import Bpms from "../Bpms";
+import ProjectCategories from "../ProjectCategories";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -195,6 +196,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Bpms.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/projectcategories"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.projectcategories.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<ProjectCategories.icon />}
         dense={dense}
       />
     </Box>
