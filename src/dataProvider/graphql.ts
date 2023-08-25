@@ -18,6 +18,8 @@ import {
 
 const getGqlResource = (resource: string) => {
   switch (resource) {
+    case "contests":
+      return "Contest";
     case "users":
       return "User";
     case "musicalInstruments":
@@ -1582,6 +1584,431 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: [response.data.data],
+          };
+        },
+      };
+    }
+    /* Contests */
+
+    if (resource === "Contest" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query AllContests($where: ContestWhereInput, $take: Int, $skip: Int) {
+            data: allContests(where: $where, take: $take, skip: $skip) {
+              id
+              image
+              bannerImage
+              contestVideo
+              bannerVideo
+              termsAndConds
+              allowTrackUpload
+              prize
+              title
+              updatedAt
+              baseProject {
+                bpm
+                clapsCount
+                commentsCount
+                id
+                name
+                pan
+              }
+              submittedProjects {
+                highlighted
+                id
+                project {
+                  id
+                  name
+                  owner {
+                    id
+                    name
+                  }
+                  views
+                  commentsCount
+                  clapsCount
+                }
+              }
+              contestMedia {
+                id
+                bannerImage
+                bannerVideo
+                contestId
+                contestVideo
+                image
+                stage
+              }
+              createdAt
+              description
+              endDate
+              startDate
+              owner {
+                email
+              }
+            }
+            contestMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: {
+            ...((params.filter.title || params.filter.q) && {
+              title_contains: params.filter.title || params.filter.q,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.contestMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Contest" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query contest($where: ContestWhereUniqueInput!) {
+            data: contest(where: $where) {
+              id
+              image
+              bannerImage
+              contestVideo
+              bannerVideo
+              termsAndConds
+              allowTrackUpload
+              prize
+              title
+              updatedAt
+              baseProject {
+                bpm
+                clapsCount
+                commentsCount
+                id
+                name
+                pan
+              }
+              contestMedia {
+                id
+                image
+                bannerImage
+                bannerVideo
+                contestVideo
+                stage
+              }
+              submittedProjects {
+                highlighted
+                id
+                project {
+                  id
+                  name
+                  owner {
+                    id
+                    name
+                  }
+                  views
+                  commentsCount
+                  clapsCount
+                }
+              }
+              createdAt
+              description
+              endDate
+              startDate
+              owner {
+                email
+              }
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Contest" && type === "UPDATE") {
+      // delete params.data.id;
+      // delete params.data.__typename;
+      // delete params.data.createdAt;
+
+      let CONTEST_MEDIA_EDIT_DATA = JSON.parse(
+        localStorage.getItem("CONTEST_MEDIA_EDIT_DATA") as any
+      );
+
+      let startDate = new Date(params.data.startDate).toISOString();
+      let endDate = new Date(params.data.endDate).toISOString();
+
+      return {
+        query: gql`
+          mutation updateContest(
+            $where: ContestWhereUniqueInput!
+            $data: ContestUpdateInput
+          ) {
+            updateContest(where: $where, data: $data) {
+              id
+            }
+          }
+        `,
+        variables: {
+          data: {
+            title: params.data.title,
+            description: params.data.description,
+            prize: params.data.prize,
+            startDate: startDate,
+            termsAndConds: params.data.termsAndConds,
+            endDate: endDate,
+            allowTrackUpload: params.data.allowTrackUpload,
+            contestMedia: { update: CONTEST_MEDIA_EDIT_DATA },
+            // image: localStorage.getItem("contest_image"),
+            // bannerImage: localStorage.getItem("banner_image"),
+            // baseProject: {
+            //   connect: {
+            //     id: params.data.baseProject.id,
+            //   },
+            // },
+          },
+          where: {
+            id: params.id,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          // localStorage.removeItem("contest_image");
+          // localStorage.removeItem("banner_image");
+          localStorage.removeItem("CONTEST_MEDIA_EDIT_DATA");
+          return {
+            data: response.data.updateContest,
+          };
+        },
+      };
+    }
+
+    if (resource === "Contest" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query allContests($skip: Int, $take: Int) {
+            allContests(skip: $skip, take: $take) {
+              id
+              image
+              bannerImage
+              contestVideo
+              bannerVideo
+              termsAndConds
+              allowTrackUpload
+              title
+              prize
+              updatedAt
+              baseProject {
+                bpm
+                clapsCount
+                commentsCount
+                id
+                name
+                pan
+              }
+              submittedProjects {
+                highlighted
+                id
+                project {
+                  id
+                  name
+                  owner {
+                    id
+                    name
+                  }
+                  views
+                  commentsCount
+                  clapsCount
+                }
+              }
+              createdAt
+              description
+              endDate
+              startDate
+              owner {
+                email
+              }
+            }
+          }
+        `,
+        variables: {
+          // orderBy: `${params.sort.field}_${params.sort.order}`,
+          // where:  {id_in: idOfCode },
+          // where: { id: {id_in :params.ids }},
+          // tslint:disable-next-line:object-literal-sort-keys
+          // first: params.pagination.perPage,
+          // skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.allContests,
+            total: response.data.allContests.length, // countResult.data.usersMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Contest" && type === "DELETE") {
+      //console.log("in delete");
+      return {
+        query: gql`
+          mutation deleteContests($where: ContestWhereInput!) {
+            data: deleteContests(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            // total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Contest" && type === "DELETE_MANY") {
+      //console.log("in delete Many");
+      return {
+        query: gql`
+          mutation deleteContests($where: ContestWhereInput!) {
+            data: deleteContests(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.deleteContests],
+            // total: response.data.getNewsItems.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Contest" && type === "CREATE") {
+      //console.log(params.data.title);
+
+      //console.log(params.data.baseProject);
+
+      let startDate = new Date(params.data.startDate).toISOString();
+
+      let endDate = new Date(params.data.endDate).toISOString();
+
+      let CONTEST_MEDIA_DATA = JSON.parse(
+        localStorage.getItem("CONTEST_MEDIA_DATA") as any
+      );
+      //console.log("CONTEST_MEDIA_DATA", CONTEST_MEDIA_DATA);
+      // let baseProject = params.data.project.id;
+      let chatysie = {};
+      if (params.data?.baseProject) {
+        chatysie = {
+          connect: {
+            // id: baseProject,
+            id: params.data.baseProject,
+          },
+        };
+      } else {
+        chatysie = {
+          create: {
+            name: params.data.title,
+            status: "PUBLISH_IN_PROGRESS",
+            // tracks: {
+            //   create: [{}, {}, {}, {}],
+            // },
+            owner: {
+              connect: {
+                id: localStorage.getItem("user_id"),
+              },
+            },
+          },
+        };
+      }
+
+      return {
+        query: gql`
+          mutation createContest($data: ContestCreateInput!) {
+            createContest(data: $data) {
+              id
+            }
+          }
+        `,
+        // variables: params,
+        variables: {
+          data: {
+            title: params.data.title,
+            // image: localStorage.getItem("contest_image"),
+            // bannerImage: localStorage.getItem("banner_image"),
+            // contestVideo: localStorage.getItem("contest_video"),
+            // bannerVideo: localStorage.getItem("banner_video"),
+            allowTrackUpload: params.data.allowTrackUpload,
+            description: params.data.description,
+            prize: params.data.prize,
+            termsAndConds: params.data.termsAndConds,
+            endDate: endDate,
+            startDate: startDate,
+            owner: {
+              connect: {
+                id: localStorage.getItem("user_id"),
+              },
+            },
+            // baseProject: {
+            //   connect: {
+            //     // id: baseProject,
+            //     id: params.data.baseProject,
+            //   },
+            //   create: {
+            //     name: params.data.title,
+            //     status: "PUBLISH_IN_PROGRESS",
+            //     // tracks: {
+            //     //   create: [{}, {}, {}, {}],
+            //     // },
+            //     owner: {
+            //       connect: {
+            //         id: localStorage.getItem("user_id"),
+            //       },
+            //     },
+            //   },
+            // },
+            baseProject: chatysie,
+            contestMedia: {
+              create: CONTEST_MEDIA_DATA,
+            },
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          localStorage.removeItem("contest_image");
+          localStorage.removeItem("banner_image");
+          localStorage.removeItem("contest_video");
+          localStorage.removeItem("banner_video");
+
+          return {
+            data: response.data.createContest,
+            // total: response.data.createContest.length,
           };
         },
       };

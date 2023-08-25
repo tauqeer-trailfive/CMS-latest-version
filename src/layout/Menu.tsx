@@ -25,6 +25,7 @@ import Effects from "../Effects";
 import Presets from "../Presets";
 import Bpms from "../Bpms";
 import ProjectCategories from "../ProjectCategories";
+import Contests from "../Contests";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -149,6 +150,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<UsersList.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/contests"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.contests.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Contests.icon />}
         dense={dense}
       />
       <MenuItemLink
