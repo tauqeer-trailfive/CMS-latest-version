@@ -18,6 +18,7 @@ import MobileGrid from "./MobileGrid";
 import SamplesListAside from "./SamplesListAside";
 import SampleLinkField from "./SampleLinkField";
 import BPMNumberField from "./BMPNumberField";
+import SampleShow from "./SampleShow";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -46,6 +47,8 @@ const SamplesList = () => {
         <MobileGrid />
       ) : (
         <DatagridConfigurable
+          rowClick="expand"
+          expand={<SampleShow />}
           sx={{
             "& .column-groups": {
               md: { display: "none" },

@@ -27,7 +27,7 @@ const ContestShow = () => {
   return (
     <Card
       sx={{
-        boxShadow: 4,
+        boxShadow: 6,
         padding: 5,
         marginBottom: 5,
         borderRadius: 0.4,

@@ -620,12 +620,6 @@ const customEnglishMessages: TranslationMessages = {
         carouselBanner2: "Carousel Banner 2",
         carouselBanner3: "Carousel Banner 3",
         basket: {
-          id: "ID",
-          value: "Value",
-          audioUrl: "Audio File",
-          mp3Url: "Mp3 File",
-          file: "Files",
-          order: "Order/Sequence",
           name: "Name",
           owner: "Owner",
           views: "Views",
@@ -747,6 +741,12 @@ const customEnglishMessages: TranslationMessages = {
         category: "Category",
         edit: "Edit",
         sets: "Sets",
+        basket: {
+          id: "ID",
+          value: "Value",
+          audioUrl: "Audio File",
+          mp3Url: "Mp3 File",
+        },
       },
       filters: {
         id: "Id",
