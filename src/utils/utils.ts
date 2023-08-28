@@ -22,6 +22,10 @@ export const RandomAvatars = [
   "https://storage.googleapis.com/djam_rn/img/users/avatars/1672726912545-Asset 23.png",
 ];
 
+export const arrDiff = (a: any, b: any) => {
+  return a.filter((i: any) => b.indexOf(i) < 0);
+};
+
 export const musicallnstrumentConnector = (
   curr: { id: string; name: string; rank: number }[],
   prev: { id: string; name: string; rank: number }[]
@@ -81,4 +85,17 @@ export const effectConnectorOnEditPreset = (
   });
 
   return { connect: connector, disconnect: disconnector };
+};
+
+export const createBPMsOnCreateSamples = (
+  recivedArrayOfBpms: { value: string; audioUrl: string; mp3Url: string }[]
+) => {
+  const arrayOfBPMS = recivedArrayOfBpms.map((item, index: number) => {
+    return {
+      value: parseInt(item.value),
+      audioUrl: item.audioUrl,
+      mp3Url: item.mp3Url,
+    };
+  });
+  return { create: arrayOfBPMS };
 };

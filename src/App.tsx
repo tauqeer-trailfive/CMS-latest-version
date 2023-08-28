@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Admin, CustomRoutes, Resource } from "react-admin";
 import polyglotI18nProvider from "ra-i18n-polyglot";
@@ -26,6 +28,7 @@ import bpms from "./Bpms";
 import projectCategories from "./ProjectCategories";
 import contests from "./Contests";
 import referralcodes from "./ReferralCodes";
+import samples from "./Samples";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -78,6 +81,7 @@ const App = () => (
     <Resource name="projectcategories" {...projectCategories} />
     <Resource name="contests" {...contests} />
     <Resource name="referralcode" {...referralcodes} />
+    <Resource name="samples" {...samples} />
   </Admin>
 );
 

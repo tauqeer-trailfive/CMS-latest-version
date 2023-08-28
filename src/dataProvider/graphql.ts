@@ -10,6 +10,8 @@ import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
 import {
+  arrDiff,
+  createBPMsOnCreateSamples,
   effectConnectorOnCreatePreset,
   effectConnectorOnEditPreset,
   musicallnstrumentConnector,
@@ -36,6 +38,8 @@ const getGqlResource = (resource: string) => {
       return "ProjectCategory";
     case "referralcode":
       return "ReferralCode";
+    case "samples":
+      return "Sample";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -103,10 +107,10 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         variables: {
           filter: {
             ...((params.filter.name || params.filter.q) && {
-              name_contains: params.filter.name,
+              name_contains: params.filter.name || params.filter.q,
             }),
             ...((params.filter.artistName || params.filter.q) && {
-              artistName_contains: params.filter.artistName,
+              artistName_contains: params.filter.artistName || params.filter.q,
             }),
             ...(params.filter.email && { email_contains: params.filter.email }),
             ...(params.filter.role && { role_in: params.filter.role }),
@@ -613,7 +617,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             }
           }
         `,
-        variables: {},
+        variables: {
+          variables: { where: { id: { id_in: params.ids } } },
+        },
         options: { fetchPolicy: "network-only" },
         parseResponse: (response: any) => {
           return {
@@ -2213,6 +2219,379 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         },
       };
     }
+    /* Samples */
+    if (resource === "Sample" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query samples(
+            $orderBy: SampleOrderByInput
+            $where: SampleWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: samples(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              name
+              createdAt
+              createdBy {
+                id
+                name
+              }
+              format
+              samplerate
+              bpm
+              bpmTemp {
+                id
+                audioUrl
+                createdAt
+                mp3Url
+                value
+              }
+              instrument
+              genre {
+                id
+                name
+                description
+              }
+              sampleLengthBeats
+              sampleLengthMicros
+              baseTone
+              scaleMode
+              url
+
+              tags {
+                id
+              }
+              sets {
+                id
+                name
+                description
+              }
+            }
+            samplesMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+            ...(params.filter.bpm && {
+              bpmTemp_some: {
+                value: parseFloat(params.filter.bpm),
+              },
+            }),
+          },
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.samplesMeta.count,
+          };
+        },
+      };
+    }
+    if (resource === "Sample" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query samples($where: SampleWhereInput) {
+            data: samples(where: $where) {
+              id
+              name
+              createdAt
+              createdBy {
+                id
+                name
+              }
+              format
+              samplerate
+              bpm
+              bpmTemp {
+                id
+                audioUrl
+                createdAt
+                mp3Url
+                value
+              }
+              instrument
+              genre {
+                id
+                name
+                description
+              }
+              sampleLengthBeats
+              sampleLengthMicros
+              baseTone
+              scaleMode
+              url
+
+              tags {
+                id
+              }
+              sets {
+                id
+                name
+                description
+              }
+            }
+            samplesMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          variables: { where: { id: { id_in: params.ids } } },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.samplesMeta.count,
+          };
+        },
+      };
+    }
+    if (resource === "Sample" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query sample($where: SampleWhereUniqueInput!) {
+            data: sample(where: $where) {
+              id
+              name
+              createdAt
+              createdBy {
+                id
+                name
+              }
+              format
+              samplerate
+              bpm
+              bpmTemp {
+                id
+                audioUrl
+                createdAt
+                mp3Url
+                value
+              }
+              instrument
+              genre {
+                id
+                name
+                description
+              }
+              sampleLengthBeats
+              sampleLengthMicros
+              baseTone
+              scaleMode
+              url
+              tags {
+                id
+              }
+              sets {
+                id
+              }
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+    if (resource === "Sample" && type === "CREATE") {
+      let BPM_DATA: any;
+      if (localStorage.getItem("BPM_DATA") !== undefined) {
+        BPM_DATA = JSON.parse(localStorage.getItem("BPM_DATA") as any);
+      }
+      return {
+        query: gql`
+          mutation createSample($data: SampleCreateInput!) {
+            data: createSample(data: $data) {
+              id
+              name
+              createdAt
+              createdBy {
+                id
+                name
+              }
+              format
+              samplerate
+              bpm
+              bpmTemp {
+                id
+                audioUrl
+                createdAt
+                mp3Url
+                value
+              }
+              instrument
+              genre {
+                id
+                name
+                description
+              }
+              sampleLengthBeats
+              sampleLengthMicros
+              baseTone
+              scaleMode
+              url
+
+              tags {
+                id
+              }
+              sets {
+                id
+                name
+                description
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            description: params.data.description,
+            format: params.data.format,
+            samplerate: params.data.samplerate,
+            instrument: params.data.instrument,
+            ...(BPM_DATA !== undefined && {
+              bpmTemp: createBPMsOnCreateSamples(BPM_DATA),
+            }),
+            createdBy: { connect: { id: params.data.createdBy.id } },
+            genre: { connect: { id: params.data.genre.id } },
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+    if (resource === "Sample" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updateSample(
+            $data: SampleUpdateInput!
+            $where: SampleWhereUniqueInput!
+          ) {
+            data: updateSample(data: $data, where: $where) {
+              id
+              name
+              createdAt
+              createdBy {
+                id
+                name
+              }
+              format
+              samplerate
+              bpm
+              bpmTemp {
+                id
+                value
+              }
+              instrument
+              genre {
+                id
+                name
+                description
+              }
+              sampleLengthBeats
+              sampleLengthMicros
+              baseTone
+              scaleMode
+              url
+
+              tags {
+                id
+              }
+              sets {
+                id
+                name
+                description
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            description: params.data.description,
+            format: params.data.format,
+            samplerate: params.data.samplerate,
+            bpmTemp: params.data.bpmdata,
+            instrument: params.data.instrument,
+            createdBy: { connect: { id: params.data.createdBy.id } },
+            genre: { connect: { id: params.data.genre.id } },
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+    if (resource === "Sample" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteSample($where: SampleWhereUniqueInput!) {
+            data: deleteSample(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+    if (resource === "Sample" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteSamples($where: SampleWhereInput!) {
+            data: deleteSamples(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
     return buildQuery(type, resource, params);
   };
 };
