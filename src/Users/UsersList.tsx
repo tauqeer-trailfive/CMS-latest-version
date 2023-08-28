@@ -44,7 +44,7 @@ const UsersList = () => {
     },
   });
 
-  const PostListActions = () => (
+  const UsersListActions = () => (
     <TopToolbar>
       <SelectColumnsButton />
       <CreateButton />
@@ -68,7 +68,7 @@ const UsersList = () => {
       sort={{ field: "createdAt", order: "DESC" }}
       perPage={10}
       aside={<UsersListAside />}
-      actions={<PostListActions />}
+      actions={<UsersListActions />}
     >
       {isXsmall ? (
         <MobileGrid />
