@@ -5,17 +5,15 @@ import {
   TopToolbar,
   SelectColumnsButton,
   CreateButton,
-  ExportButton,
   EmailField,
   ChipField,
   TextField,
   DateField,
   ArrayField,
   SingleFieldList,
-  ReferenceArrayField,
-  Datagrid,
   SearchInput,
   BooleanField,
+  Button,
 } from "react-admin";
 import { useMediaQuery, Theme } from "@mui/material";
 
@@ -24,22 +22,46 @@ import MobileGrid from "./MobileGrid";
 import UsersListAside from "./UsersListAside";
 import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
+import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
+import { gql, useQuery } from "@apollo/client";
 
 const userFilters = [<SearchInput source="artistName" alwaysOn />];
 
-const PostListActions = () => (
-  <TopToolbar>
-    <SelectColumnsButton />
-    <CreateButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const EXPORT_PROJECTS_QUERY = gql`
+  query Query($model: ModelNames!) {
+    getCsvUrl(model: $model)
+  }
+`;
 
 const UsersList = () => {
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm")
   );
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("md"));
+  const { data, loading, error } = useQuery(EXPORT_PROJECTS_QUERY, {
+    variables: {
+      model: "user",
+    },
+  });
+
+  const PostListActions = () => (
+    <TopToolbar>
+      <SelectColumnsButton />
+      <CreateButton />
+      <Button
+        href={!loading ? data?.getCsvUrl : "#"}
+        disabled={loading}
+        title="Export Users List"
+        label="Export Entire Users List"
+        startIcon={
+          <React.Fragment>
+            <DownloadCSVIcon />
+          </React.Fragment>
+        }
+      />
+    </TopToolbar>
+  );
+
   return (
     <List
       filters={isSmall ? userFilters : undefined}
