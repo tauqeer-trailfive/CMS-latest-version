@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import LabelIcon from "@mui/icons-material/Label";
+import DashboardIcon from "@mui/icons-material/SpaceDashboardTwoTone";
 
 import {
   useTranslate,
@@ -26,6 +27,7 @@ import Presets from "../Presets";
 import Bpms from "../Bpms";
 import ProjectCategories from "../ProjectCategories";
 import Contests from "../Contests";
+import Codes from "../ReferralCodes";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -55,7 +57,7 @@ const Menu = ({ dense = false }: MenuProps) => {
           }),
       }}
     >
-      <DashboardMenuItem />
+      <DashboardMenuItem leftIcon={<DashboardIcon />} />
       {/* <SubMenu
                 handleToggle={() => handleToggle('menuSales')}
                 isOpen={state.menuSales}
@@ -215,6 +217,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<ProjectCategories.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/referralcode"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.referralcode.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Codes.icon />}
         dense={dense}
       />
     </Box>

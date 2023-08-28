@@ -34,6 +34,8 @@ const getGqlResource = (resource: string) => {
       return "Samples_BPM";
     case "projectcategories":
       return "ProjectCategory";
+    case "referralcode":
+      return "ReferralCode";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -2013,7 +2015,204 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         },
       };
     }
+    /* Referral Codes */
+    if (resource === "ReferralCode" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query getAllReferralCodes(
+            $where: ReferralCodeWhereInput
+            $orderBy: ReferralCodeOrderByInput
+            $skip: Int
+            $take: Int
+          ) {
+            data: getAllReferralCodes(
+              where: $where
+              orderBy: $orderBy
+              skip: $skip
+              take: $take
+            ) {
+              id
+              createdAt
+              code
+              ttl
+              status
+              email
+            }
+            referralCodesMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: {
+            ...((params.filter.code || params.filter.q) && {
+              code_contains: params.filter.code || params.filter.q,
+            }),
+          },
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.referralCodesMeta.count,
+          };
+        },
+      };
+    }
 
+    if (resource === "ReferralCode" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query getAllReferralCodes($where: ReferralCodeWhereInput) {
+            data: getAllReferralCodes(where: $where) {
+              id
+              createdAt
+              code
+              ttl
+              status
+              email
+            }
+            referralCodesMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: { where: { id: { id_in: params.ids } } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.referralCodesMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "ReferralCode" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updateReferralCode(
+            $where: ReferralCodeWhereUniqueInput!
+            $data: ReferralCodeUpdateInput!
+          ) {
+            data: updateReferralCode(where: $where, data: $data) {
+              id
+              createdAt
+              code
+              ttl
+              status
+              email
+            }
+          }
+        `,
+        variables: {
+          data: {
+            code: params.data.code,
+            email: params.data.email,
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "ReferralCode" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query getReferralCode($where: ReferralCodeWhereUniqueInput!) {
+            data: getReferralCode(where: $where) {
+              id
+              createdAt
+              code
+              ttl
+              status
+              email
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "ReferralCode" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createReferralCode($data: ReferralCodeCreateInput!) {
+            data: createReferralCode(data: $data) {
+              id
+              createdAt
+              code
+              ttl
+              status
+              email
+            }
+          }
+        `,
+        variables: params,
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "ReferralCode" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteReferralCodes($where: ReferralCodeWhereInput!) {
+            data: deleteReferralCodes(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "ReferralCode" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteReferralCodes($where: ReferralCodeWhereInput!) {
+            data: deleteReferralCodes(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
     return buildQuery(type, resource, params);
   };
 };

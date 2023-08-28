@@ -25,6 +25,7 @@ import presets from "./Presets";
 import bpms from "./Bpms";
 import projectCategories from "./ProjectCategories";
 import contests from "./Contests";
+import referralcodes from "./ReferralCodes";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -76,6 +77,7 @@ const App = () => (
     <Resource name="bpmTemp" {...bpms} />
     <Resource name="projectcategories" {...projectCategories} />
     <Resource name="contests" {...contests} />
+    <Resource name="referralcode" {...referralcodes} />
   </Admin>
 );
 
