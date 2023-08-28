@@ -29,6 +29,7 @@ import ProjectCategories from "../ProjectCategories";
 import Contests from "../Contests";
 import Codes from "../ReferralCodes";
 import Samples from "../Samples";
+import Tracks from "../Tracks";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -236,6 +237,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Samples.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/tracks"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.tracks.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Tracks.icon />}
         dense={dense}
       />
     </Box>

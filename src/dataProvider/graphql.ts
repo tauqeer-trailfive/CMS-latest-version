@@ -40,6 +40,8 @@ const getGqlResource = (resource: string) => {
       return "ReferralCode";
     case "samples":
       return "Sample";
+    case "tracks":
+      return "Track";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -2587,6 +2589,288 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    /* Tracks */
+    if (resource === "Track" && type === "GET_ONE") {
+      //console.log("in track getOne");
+      return {
+        query: gql`
+          query Track($filter: TrackWhereUniqueInput!) {
+            data: Track(filter: $filter) {
+              id
+              order
+              volume
+              pan
+              isMuted
+              isSolo
+              project {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: { filter: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+
+        parseResponse: (response: any) => {
+          //console.log(response.data.data.project);
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Track" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query allTracks(
+            $orderBy: TrackOrderByInput!
+            $skip: Int!
+            $take: Int!
+            $filter: TrackWhereInput
+          ) {
+            data: allTracks(
+              orderBy: $orderBy
+              skip: $skip
+              take: $take
+              filter: $filter
+            ) {
+              id
+              order
+              volume
+              createdAt
+              pan
+              isMuted
+              isSolo
+              project {
+                id
+                name
+              }
+            }
+            trackMeta(filter: $filter) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          filter: {
+            ...(params.filter.order && {
+              order: params.filter.order,
+            }),
+            ...(params.filter.isMuted && {
+              isMuted: params.filter.isMuted,
+            }),
+            ...(params.filter.isSolo && {
+              isSolo: params.filter.isSolo,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.trackMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Track" && type === "GET_MANY") {
+      //console.log("in track GetMany");
+      const idOfTrack: any[] = [];
+      const arrayOfTrack = params.ids;
+      if (arrayOfTrack.length !== 0) {
+        for (const set of arrayOfTrack) {
+          if (set) {
+            if (typeof set === "object") {
+              idOfTrack.push(set.id);
+            } else {
+              idOfTrack.push(set);
+            }
+          }
+        }
+      }
+      return {
+        query: gql`
+          query allTracks(
+            $orderBy: TrackOrderByInput
+            $filter: TrackWhereInput
+          ) {
+            data: allTracks(orderBy: $orderBy, filter: $filter) {
+              id
+              order
+              volume
+              pan
+              isMuted
+              isSolo
+              project {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          // orderBy: `${params.sort.order}`,
+          filter: { id_in: idOfTrack },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Track" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteTrack($where: TrackWhereUniqueInput!) {
+            data: deleteTrack(where: $where) {
+              id
+              order
+              volume
+              pan
+              isMuted
+              isSolo
+              project {
+                id
+                name
+              }
+            }
+          }
+        `,
+
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            // total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Track" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteTracks($where: TrackWhereInput!) {
+            data: deleteTracks(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        // options: {fetchPolicy: 'network-only'},
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "Track" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation CreateTrack(
+            # $projectId: ID
+            $order: Int
+            $isMuted: Boolean
+            $isSolo: Boolean
+            $volume: Float
+            $pan: Float
+          ) {
+            createTrack(
+              # projectId: $projectId
+              order: $order
+              isMuted: $isMuted
+              isSolo: $isSolo
+              volume: $volume
+              pan: $pan
+            ) {
+              id
+            }
+          }
+        `,
+        options: { fetchPolicy: "network-only" },
+        variables: {
+          // projectId: params.data.project.id,
+          order: params.data.order,
+          isMuted: params.data.isMuted,
+          isSolo: params.data.isSolo,
+          volume: params.data.volume,
+          pan: params.data.pan,
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.createTrack,
+          };
+        },
+      };
+    }
+
+    if (resource === "Track" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updateTrack(
+            $data: TrackUpdateInput!
+            $where: TrackWhereUniqueInput!
+          ) {
+            data: updateTrack(data: $data, where: $where) {
+              id
+              order
+              volume
+              pan
+              isMuted
+              isSolo
+              project {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            order: params.data.order,
+            isMuted: params.data.isMuted,
+            isSolo: params.data.isSolo,
+            volume: params.data.volume,
+            pan: params.data.pan,
+            // project: {
+            //   connect: {
+            //     id: params.data.project.id,
+            //   },
+            // },
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
           };
         },
       };

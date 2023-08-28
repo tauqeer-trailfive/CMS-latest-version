@@ -29,6 +29,7 @@ import projectCategories from "./ProjectCategories";
 import contests from "./Contests";
 import referralcodes from "./ReferralCodes";
 import samples from "./Samples";
+import tracks from "./Tracks";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -82,6 +83,7 @@ const App = () => (
     <Resource name="contests" {...contests} />
     <Resource name="referralcode" {...referralcodes} />
     <Resource name="samples" {...samples} />
+    <Resource name="tracks" {...tracks} />
   </Admin>
 );
 

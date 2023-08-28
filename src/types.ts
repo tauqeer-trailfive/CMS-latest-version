@@ -58,6 +58,7 @@ export interface Track extends RaRecord {
   isSolo: boolean;
   volume: number;
   pan: number;
+  id: string;
 }
 
 export interface Playlist extends RaRecord {
