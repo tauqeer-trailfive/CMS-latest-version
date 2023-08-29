@@ -1,4 +1,4 @@
-import GenreIcon from "@mui/icons-material/TheaterComedyTwoTone";
+import GenreIcon from "@mui/icons-material/TheaterComedyRounded";
 import GenresList from "./GenresList";
 import GenreCreate from "./GenreCreate";
 import GenreEdit from "./GenreEdit";

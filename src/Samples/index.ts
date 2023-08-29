@@ -1,4 +1,4 @@
-import SamplesIcon from "@mui/icons-material/LibraryMusicTwoTone";
+import SamplesIcon from "@mui/icons-material/LibraryMusicRounded";
 import SamplesList from "./SamplesList";
 import SampleCreate from "./SampleCreate";
 import SampleEdit from "./SampleEdit";

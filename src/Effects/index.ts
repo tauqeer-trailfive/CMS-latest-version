@@ -1,4 +1,4 @@
-import EffectIcon from "@mui/icons-material/BlurOnTwoTone";
+import EffectIcon from "@mui/icons-material/DeblurRounded";
 import EffectsList from "./EffectsList";
 import EffectCreate from "./EffectCreate";
 import EffectEdit from "./EffectEdit";

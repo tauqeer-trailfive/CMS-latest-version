@@ -1,4 +1,4 @@
-import ContestsIcon from "@mui/icons-material/Biotech";
+import ContestsIcon from "@mui/icons-material/BiotechRounded";
 import ContestsList from "./ContestsList";
 import ContestCreate from "./ContestCreate";
 import ContestEdit from "./ContestEdit";

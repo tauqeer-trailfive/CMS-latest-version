@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import LabelIcon from "@mui/icons-material/Label";
-import DashboardIcon from "@mui/icons-material/SpaceDashboardTwoTone";
+import DashboardIcon from "@mui/icons-material/SpaceDashboardRounded";
 
 import {
   useTranslate,

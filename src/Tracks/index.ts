@@ -1,4 +1,4 @@
-import TrackIcon from "@mui/icons-material/Audiotrack";
+import TrackIcon from "@mui/icons-material/MusicNoteRounded";
 import TracksList from "./TracksList";
 import TrackCreate from "./TrackCreate";
 import TrackEdit from "./TrackEdit";

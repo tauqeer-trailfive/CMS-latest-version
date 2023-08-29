@@ -1,4 +1,4 @@
-import ReferralCodeIcon from "@mui/icons-material/QrCode2";
+import ReferralCodeIcon from "@mui/icons-material/QrCode2Rounded";
 import ReferralCodesList from "./ReferralCodesList";
 import ReferralCodeCreate from "./ReferralCodeCreate";
 import ReferralCodeEdit from "./ReferralCodeEdit";

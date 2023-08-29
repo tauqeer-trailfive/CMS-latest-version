@@ -1,4 +1,4 @@
-import PresetIcon from "@mui/icons-material/CallToActionTwoTone";
+import PresetIcon from "@mui/icons-material/CallToActionRounded";
 import PresetsList from "./PresetsList";
 import PresetCreate from "./PresetCreate";
 import PresetEdit from "./PresetEdit";
