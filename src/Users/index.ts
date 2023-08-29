@@ -1,4 +1,4 @@
-import UserIcon from "@mui/icons-material/Groups2Rounded";
+import UserIcon from "@mui/icons-material/SupervisedUserCircleRounded";
 import UsersList from "./UsersList";
 import UserCreate from "./UserCreate";
 import UserEdit from "./UserEdit";

@@ -3,18 +3,18 @@ import { ReferenceField, ReferenceFieldProps } from "react-admin";
 
 import IdField from "./IdField";
 
-const TrackReferenceField = (
+const ProjectReferenceField = (
   props: Omit<ReferenceFieldProps, "reference" | "children" | "source"> & {
     source?: string;
   }
 ) => (
-  <ReferenceField source="id" reference="tracks" {...props}>
+  <ReferenceField source="id" reference="projects" {...props}>
     <IdField />
   </ReferenceField>
 );
 
-TrackReferenceField.defaultProps = {
+ProjectReferenceField.defaultProps = {
   source: "id",
 };
 
-export default TrackReferenceField;
+export default ProjectReferenceField;

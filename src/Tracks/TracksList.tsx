@@ -34,7 +34,7 @@ const EXPORT_PROJECTS_QUERY = gql`
   }
 `;
 
-const UsersList = () => {
+const TracksList = () => {
   const isXsmall = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm")
   );
@@ -105,4 +105,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default TracksList;

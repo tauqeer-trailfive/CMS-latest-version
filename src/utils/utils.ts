@@ -99,3 +99,35 @@ export const createBPMsOnCreateSamples = (
   });
   return { create: arrayOfBPMS };
 };
+
+// Connectors while Creating projects
+
+export const connectMusicInstruInProjectCreate = (curr: string[]) => {
+  const connector = curr.map((id, index: number) => {
+    return {
+      id: id,
+    };
+  });
+
+  return { connect: connector };
+};
+
+export const connectGenreInProjectCreate = (curr: string[]) => {
+  const connector = curr.map((id, index: number) => {
+    return {
+      id: id,
+    };
+  });
+
+  return { connect: connector };
+};
+
+export const connectTracksInProjectCreate = (curr: string[]) => {
+  const connector = curr.map((id, index: number) => {
+    return {
+      id: id,
+    };
+  });
+
+  return { connect: connector };
+};

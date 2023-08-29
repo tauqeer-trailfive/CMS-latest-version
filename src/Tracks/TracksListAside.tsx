@@ -23,7 +23,7 @@ import {
   subMonths,
 } from "date-fns";
 
-const UsersListAside = () => {
+const TracksListAside = () => {
   return (
     <Card
       sx={{
@@ -93,4 +93,4 @@ const UsersListAside = () => {
   );
 };
 
-export default UsersListAside;
+export default TracksListAside;

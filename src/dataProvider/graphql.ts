@@ -11,6 +11,9 @@ import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
 import {
   arrDiff,
+  connectGenreInProjectCreate,
+  connectMusicInstruInProjectCreate,
+  connectTracksInProjectCreate,
   createBPMsOnCreateSamples,
   effectConnectorOnCreatePreset,
   effectConnectorOnEditPreset,
@@ -42,6 +45,8 @@ const getGqlResource = (resource: string) => {
       return "Sample";
     case "tracks":
       return "Track";
+    case "projects":
+      return "Project";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -2867,6 +2872,733 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           where: { id: params.id },
         },
         options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    /* Projects */
+    function tracks(tracks_in_funtion: any) {
+      const idTracks = tracks_in_funtion;
+
+      const arrOfId: any[] = [];
+      if (idTracks && idTracks.length !== 0) {
+        for (const id of idTracks) {
+          arrOfId.push({ id });
+        }
+      }
+      if (arrOfId && arrOfId.length !== 0) {
+        params.data.tracks = { connect: arrOfId };
+      }
+      return params.data.tracks;
+    }
+
+    function genres(genres_in_funtion: any) {
+      const idGenres = genres_in_funtion;
+
+      const arrOfId: any[] = [];
+      if (idGenres && idGenres.length !== 0) {
+        for (const id of idGenres) {
+          arrOfId.push({ id });
+        }
+      }
+      if (arrOfId && arrOfId.length !== 0) {
+        params.data.genres = { connect: arrOfId };
+      }
+      return params.data.genres;
+    }
+
+    function getmanyprojects(projects_ids: any) {
+      const idOfProject: any[] = [];
+      // const arrayOfProject = params.ids
+      const arrayOfProject = projects_ids;
+      if (arrayOfProject.length !== 0) {
+        for (const set of arrayOfProject) {
+          if (set) {
+            if (typeof set === "object") {
+              //console.log("object");
+              idOfProject.push(set.id);
+            } else {
+              //console.log("not object");
+              idOfProject.push(set);
+            }
+          }
+        }
+      }
+      return idOfProject;
+    }
+
+    function updatemusicalinstrumentsinproject(
+      musicalinstruments_in_funtion: any,
+      disconnected_musicalinstruments: any
+    ) {
+      const idMusicalInstruments = musicalinstruments_in_funtion;
+      const arrOfId: any[] = [];
+      let MusicalInstrumentSets = {};
+      const arrayOfMusicalInstrumentIdDisc: any[] = [];
+      if (idMusicalInstruments && idMusicalInstruments.length !== 0) {
+        for (const id of idMusicalInstruments) {
+          arrOfId.push(id.id);
+        }
+      }
+      const connectArrayOfMusicalInstrument: any[] = [];
+
+      const arrOfPreviousMusicalInstrumentValue =
+        disconnected_musicalinstruments;
+
+      const arrOfPreviousMusicalInstrumentSetId: any[] = [];
+      if (
+        arrOfPreviousMusicalInstrumentValue &&
+        arrOfPreviousMusicalInstrumentValue.length !== 0
+      ) {
+        for (const id of arrOfPreviousMusicalInstrumentValue) {
+          arrOfPreviousMusicalInstrumentSetId.push(id.id);
+        }
+      }
+
+      const diff = arrDiff(arrOfPreviousMusicalInstrumentSetId, arrOfId);
+      if (arrOfId && arrOfId.length !== 0) {
+        for (const id of arrOfId) {
+          connectArrayOfMusicalInstrument.push({ id });
+        }
+        MusicalInstrumentSets = { connect: connectArrayOfMusicalInstrument };
+      }
+      if (diff.length !== 0) {
+        for (const set of diff) {
+          if (set) {
+            arrayOfMusicalInstrumentIdDisc.push({ id: set });
+          }
+        }
+      }
+
+      if (arrayOfMusicalInstrumentIdDisc.length !== 0) {
+        Object.assign(MusicalInstrumentSets, {
+          disconnect: arrayOfMusicalInstrumentIdDisc,
+        });
+      }
+
+      //console.log("MusicalInstrumentSets", MusicalInstrumentSets);
+
+      params.data.musicalInstruments = MusicalInstrumentSets;
+      return params.data.musicalInstruments;
+    }
+
+    function updatetracksinfoinproject(
+      tracks_in_funtion: any,
+      disconnected_tracks: any
+    ) {
+      const idTracks = tracks_in_funtion;
+      const arrOfId: any[] = [];
+      let trackSets = {};
+      const arrayOfTrackIdDisc: any[] = [];
+      if (idTracks && idTracks.length !== 0) {
+        for (const id of idTracks) {
+          arrOfId.push(id.id);
+        }
+      }
+      const connectArrayOfTrack: any[] = [];
+
+      const arrOfPreviousTrackValue = disconnected_tracks;
+
+      const arrayOfPreviousTrackSetId: any[] = [];
+      if (arrOfPreviousTrackValue && arrOfPreviousTrackValue.length !== 0) {
+        for (const id of arrOfPreviousTrackValue) {
+          arrayOfPreviousTrackSetId.push(id.id);
+        }
+      }
+
+      const diff = arrDiff(arrayOfPreviousTrackSetId, arrOfId);
+      if (arrOfId && arrOfId.length !== 0) {
+        for (const id of arrOfId) {
+          connectArrayOfTrack.push({ id });
+        }
+        trackSets = { connect: connectArrayOfTrack };
+      }
+      if (diff.length !== 0) {
+        for (const set of diff) {
+          if (set) {
+            arrayOfTrackIdDisc.push({ id: set });
+          }
+        }
+      }
+
+      if (arrayOfTrackIdDisc.length !== 0) {
+        Object.assign(trackSets, { disconnect: arrayOfTrackIdDisc });
+      }
+
+      //console.log("trackSets", trackSets);
+
+      params.data.tracks = trackSets;
+      return params.data.tracks;
+    }
+
+    function updategenresinfoinproject(
+      genres_in_funtion: any,
+      disconnected_genres: any
+    ) {
+      const idGenres = genres_in_funtion;
+      const arrOfId: any[] = [];
+      let genresSets = {};
+      const arrayOfGenreIdDisc: any[] = [];
+      if (idGenres && idGenres.length !== 0) {
+        for (const id of idGenres) {
+          arrOfId.push(id.id);
+        }
+      }
+      const connectArrayOfGenre: any[] = [];
+
+      const arrOfPreviousGenreValue = disconnected_genres;
+
+      const arrayOfPreviousGenreSetId: any[] = [];
+      if (arrOfPreviousGenreValue && arrOfPreviousGenreValue.length !== 0) {
+        for (const id of arrOfPreviousGenreValue) {
+          arrayOfPreviousGenreSetId.push(id.id);
+        }
+      }
+
+      const diff = arrDiff(arrayOfPreviousGenreSetId, arrOfId);
+      if (arrOfId && arrOfId.length !== 0) {
+        for (const id of arrOfId) {
+          connectArrayOfGenre.push({ id });
+        }
+        genresSets = { connect: connectArrayOfGenre };
+      }
+      if (diff.length !== 0) {
+        for (const set of diff) {
+          if (set) {
+            arrayOfGenreIdDisc.push({ id: set });
+          }
+        }
+      }
+
+      if (arrayOfGenreIdDisc.length !== 0) {
+        Object.assign(genresSets, { disconnect: arrayOfGenreIdDisc });
+      }
+
+      //console.log("genresSets", genresSets);
+
+      params.data.genres = genresSets;
+      return params.data.genres;
+    }
+
+    if (resource === "Project" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query ProjectV1($filter: ProjectWhereUniqueInput!) {
+            data: ProjectV1(filter: $filter) {
+              id
+              createdAt
+              name
+              slug
+              private
+              rating
+              description
+              availableFrom
+              owner {
+                id
+                email
+                name
+                artistName
+              }
+              tracks {
+                id
+              }
+              contestProject {
+                id
+              }
+              category {
+                id
+                name
+              }
+              genres {
+                name
+                id
+              }
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+              status
+              recordingsCount
+              derivedProjectsCount
+              timelineItemsCount
+              tracksCount
+              clapsCount
+              commentsCount
+              mixdownVideo
+              mixdownPath
+              mixdownAudio
+              mixdownScreen
+            }
+          }
+        `,
+        variables: { filter: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Project" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query AllProjectsV1(
+            $filter: ProjectWhereInput
+            $orderBy: ProjectOrderByInput
+            $skip: Int
+            $take: Int
+          ) {
+            data: allProjectsV1(
+              filter: $filter
+              orderBy: $orderBy
+              skip: $skip
+              take: $take
+            ) {
+              id
+              createdAt
+              name
+              bpm
+              rating
+              status
+              slug
+              publishedAt
+              private
+              description
+              availableFrom
+              owner {
+                id
+                email
+                name
+                artistName
+              }
+              tracks {
+                id
+              }
+              genres {
+                id
+                name
+              }
+              contestProject {
+                id
+              }
+              category {
+                id
+                name
+              }
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+              status
+              recordingsCount
+              derivedProjectsCount
+              timelineItemsCount
+              tracksCount
+              clapsCount
+              commentsCount
+              mixdownVideo
+              mixdownPath
+              mixdownAudio
+              mixdownScreen
+            }
+            projectsMeta(where: $filter) {
+              count
+            }
+          }
+        `,
+        variables: {
+          filter: {
+            ...(params?.filter?.status && { status: params.filter.status }),
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+            ...(params?.filter?.filterByCat && {
+              category_some: { name: params.filter.filterByCat },
+            }),
+            ...(params?.filter?.rating && {
+              rating: params.filter.rating,
+            }),
+            ...(params?.filter?.private && { private: params.filter.private }),
+            ...(params?.filter?.email && {
+              owner: { email: params.filter.email },
+            }),
+          },
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+          take: params.pagination.perPage,
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.projectsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Project" && type === "GET_MANY") {
+      const projects = getmanyprojects(params.ids);
+
+      return {
+        query: gql`
+          query AllProjectsV1(
+            $filter: ProjectWhereInput
+            $orderBy: ProjectOrderByInput
+          ) {
+            data: allProjectsV1(filter: $filter, orderBy: $orderBy) {
+              id
+              createdAt
+              name
+              bpm
+              slug
+              publishedAt
+              rating
+              private
+              description
+              availableFrom
+              owner {
+                id
+                email
+                name
+                artistName
+              }
+              tracks {
+                id
+              }
+              contestProject {
+                id
+              }
+              category {
+                id
+                name
+              }
+              genres {
+                id
+                name
+              }
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+              status
+              recordingsCount
+              derivedProjectsCount
+              timelineItemsCount
+              tracksCount
+              clapsCount
+              commentsCount
+              mixdownVideo
+              mixdownPath
+              mixdownAudio
+              mixdownScreen
+            }
+            projectsMeta(where: $filter) {
+              count
+            }
+          }
+        `,
+        variables: {
+          filter: { id_in: projects },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.projectsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Project" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteProject($where: ProjectWhereUniqueInput!) {
+            data: deleteProject(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Project" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteProjects($where: ProjectWhereInput!) {
+            data: deleteProjects(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "Project" && type === "CREATE") {
+      const currentUser = localStorage.getItem("user_id");
+      const cmi = params.data.musicalInstruments;
+      const cg = params.data.genres;
+      const ct = params.data.tracks;
+      return {
+        query: gql`
+          mutation createProject($data: ProjectCreateInput!) {
+            data: createProject(data: $data) {
+              id
+              createdAt
+              name
+              bpm
+              slug
+              rating
+              private
+              description
+              availableFrom
+              owner {
+                id
+                email
+                name
+                artistName
+              }
+              tracks {
+                id
+              }
+              contestProject {
+                id
+              }
+              genres {
+                name
+                id
+              }
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+              status
+              recordingsCount
+              derivedProjectsCount
+              timelineItemsCount
+              tracksCount
+              clapsCount
+              commentsCount
+              mixdownVideo
+              mixdownPath
+              mixdownScreen
+            }
+          }
+        `,
+
+        variables: {
+          data: {
+            name: params.data.name,
+            bpm: params.data.bpm,
+            description: params.data.description,
+            private: params.data.private,
+            slug: params.data.slug,
+            mixdownVideo: params.data.mixdownVideo,
+            mixdownPath: params.data.mixdownPath,
+            mixdownScreen: params.data.mixdownScreen,
+            owner: {
+              connect: { id: params.data.owner.id || currentUser },
+            },
+            tracks: connectTracksInProjectCreate(ct),
+            genres: connectGenreInProjectCreate(cg),
+            musicalInstruments: connectMusicInstruInProjectCreate(cmi),
+            rating: params.data.rating,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Project" && type === "UPDATE") {
+      delete params.data.id;
+      delete params.data.__typename;
+      delete params.data.createdAt;
+      const getCurrentCatagories = params.data.category;
+      const getRemovedCatagories = params.previousData.category;
+      const AddpreDefinedCatagories = params.data.AddpreDefinedCatagories;
+
+      const makeStructure = AddpreDefinedCatagories?.map((item, index) => {
+        return { name: item };
+      });
+
+      const combineTwoArrays = getCurrentCatagories?.concat(makeStructure);
+      const toBeAdded = combineTwoArrays?.map((category, index) => {
+        return {
+          where: {
+            name: category.name,
+          },
+          create: {
+            name: category.name,
+          },
+        };
+      });
+
+      const toBeDisconnect = getRemovedCatagories?.map((category, index) => {
+        return {
+          name: category.name,
+        };
+      });
+
+      // const toBeAdded = getCurrentCatagories?.map((category, index) => {
+      //   return {
+      //     where: {
+      //       name: category.name,
+      //     },
+      //     create: {
+      //       name: category.name,
+      //     },
+      //   };
+      // });
+
+      // const toBeDisconnect = getRemovedCatagories?.map((category, index) => {
+      //   return {
+      //     name: category.name,
+      //   };
+      // });
+
+      // //console.log("toBeAdded", toBeAdded);
+      // //console.log("toBeDisconnect", toBeDisconnect);
+
+      params.data.category = {
+        connectOrCreate: toBeAdded,
+        disconnect: toBeDisconnect,
+      };
+
+      params.data.owner = {
+        connect: { id: localStorage.getItem("user_id") },
+      };
+
+      let availableFrom = "";
+      if (params.data.availableFrom) {
+        availableFrom = new Date(params.data.availableFrom).toISOString();
+      }
+
+      if (
+        params.data.tracks
+        //  && params.data.tracks.length !== 0
+      ) {
+        params.data.tracks = updatetracksinfoinproject(
+          params.data.tracks,
+          params.previousData.tracks
+        );
+      }
+
+      if (
+        params.data.genres
+        // && params.data.genres.length !== 0
+      ) {
+        params.data.genres = updategenresinfoinproject(
+          params.data.genres,
+          params.previousData.genres
+        );
+      }
+
+      if (params.data.musicalInstruments) {
+        params.data.musicalInstruments = updatemusicalinstrumentsinproject(
+          params.data.musicalInstruments,
+          params.previousData.musicalInstruments
+        );
+      }
+
+      return {
+        query: gql`
+          mutation updateProject(
+            $data: ProjectUpdateInput!
+            $where: ProjectWhereUniqueInput!
+          ) {
+            data: updateProject(data: $data, where: $where) {
+              id
+              createdAt
+              name
+              bpm
+              slug
+              rating
+              private
+              description
+              availableFrom
+              contestProject {
+                id
+              }
+              genres {
+                name
+                id
+              }
+              musicalInstruments {
+                id
+                name
+                rank
+              }
+              status
+              recordingsCount
+              derivedProjectsCount
+              timelineItemsCount
+              tracksCount
+              clapsCount
+              commentsCount
+              mixdownVideo
+              mixdownPath
+              mixdownScreen
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            // bpm: params.data.bpm,
+            description: params.data.description,
+            private: params.data.private,
+            slug: params.data.slug,
+            mixdownVideo: params.data.mixdownVideo,
+            mixdownPath: params.data.mixdownPath,
+            // mixdownScreen: params.data.mixdownScreen,
+            // owner: params.data.owner,
+            tracks: params.data.tracks,
+            category: params.data.category,
+            availableFrom: availableFrom,
+            genres: params.data.genres,
+            musicalInstruments: params.data.musicalInstruments,
+            rating: params.data.rating,
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
