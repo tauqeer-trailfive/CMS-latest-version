@@ -80,6 +80,7 @@ const UsersList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          omit={["email"]}
         >
           <UserLinkField label="Avatar & Name" />
           <TextField source="artistName" label="Artist Name" />
