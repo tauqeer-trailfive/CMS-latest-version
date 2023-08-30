@@ -3,18 +3,18 @@ import { ReferenceField, ReferenceFieldProps } from "react-admin";
 
 import IdField from "./IdField";
 
-const EffectReferenceField = (
+const CommentReferenceField = (
   props: Omit<ReferenceFieldProps, "reference" | "children" | "source"> & {
     source?: string;
   }
 ) => (
-  <ReferenceField source="id" reference="users" {...props}>
+  <ReferenceField source="id" reference="comments" {...props}>
     <IdField />
   </ReferenceField>
 );
 
-EffectReferenceField.defaultProps = {
+CommentReferenceField.defaultProps = {
   source: "id",
 };
 
-export default EffectReferenceField;
+export default CommentReferenceField;
