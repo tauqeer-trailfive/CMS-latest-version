@@ -32,6 +32,7 @@ import Samples from "../Samples";
 import Tracks from "../Tracks";
 import Projects from "../Projects";
 import Comments from "../Comments";
+import NewsItems from "../NewsItems";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -266,6 +267,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Comments.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/newsitems"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.newsitems.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<NewsItems.icon />}
         dense={dense}
       />
     </Box>

@@ -53,6 +53,8 @@ const getGqlResource = (resource: string) => {
       return "Project";
     case "comments":
       return "Comment";
+    case "newsitems":
+      return "NewsItems";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -2671,6 +2673,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         variables: {
           orderBy: `${params.sort.field}_${params.sort.order}`,
           filter: {
+            ...((params.filter.id || params.filter.q) && {
+              id_contains: params.filter.id || params.filter.q,
+            }),
             ...(params.filter.order && {
               order: params.filter.order,
             }),
@@ -2969,6 +2974,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               }
               tracks {
                 id
+                createdAt
               }
               genres {
                 id
@@ -3563,6 +3569,231 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           return {
             data: [response.data.data],
             // total: response.data.data.length,
+          };
+        },
+      };
+    }
+    /* NewsItems */
+    if (resource === "NewsItems" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query getNewsItems(
+            $where: NewsItemWhereInput
+            $orderBy: NewsItemOrderByInput
+            $skip: Int
+            $take: Int
+          ) {
+            data: getNewsItems(
+              where: $where
+              orderBy: $orderBy
+              skip: $skip
+              take: $take
+            ) {
+              createdAt
+              description
+              id
+              imageCoverPath
+              publicationEnd
+              publicationStart
+              title
+              url
+            }
+            newsItemsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.title || params.filter.q) && {
+              title_contains: params.filter.title || params.filter.q,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.newsItemsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "NewsItems" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query getNewsItem($where: NewsItemWhereUniqueInput!) {
+            data: getNewsItem(where: $where) {
+              createdAt
+              description
+              id
+              imageCoverPath
+              publicationEnd
+              publicationStart
+              title
+              url
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "NewsItems" && type === "UPDATE") {
+      let pubstart = new Date(params.data.publicationStart).toISOString();
+      let pubend = new Date(params.data.publicationEnd).toISOString();
+      return {
+        query: gql`
+          mutation updateNewsItem(
+            $data: NewsItemUpdateInput!
+            $where: NewsItemWhereUniqueInput
+          ) {
+            updateNewsItem(data: $data, where: $where) {
+              id
+              title
+              url
+              createdAt
+              imageCoverPath
+              description
+              publicationStart
+              publicationEnd
+            }
+          }
+        `,
+        variables: {
+          data: {
+            url: params.data.url,
+            title: params.data.title,
+            imageCoverPath: params.data.imageCoverPath,
+            description: params.data.description,
+            publicationStart: pubstart,
+            publicationEnd: pubend,
+          },
+          where: {
+            id: params.id,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.updateNewsItem,
+          };
+        },
+      };
+    }
+
+    if (resource === "NewsItems" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query getNewsItems($where: NewsItemWhereInput) {
+            data: getNewsItems(where: $where) {
+              id
+              url
+              title
+              createdAt
+              description
+              imageCoverPath
+              publicationEnd
+              publicationStart
+            }
+            newsItemsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.newsItemsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "NewsItems" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation DeleteNewsItem($where: NewsItemWhereUniqueInput!) {
+            data: deleteNewsItem(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "NewsItems" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteNewsItemMany($where: NewsItemWhereInput!) {
+            data: deleteNewsItemMany(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "NewsItems" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createNewsItem($data: NewsItemCreateInput!) {
+            createNewsItem(data: $data) {
+              id
+              url
+              title
+              createdAt
+              description
+              imageCoverPath
+              publicationEnd
+              publicationStart
+            }
+          }
+        `,
+        variables: {
+          data: {
+            url: params.data.url,
+            title: params.data.title,
+            imageCoverPath: params.data.imageCoverPath,
+            description: params.data.description,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.createNewsItem,
           };
         },
       };

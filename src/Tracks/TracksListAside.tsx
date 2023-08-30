@@ -39,6 +39,7 @@ const TracksListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
+        <FilterLiveSearch source="id" placeholder="Search by Track Id" />
         <FilterList
           label="resources.tracks.filters.is_muted"
           icon={<VolumeIcon />}

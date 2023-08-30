@@ -26,7 +26,7 @@ import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
 import { gql, useQuery } from "@apollo/client";
 
-const userFilters = [<SearchInput source="artistName" alwaysOn />];
+const userFilters = [<SearchInput source="id" alwaysOn />];
 
 const EXPORT_PROJECTS_QUERY = gql`
   query Query($model: ModelNames!) {

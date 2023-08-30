@@ -32,6 +32,7 @@ import samples from "./Samples";
 import tracks from "./Tracks";
 import projects from "./Projects";
 import comments from "./Comments";
+import newsitems from "./NewsItems";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -88,6 +89,7 @@ const App = () => (
     <Resource name="tracks" {...tracks} />
     <Resource name="projects" {...projects} />
     <Resource name="comments" {...comments} />
+    <Resource name="newsitems" {...newsitems} />
   </Admin>
 );
 
