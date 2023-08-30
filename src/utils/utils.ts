@@ -100,7 +100,7 @@ export const createBPMsOnCreateSamples = (
   return { create: arrayOfBPMS };
 };
 
-// Connectors while Creating projects
+// Connectors while Creating project
 
 export const connectMusicInstruInProjectCreate = (curr: string[]) => {
   const connector = curr.map((id, index: number) => {
@@ -130,4 +130,112 @@ export const connectTracksInProjectCreate = (curr: string[]) => {
   });
 
   return { connect: connector };
+};
+
+// Connectors & Disconnectors while Editing project
+
+export const musicalInstrConnectorOnEditProject = (
+  curr: { id: string; name: string; rank: number }[],
+  prev: { id: string; name: string; rank: number }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedInstruments = prev.filter(
+    (prevObj: { id: string; name: string; rank: number }) => {
+      return !curr.some(
+        (currObj: { id: string; name: string; rank: number }) =>
+          currObj.name === prevObj.name
+      );
+    }
+  );
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ name, id }, index: number) => {
+    return {
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedInstruments.map(({ id }, index: number) => {
+    return { id: id };
+  });
+
+  return { connect: connector, disconnect: disconnector };
+};
+
+export const genreConnectorOnEditProject = (
+  curr: { id: string }[],
+  prev: { id: string }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedGenre = prev.filter((prevObj: { id: string }) => {
+    return !curr.some((currObj: { id: string }) => currObj.id === prevObj.id);
+  });
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ id }) => {
+    return {
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedGenre.map(({ id }) => {
+    return { id: id };
+  });
+
+  return { connect: connector, disconnect: disconnector };
+};
+
+export const tracksConnectorOnEditProject = (
+  curr: { id: string }[],
+  prev: { id: string }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedTracks = prev.filter((prevObj: { id: string }) => {
+    return !curr.some((currObj: { id: string }) => currObj.id === prevObj.id);
+  });
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ id }) => {
+    return {
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedTracks.map(({ id }) => {
+    return { id: id };
+  });
+
+  return { connect: connector, disconnect: disconnector };
+};
+
+export const categoriesConnectorInProjEdit = (
+  AddpreDefinedCatagories: any,
+  getCurrentCatagories: any,
+  getRemovedCatagories: any
+) => {
+  const makeStructure = AddpreDefinedCatagories?.map((item, index) => {
+    return { name: item };
+  });
+
+  const combineTwoArrays = getCurrentCatagories?.concat(makeStructure);
+  const toBeAdded = combineTwoArrays?.map((category, index) => {
+    return {
+      where: {
+        name: category.name,
+      },
+      create: {
+        name: category.name,
+      },
+    };
+  });
+
+  const toBeDisconnect = getRemovedCatagories?.map((category, index) => {
+    return {
+      name: category.name,
+    };
+  });
+  return {
+    connectOrCreate: toBeAdded,
+    disconnect: toBeDisconnect,
+  };
 };

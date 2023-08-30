@@ -11,14 +11,18 @@ import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
 import {
   arrDiff,
+  categoriesConnectorInProjEdit,
   connectGenreInProjectCreate,
   connectMusicInstruInProjectCreate,
   connectTracksInProjectCreate,
   createBPMsOnCreateSamples,
   effectConnectorOnCreatePreset,
   effectConnectorOnEditPreset,
+  genreConnectorOnEditProject,
+  musicalInstrConnectorOnEditProject,
   musicallnstrumentConnector,
   RandomAvatars,
+  tracksConnectorOnEditProject,
 } from "../utils/utils";
 
 const getGqlResource = (resource: string) => {
@@ -2882,208 +2886,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     /* Projects */
-    function tracks(tracks_in_funtion: any) {
-      const idTracks = tracks_in_funtion;
-
-      const arrOfId: any[] = [];
-      if (idTracks && idTracks.length !== 0) {
-        for (const id of idTracks) {
-          arrOfId.push({ id });
-        }
-      }
-      if (arrOfId && arrOfId.length !== 0) {
-        params.data.tracks = { connect: arrOfId };
-      }
-      return params.data.tracks;
-    }
-
-    function genres(genres_in_funtion: any) {
-      const idGenres = genres_in_funtion;
-
-      const arrOfId: any[] = [];
-      if (idGenres && idGenres.length !== 0) {
-        for (const id of idGenres) {
-          arrOfId.push({ id });
-        }
-      }
-      if (arrOfId && arrOfId.length !== 0) {
-        params.data.genres = { connect: arrOfId };
-      }
-      return params.data.genres;
-    }
-
-    function getmanyprojects(projects_ids: any) {
-      const idOfProject: any[] = [];
-      // const arrayOfProject = params.ids
-      const arrayOfProject = projects_ids;
-      if (arrayOfProject.length !== 0) {
-        for (const set of arrayOfProject) {
-          if (set) {
-            if (typeof set === "object") {
-              //console.log("object");
-              idOfProject.push(set.id);
-            } else {
-              //console.log("not object");
-              idOfProject.push(set);
-            }
-          }
-        }
-      }
-      return idOfProject;
-    }
-
-    function updatemusicalinstrumentsinproject(
-      musicalinstruments_in_funtion: any,
-      disconnected_musicalinstruments: any
-    ) {
-      const idMusicalInstruments = musicalinstruments_in_funtion;
-      const arrOfId: any[] = [];
-      let MusicalInstrumentSets = {};
-      const arrayOfMusicalInstrumentIdDisc: any[] = [];
-      if (idMusicalInstruments && idMusicalInstruments.length !== 0) {
-        for (const id of idMusicalInstruments) {
-          arrOfId.push(id.id);
-        }
-      }
-      const connectArrayOfMusicalInstrument: any[] = [];
-
-      const arrOfPreviousMusicalInstrumentValue =
-        disconnected_musicalinstruments;
-
-      const arrOfPreviousMusicalInstrumentSetId: any[] = [];
-      if (
-        arrOfPreviousMusicalInstrumentValue &&
-        arrOfPreviousMusicalInstrumentValue.length !== 0
-      ) {
-        for (const id of arrOfPreviousMusicalInstrumentValue) {
-          arrOfPreviousMusicalInstrumentSetId.push(id.id);
-        }
-      }
-
-      const diff = arrDiff(arrOfPreviousMusicalInstrumentSetId, arrOfId);
-      if (arrOfId && arrOfId.length !== 0) {
-        for (const id of arrOfId) {
-          connectArrayOfMusicalInstrument.push({ id });
-        }
-        MusicalInstrumentSets = { connect: connectArrayOfMusicalInstrument };
-      }
-      if (diff.length !== 0) {
-        for (const set of diff) {
-          if (set) {
-            arrayOfMusicalInstrumentIdDisc.push({ id: set });
-          }
-        }
-      }
-
-      if (arrayOfMusicalInstrumentIdDisc.length !== 0) {
-        Object.assign(MusicalInstrumentSets, {
-          disconnect: arrayOfMusicalInstrumentIdDisc,
-        });
-      }
-
-      //console.log("MusicalInstrumentSets", MusicalInstrumentSets);
-
-      params.data.musicalInstruments = MusicalInstrumentSets;
-      return params.data.musicalInstruments;
-    }
-
-    function updatetracksinfoinproject(
-      tracks_in_funtion: any,
-      disconnected_tracks: any
-    ) {
-      const idTracks = tracks_in_funtion;
-      const arrOfId: any[] = [];
-      let trackSets = {};
-      const arrayOfTrackIdDisc: any[] = [];
-      if (idTracks && idTracks.length !== 0) {
-        for (const id of idTracks) {
-          arrOfId.push(id.id);
-        }
-      }
-      const connectArrayOfTrack: any[] = [];
-
-      const arrOfPreviousTrackValue = disconnected_tracks;
-
-      const arrayOfPreviousTrackSetId: any[] = [];
-      if (arrOfPreviousTrackValue && arrOfPreviousTrackValue.length !== 0) {
-        for (const id of arrOfPreviousTrackValue) {
-          arrayOfPreviousTrackSetId.push(id.id);
-        }
-      }
-
-      const diff = arrDiff(arrayOfPreviousTrackSetId, arrOfId);
-      if (arrOfId && arrOfId.length !== 0) {
-        for (const id of arrOfId) {
-          connectArrayOfTrack.push({ id });
-        }
-        trackSets = { connect: connectArrayOfTrack };
-      }
-      if (diff.length !== 0) {
-        for (const set of diff) {
-          if (set) {
-            arrayOfTrackIdDisc.push({ id: set });
-          }
-        }
-      }
-
-      if (arrayOfTrackIdDisc.length !== 0) {
-        Object.assign(trackSets, { disconnect: arrayOfTrackIdDisc });
-      }
-
-      //console.log("trackSets", trackSets);
-
-      params.data.tracks = trackSets;
-      return params.data.tracks;
-    }
-
-    function updategenresinfoinproject(
-      genres_in_funtion: any,
-      disconnected_genres: any
-    ) {
-      const idGenres = genres_in_funtion;
-      const arrOfId: any[] = [];
-      let genresSets = {};
-      const arrayOfGenreIdDisc: any[] = [];
-      if (idGenres && idGenres.length !== 0) {
-        for (const id of idGenres) {
-          arrOfId.push(id.id);
-        }
-      }
-      const connectArrayOfGenre: any[] = [];
-
-      const arrOfPreviousGenreValue = disconnected_genres;
-
-      const arrayOfPreviousGenreSetId: any[] = [];
-      if (arrOfPreviousGenreValue && arrOfPreviousGenreValue.length !== 0) {
-        for (const id of arrOfPreviousGenreValue) {
-          arrayOfPreviousGenreSetId.push(id.id);
-        }
-      }
-
-      const diff = arrDiff(arrayOfPreviousGenreSetId, arrOfId);
-      if (arrOfId && arrOfId.length !== 0) {
-        for (const id of arrOfId) {
-          connectArrayOfGenre.push({ id });
-        }
-        genresSets = { connect: connectArrayOfGenre };
-      }
-      if (diff.length !== 0) {
-        for (const set of diff) {
-          if (set) {
-            arrayOfGenreIdDisc.push({ id: set });
-          }
-        }
-      }
-
-      if (arrayOfGenreIdDisc.length !== 0) {
-        Object.assign(genresSets, { disconnect: arrayOfGenreIdDisc });
-      }
-
-      //console.log("genresSets", genresSets);
-
-      params.data.genres = genresSets;
-      return params.data.genres;
-    }
 
     if (resource === "Project" && type === "GET_ONE") {
       return {
@@ -3247,8 +3049,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Project" && type === "GET_MANY") {
-      const projects = getmanyprojects(params.ids);
-
       return {
         query: gql`
           query AllProjectsV1(
@@ -3309,7 +3109,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           }
         `,
         variables: {
-          filter: { id_in: projects },
+          filter: { id: { id_in: params.ids } },
         },
         options: { fetchPolicy: "network-only" },
         parseResponse: (response: any) => {
@@ -3446,96 +3246,15 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Project" && type === "UPDATE") {
-      delete params.data.id;
-      delete params.data.__typename;
-      delete params.data.createdAt;
-      const getCurrentCatagories = params.data.category;
-      const getRemovedCatagories = params.previousData.category;
-      const AddpreDefinedCatagories = params.data.AddpreDefinedCatagories;
-
-      const makeStructure = AddpreDefinedCatagories?.map((item, index) => {
-        return { name: item };
-      });
-
-      const combineTwoArrays = getCurrentCatagories?.concat(makeStructure);
-      const toBeAdded = combineTwoArrays?.map((category, index) => {
-        return {
-          where: {
-            name: category.name,
-          },
-          create: {
-            name: category.name,
-          },
-        };
-      });
-
-      const toBeDisconnect = getRemovedCatagories?.map((category, index) => {
-        return {
-          name: category.name,
-        };
-      });
-
-      // const toBeAdded = getCurrentCatagories?.map((category, index) => {
-      //   return {
-      //     where: {
-      //       name: category.name,
-      //     },
-      //     create: {
-      //       name: category.name,
-      //     },
-      //   };
-      // });
-
-      // const toBeDisconnect = getRemovedCatagories?.map((category, index) => {
-      //   return {
-      //     name: category.name,
-      //   };
-      // });
-
-      // //console.log("toBeAdded", toBeAdded);
-      // //console.log("toBeDisconnect", toBeDisconnect);
-
-      params.data.category = {
-        connectOrCreate: toBeAdded,
-        disconnect: toBeDisconnect,
-      };
-
-      params.data.owner = {
-        connect: { id: localStorage.getItem("user_id") },
-      };
-
-      let availableFrom = "";
-      if (params.data.availableFrom) {
-        availableFrom = new Date(params.data.availableFrom).toISOString();
-      }
-
-      if (
-        params.data.tracks
-        //  && params.data.tracks.length !== 0
-      ) {
-        params.data.tracks = updatetracksinfoinproject(
-          params.data.tracks,
-          params.previousData.tracks
-        );
-      }
-
-      if (
-        params.data.genres
-        // && params.data.genres.length !== 0
-      ) {
-        params.data.genres = updategenresinfoinproject(
-          params.data.genres,
-          params.previousData.genres
-        );
-      }
-
-      if (params.data.musicalInstruments) {
-        params.data.musicalInstruments = updatemusicalinstrumentsinproject(
-          params.data.musicalInstruments,
-          params.previousData.musicalInstruments
-        );
-      }
-
+      const cmi = params.data.musicalInstruments;
+      const pmi = params.previousData.musicalInstruments;
+      const cg = params.data.genres;
+      const pg = params.previousData.genres;
+      const ct = params.data.tracks;
+      const pt = params.previousData.tracks;
+      const ccat = params.data.category;
+      const pcat = params.previousData.category;
+      const AddpreDefine = params.data.AddpreDefinedCatagories;
       return {
         query: gql`
           mutation updateProject(
@@ -3588,17 +3307,16 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             mixdownPath: params.data.mixdownPath,
             // mixdownScreen: params.data.mixdownScreen,
             // owner: params.data.owner,
-            tracks: params.data.tracks,
-            category: params.data.category,
-            availableFrom: availableFrom,
-            genres: params.data.genres,
-            musicalInstruments: params.data.musicalInstruments,
+            category: categoriesConnectorInProjEdit(AddpreDefine, ccat, pcat),
+            availableFrom: new Date(params.data.availableFrom).toISOString(),
+            tracks: tracksConnectorOnEditProject(ct, pt),
+            genres: genreConnectorOnEditProject(cg, pg),
+            musicalInstruments: musicalInstrConnectorOnEditProject(cmi, pmi),
             rating: params.data.rating,
           },
           where: { id: params.id },
         },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
