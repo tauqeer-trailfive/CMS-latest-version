@@ -6,6 +6,8 @@ import {
   useGetOne,
   BooleanInput,
   NumberInput,
+  ReferenceInput,
+  AutocompleteInput,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Grid, Box, Typography, Modal } from "@mui/material";
@@ -64,13 +66,16 @@ const TrackEdit = () => {
               <Separator />
               <NumberInput source="pan" fullWidth />
               <Separator />
-              {/* <ReferenceInput
+              <ReferenceInput
                 label="Project"
-                source="project.id"
+                source="project"
                 reference="projects"
               >
-                <AutocompleteInput optionText="name" />
-              </ReferenceInput> */}
+                <AutocompleteInput
+                  optionText={(choice) => `${choice.name}  /  (${choice.id})`}
+                  optionValue="id"
+                />
+              </ReferenceInput>
             </Grid>
           </Grid>
           <Box mt="1em" />

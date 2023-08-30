@@ -2605,7 +2605,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
 
     /* Tracks */
     if (resource === "Track" && type === "GET_ONE") {
-      //console.log("in track getOne");
       return {
         query: gql`
           query Track($filter: TrackWhereUniqueInput!) {
@@ -2625,8 +2624,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: { filter: { id: params.id } },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
-
         parseResponse: (response: any) => {
           //console.log(response.data.data.project);
           return {
@@ -2696,20 +2693,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Track" && type === "GET_MANY") {
-      //console.log("in track GetMany");
-      const idOfTrack: any[] = [];
-      const arrayOfTrack = params.ids;
-      if (arrayOfTrack.length !== 0) {
-        for (const set of arrayOfTrack) {
-          if (set) {
-            if (typeof set === "object") {
-              idOfTrack.push(set.id);
-            } else {
-              idOfTrack.push(set);
-            }
-          }
-        }
-      }
       return {
         query: gql`
           query allTracks(
@@ -2728,18 +2711,19 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                 name
               }
             }
+            trackMeta(filter: $filter) {
+              count
+            }
           }
         `,
         variables: {
-          // orderBy: `${params.sort.order}`,
-          filter: { id_in: idOfTrack },
+          filter: { id_in: params.ids },
         },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
-            total: response.data.data.length,
+            total: response.data.trackMeta.count,
           };
         },
       };
@@ -2824,7 +2808,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         options: { fetchPolicy: "network-only" },
         variables: {
-          // projectId: params.data.project.id,
+          projectId: { connect: { id: params.data.project.id } },
           order: params.data.order,
           isMuted: params.data.isMuted,
           isSolo: params.data.isSolo,
@@ -2867,11 +2851,11 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             isSolo: params.data.isSolo,
             volume: params.data.volume,
             pan: params.data.pan,
-            // project: {
-            //   connect: {
-            //     id: params.data.project.id,
-            //   },
-            // },
+            project: {
+              connect: {
+                id: params.data.project.id,
+              },
+            },
           },
           where: { id: params.id },
         },
@@ -3109,7 +3093,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           }
         `,
         variables: {
-          filter: { id: { id_in: params.ids } },
+          filter: { id_in: params.ids },
         },
         options: { fetchPolicy: "network-only" },
         parseResponse: (response: any) => {

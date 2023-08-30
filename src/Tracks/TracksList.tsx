@@ -99,6 +99,11 @@ const TracksList = () => {
             FalseIcon={CancelCircle}
           />
           <DateField source="createdAt" showTime label="Created At" />
+          <ArrayField source="project">
+            <SingleFieldList linkType={false}>
+              <ChipField source="name" size="small" />
+            </SingleFieldList>
+          </ArrayField>
         </DatagridConfigurable>
       )}
     </List>

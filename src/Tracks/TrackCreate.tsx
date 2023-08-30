@@ -90,18 +90,21 @@ const TrackCreate = () => {
         <Separator />
         <NumberInput source="pan" fullWidth />
         <Separator />
-        {/* <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
+        <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
           <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
             <ReferenceInput
               label="Project"
-              source="project.id"
+              source="project"
               reference="projects"
               isRequired
             >
-              <AutocompleteInput optionText="name" variant="outlined" />
+              <AutocompleteInput
+                optionText={(choice) => `${choice.name}  /  (${choice.id})`}
+                optionValue="id"
+              />
             </ReferenceInput>
           </Box>
-        </Box> */}
+        </Box>
       </SimpleForm>
     </Create>
   );
