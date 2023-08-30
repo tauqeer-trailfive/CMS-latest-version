@@ -7,9 +7,8 @@ import {
   PasswordInput,
   email,
   SelectInput,
-  AutocompleteInput,
-  BooleanInput,
   NumberInput,
+  AutocompleteInput,
   ReferenceInput,
 } from "react-admin";
 import { Box, Typography } from "@mui/material";
@@ -18,34 +17,20 @@ export const validateForm = (
   values: Record<string, any>
 ): Record<string, any> => {
   const errors = {} as any;
-  if (!values.order) {
-    errors.order = "ra.validation.required";
+  if (!values.text) {
+    errors.text = "ra.validation.required";
   }
-  if (!values.pan) {
-    errors.pan = "ra.validation.required";
-  }
-  if (!values.volume) {
-    errors.volume = "ra.validation.required";
-  }
-  // if (!values.project.id) {
-  //   errors.project.id = "ra.validation.required";
-  // }
   return errors;
 };
 
-const TrackCreate = () => {
+const EffectCreate = () => {
   const translate = useTranslate();
   return (
     <Create redirect="list">
       <SimpleForm
         sx={{ maxWidth: 500 }}
-        // Here for the GQL provider
         defaultValues={{
-          order: 0,
-          volume: 0,
-          pan: 0,
-          isMuted: false,
-          isSolo: false,
+          text: "",
         }}
         validate={validateForm}
       >
@@ -54,51 +39,44 @@ const TrackCreate = () => {
           gutterBottom
           color={"primary"}
           align="left"
-          fontWeight={"800"}
+          fontWeight={"900"}
         >
-          {translate("resources.tracks.fieldGroups.createTrack")}
+          {translate("resources.comments.fieldGroups.createComment")}
         </Typography>
         <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
           <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-            <NumberInput source="order" fullWidth />
-          </Box>
-
-          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-            <NumberInput source="volume" fullWidth />
+            <TextInput source="text" isRequired fullWidth />
           </Box>
         </Box>
         <Separator />
         <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
           <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-            <BooleanInput
-              source="isMuted"
-              label="resources.tracks.fields.is_muted"
-              defaultValue={false}
-              color="primary"
-            />
-          </Box>
-
-          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-            <BooleanInput
-              source="isSolo"
-              label="resources.tracks.fields.is_solo"
-              defaultValue={false}
-              color="primary"
-            />
+            <ReferenceInput
+              label="User"
+              source="owner.id"
+              reference="users"
+              filter={{ role: ["SUPERADMIN", "ADMIN", "USER", "ANON"] }}
+            >
+              <AutocompleteInput
+                optionText={(choice) =>
+                  `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
+                }
+                optionValue="id"
+              />
+            </ReferenceInput>
           </Box>
         </Box>
-        <Separator />
-        <NumberInput source="pan" fullWidth />
-        <Separator />
         <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
           <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
             <ReferenceInput
               label="Project"
               source="project.id"
               reference="projects"
-              isRequired
+              sort={{ field: "publishedAt", order: "DESC" }}
+              filter={{ role: ["SUPERADMIN", "ADMIN", "USER", "ANON"] }}
             >
               <AutocompleteInput
+                key="project"
                 optionText={(choice) => `${choice.name}  /  (${choice.id})`}
                 optionValue="id"
               />
@@ -122,4 +100,4 @@ const SectionTitle = ({ label }: { label: string }) => {
 
 const Separator = () => <Box pt="1em" />;
 
-export default TrackCreate;
+export default EffectCreate;

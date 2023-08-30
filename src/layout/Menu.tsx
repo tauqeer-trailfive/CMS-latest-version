@@ -31,6 +31,7 @@ import Codes from "../ReferralCodes";
 import Samples from "../Samples";
 import Tracks from "../Tracks";
 import Projects from "../Projects";
+import Comments from "../Comments";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -256,6 +257,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Projects.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/comments"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.comments.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Comments.icon />}
         dense={dense}
       />
     </Box>

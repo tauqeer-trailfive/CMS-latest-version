@@ -68,7 +68,7 @@ const TrackEdit = () => {
               <Separator />
               <ReferenceInput
                 label="Project"
-                source="project"
+                source="project.id"
                 reference="projects"
               >
                 <AutocompleteInput

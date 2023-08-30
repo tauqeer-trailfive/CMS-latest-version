@@ -51,6 +51,8 @@ const getGqlResource = (resource: string) => {
       return "Track";
     case "projects":
       return "Project";
+    case "comments":
+      return "Comment";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -2787,7 +2789,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
       return {
         query: gql`
           mutation CreateTrack(
-            # $projectId: ID
+            $projectId: ID
             $order: Int
             $isMuted: Boolean
             $isSolo: Boolean
@@ -2795,7 +2797,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             $pan: Float
           ) {
             createTrack(
-              # projectId: $projectId
+              projectId: $projectId
               order: $order
               isMuted: $isMuted
               isSolo: $isSolo
@@ -3305,6 +3307,262 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           return {
             data: response.data.data,
             total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    /* Comments */
+    if (resource === "Comment" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query CommentsV1(
+            $orderBy: CommentOrderByInput
+            $where: CommentWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: commentsV1(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              createdAt
+              text
+              owner {
+                id
+                name
+                email
+              }
+              project {
+                id
+                name
+              }
+            }
+            commentsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            text_contains: params.filter.text || params.filter.q,
+          },
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.commentsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Comment" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query CommentsV1(
+            $orderBy: CommentOrderByInput
+            $where: CommentWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: commentsV1(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              createdAt
+              text
+              owner {
+                id
+                name
+                email
+              }
+              project {
+                id
+                name
+              }
+            }
+            commentsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          // where: {name_contains: params.filter.name},
+          // tslint:disable-next-line:object-literal-sort-keys
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.commentsMeta.count, // countResult.data.usersMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Comment" && type === "UPDATE") {
+      delete params.data.id;
+      delete params.data.__typename;
+      delete params.data.createdAt;
+      const idUser = params.data.owner.id;
+      const idProject = params.data.project.id;
+      params.data.owner = { connect: { id: idUser } };
+      params.data.project = { connect: { id: idProject } };
+      return {
+        query: gql`
+          mutation updateComment(
+            $data: CommentUpdateInput!
+            $where: CommentWhereUniqueInput!
+          ) {
+            data: updateComment(data: $data, where: $where) {
+              id
+              owner {
+                id
+              }
+              project {
+                id
+              }
+            }
+          }
+        `,
+        variables: {
+          data: params.data,
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Comment" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query comment($where: CommentWhereUniqueInput!) {
+            data: comment(where: $where) {
+              id
+              createdAt
+              owner {
+                id
+                email
+              }
+              project {
+                id
+                name
+              }
+              text
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Comment" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createComment($data: CommentCreateInput!) {
+            data: createComment(data: $data) {
+              text
+              id
+              owner {
+                name
+                id
+                email
+              }
+              project {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            text: params.data.text,
+            owner: { connect: { id: params.data.owner.id } },
+            project: { connect: { id: params.data.project.id } },
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            // total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Comment" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteComment($where: CommentWhereUniqueInput!) {
+            data: deleteComment(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            // total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Comment" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteComments($where: CommentWhereInput!) {
+            data: deleteComments(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+            // total: response.data.data.length,
           };
         },
       };

@@ -81,6 +81,7 @@ const TracksList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          omit={["project"]}
         >
           <TrackLinkField label="Id" />
           <NumberField source="order" label="Order" />
@@ -99,11 +100,7 @@ const TracksList = () => {
             FalseIcon={CancelCircle}
           />
           <DateField source="createdAt" showTime label="Created At" />
-          <ArrayField source="project">
-            <SingleFieldList linkType={false}>
-              <ChipField source="name" size="small" />
-            </SingleFieldList>
-          </ArrayField>
+          <ChipField source="project.name" size="small" />
         </DatagridConfigurable>
       )}
     </List>
