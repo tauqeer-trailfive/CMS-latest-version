@@ -143,7 +143,7 @@ const SampleCreate = () => {
           bpm: 0,
           url: "",
           mp3Url: "",
-          instrument: "",
+          instrument: null,
           sets: null,
         }}
         validate={validateForm}

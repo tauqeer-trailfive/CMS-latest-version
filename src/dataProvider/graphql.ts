@@ -11,6 +11,7 @@ import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
 import {
   arrDiff,
+  bpmConnectorOnEditSamples,
   categoriesConnectorInProjEdit,
   connectGenreInProjectCreate,
   connectMusicInstruInProjectCreate,
@@ -2491,6 +2492,8 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
       };
     }
     if (resource === "Sample" && type === "UPDATE") {
+      const cbpms = params.data.bpmTemp;
+      const pbpms = params.previousData.bpmTemp;
       return {
         query: gql`
           mutation updateSample(
@@ -2541,7 +2544,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             description: params.data.description,
             format: params.data.format,
             samplerate: params.data.samplerate,
-            bpmTemp: params.data.bpmdata,
+            bpmTemp: bpmConnectorOnEditSamples(cbpms, pbpms),
             instrument: params.data.instrument,
             createdBy: { connect: { id: params.data.createdBy.id } },
             genre: { connect: { id: params.data.genre.id } },
@@ -2549,7 +2552,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           where: { id: params.id },
         },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,

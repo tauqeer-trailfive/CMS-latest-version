@@ -86,7 +86,7 @@ export const effectConnectorOnEditPreset = (
 
   return { connect: connector, disconnect: disconnector };
 };
-
+/* In Samples */
 export const createBPMsOnCreateSamples = (
   recivedArrayOfBpms: { value: string; audioUrl: string; mp3Url: string }[]
 ) => {
@@ -98,6 +98,47 @@ export const createBPMsOnCreateSamples = (
     };
   });
   return { create: arrayOfBPMS };
+};
+export const bpmConnectorOnEditSamples = (
+  curr: { id: string }[],
+  prev: { id: string }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedBpms = prev.filter((prevObj: { id: string }) => {
+    return !curr.some((currObj: { id: string }) => currObj.id === prevObj.id);
+  });
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ id }) => {
+    return {
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedBpms.map(({ id }) => {
+    return { id: id };
+  });
+
+  let BPM_DATA_FOR_EDIT: any;
+  const bpmDataStorage = localStorage.getItem("BPM_DATA_FOR_EDIT");
+  if (bpmDataStorage !== "undefined") {
+    // //console.log("In Now");
+    BPM_DATA_FOR_EDIT = JSON?.parse(
+      localStorage.getItem("BPM_DATA_FOR_EDIT") as any
+    );
+  }
+
+  let UploadedBpms: any = [];
+  if (bpmDataStorage !== "undefined") {
+    UploadedBpms = BPM_DATA_FOR_EDIT?.map((item, index) => {
+      return {
+        value: item.value,
+        audioUrl: item.audioUrl,
+      };
+    });
+  }
+
+  return { connect: connector, disconnect: disconnector, create: UploadedBpms };
 };
 
 // Connectors while Creating project
