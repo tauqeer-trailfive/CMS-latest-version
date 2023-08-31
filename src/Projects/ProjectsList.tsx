@@ -26,6 +26,7 @@ import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import RatingField from "./RatingField";
 import { gql, useQuery } from "@apollo/client";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
+import ProjectShow from "./ProjectShow";
 
 const EXPORT_PROJECTS_QUERY = gql`
   query Query($model: ModelNames!) {
@@ -83,6 +84,8 @@ const ProjectsList = () => {
             },
           }}
           omit={["slug", "availableFrom", "createdAt", "private", "category"]}
+          rowClick="expand"
+          expand={<ProjectShow />}
         >
           <ProjectLinkField />
           <TextField source="name" label="resources.projects.fields.name" />
