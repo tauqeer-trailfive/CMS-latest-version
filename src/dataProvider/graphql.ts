@@ -14,6 +14,7 @@ import {
   categoriesConnectorInProjEdit,
   connectGenreInProjectCreate,
   connectMusicInstruInProjectCreate,
+  connectSamplesInSampSetCreate,
   connectTracksInProjectCreate,
   createBPMsOnCreateSamples,
   effectConnectorOnCreatePreset,
@@ -22,6 +23,7 @@ import {
   musicalInstrConnectorOnEditProject,
   musicallnstrumentConnector,
   RandomAvatars,
+  samplesConnectorOnEditSamplesSet,
   tracksConnectorOnEditProject,
 } from "../utils/utils";
 
@@ -55,6 +57,8 @@ const getGqlResource = (resource: string) => {
       return "Comment";
     case "newsitems":
       return "NewsItems";
+    case "samplesets":
+      return "SampleSet";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -2350,29 +2354,16 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               baseTone
               scaleMode
               url
-
-              tags {
-                id
-              }
-              sets {
-                id
-                name
-                description
-              }
-            }
-            samplesMeta(where: $where) {
-              count
             }
           }
         `,
         variables: {
-          variables: { where: { id: { id_in: params.ids } } },
+          where: { id_in: params.ids },
         },
         options: { fetchPolicy: "network-only" },
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
-            total: response.data.samplesMeta.count,
           };
         },
       };
@@ -3794,6 +3785,275 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: response.data.createNewsItem,
+          };
+        },
+      };
+    }
+
+    /* Samples Sets */
+    if (resource === "SampleSet" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query sampleSets(
+            $orderBy: SampleSetOrderByInput
+            $where: SampleSetWhereInput
+            $first: Int
+            $skip: Int
+          ) {
+            data: sampleSets(
+              orderBy: $orderBy
+              where: $where
+              first: $first
+              skip: $skip
+            ) {
+              id
+              createdAt
+              name
+              description
+              owner {
+                name
+                id
+              }
+              samples {
+                id
+                name
+              }
+              genre {
+                id
+                name
+              }
+            }
+            sampleSetsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+          },
+          first: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.sampleSetsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "SampleSet" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query sampleSets($where: SampleSetWhereInput) {
+            data: sampleSets(where: $where) {
+              id
+              createdAt
+              name
+              description
+              owner {
+                name
+                id
+              }
+              samples {
+                id
+                name
+              }
+              genre {
+                id
+                name
+              }
+            }
+            sampleSetsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: {
+            id_in: params.ids,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.sampleSetsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "SampleSet" && type === "UPDATE") {
+      const csamples = params.data.samples;
+      const psamples = params.previousData.samples;
+      return {
+        query: gql`
+          mutation updateSampleSet(
+            $data: SampleSetUpdateInput!
+            $where: SampleSetWhereUniqueInput!
+          ) {
+            data: updateSampleSet(data: $data, where: $where) {
+              id
+              createdAt
+              name
+              description
+              owner {
+                name
+                id
+              }
+              samples {
+                id
+                name
+              }
+              genre {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            owner: { connect: { id: params.data.owner.id } },
+            genre: { connect: { id: params.data.genre.id } },
+            description: params.data.description,
+            samples: samplesConnectorOnEditSamplesSet(csamples, psamples),
+          },
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "SampleSet" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query sampleSet($where: SampleSetWhereUniqueInput!) {
+            data: sampleSet(where: $where) {
+              id
+              createdAt
+              name
+              description
+              owner {
+                name
+                id
+              }
+              samples {
+                id
+                name
+              }
+              genre {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "SampleSet" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createSampleSet($data: SampleSetCreateInput!) {
+            data: createSampleSet(data: $data) {
+              id
+              createdAt
+              name
+              description
+              owner {
+                name
+                id
+              }
+              samples {
+                id
+                name
+              }
+              genre {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            description: params.data.description,
+            owner: { connect: { id: params.data.owner.id } },
+            genre: { connect: { id: params.data.genre.id } },
+            samples: connectSamplesInSampSetCreate(params.data.samples),
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "SampleSet" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteSampleSet($where: SampleSetWhereUniqueInput!) {
+            data: deleteSampleSet(where: $where) {
+              id
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "SampleSet" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteSampleSets($where: SampleSetWhereInput!) {
+            data: deleteSampleSets(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
           };
         },
       };

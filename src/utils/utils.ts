@@ -239,3 +239,42 @@ export const categoriesConnectorInProjEdit = (
     disconnect: toBeDisconnect,
   };
 };
+
+/* Samples Sets */
+export const connectSamplesInSampSetCreate = (curr: string[]) => {
+  const connector = curr.map((id, index: number) => {
+    return {
+      id: id,
+    };
+  });
+
+  return { connect: connector };
+};
+
+export const samplesConnectorOnEditSamplesSet = (
+  curr: { id: string; name: string; rank: number }[],
+  prev: { id: string; name: string; rank: number }[]
+) => {
+  /* Filtering out the disconnected instruments by compairing arrays */
+  const disconnectedSamples = prev.filter(
+    (prevObj: { id: string; name: string; rank: number }) => {
+      return !curr.some(
+        (currObj: { id: string; name: string; rank: number }) =>
+          currObj.name === prevObj.name
+      );
+    }
+  );
+
+  /* Making connect and disconnect form for query variable for createOrConnect is not working */
+  const connector = curr.map(({ name, id }, index: number) => {
+    return {
+      id: id,
+    };
+  });
+
+  const disconnector = disconnectedSamples.map(({ id }, index: number) => {
+    return { id: id };
+  });
+
+  return { connect: connector, disconnect: disconnector };
+};

@@ -33,6 +33,7 @@ import Tracks from "../Tracks";
 import Projects from "../Projects";
 import Comments from "../Comments";
 import NewsItems from "../NewsItems";
+import SampleSets from "../SampleSets";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -151,15 +152,6 @@ const Menu = ({ dense = false }: MenuProps) => {
                 dense={dense}
             /> */}
       <MenuItemLink
-        to="/users"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.users.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<UsersList.icon />}
-        dense={dense}
-      />
-      <MenuItemLink
         to="/contests"
         state={{ _scrollToTop: true }}
         primaryText={translate(`resources.contests.name`, {
@@ -169,59 +161,21 @@ const Menu = ({ dense = false }: MenuProps) => {
         dense={dense}
       />
       <MenuItemLink
-        to="/musicalInstruments"
+        to="/newsitems"
         state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.musicalInstruments.name`, {
+        primaryText={translate(`resources.newsitems.name`, {
           smart_count: 2,
         })}
-        leftIcon={<Instruments.icon />}
+        leftIcon={<NewsItems.icon />}
         dense={dense}
       />
       <MenuItemLink
-        to="/genres"
+        to="/users"
         state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.genres.name`, {
+        primaryText={translate(`resources.users.name`, {
           smart_count: 2,
         })}
-        leftIcon={<Genres.icon />}
-        dense={dense}
-      />
-      <MenuItemLink
-        to="/effects"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.effects.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<Effects.icon />}
-        dense={dense}
-      />
-
-      <MenuItemLink
-        to="/presets"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.presets.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<Presets.icon />}
-        dense={dense}
-      />
-
-      <MenuItemLink
-        to="/bpmTemp"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.bpms.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<Bpms.icon />}
-        dense={dense}
-      />
-      <MenuItemLink
-        to="/projectcategories"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.projectcategories.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<ProjectCategories.icon />}
+        leftIcon={<UsersList.icon />}
         dense={dense}
       />
       <MenuItemLink
@@ -231,15 +185,6 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Codes.icon />}
-        dense={dense}
-      />
-      <MenuItemLink
-        to="/samples"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.samples.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<Samples.icon />}
         dense={dense}
       />
       <MenuItemLink
@@ -270,12 +215,75 @@ const Menu = ({ dense = false }: MenuProps) => {
         dense={dense}
       />
       <MenuItemLink
-        to="/newsitems"
+        to="/effects"
         state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.newsitems.name`, {
+        primaryText={translate(`resources.effects.name`, {
           smart_count: 2,
         })}
-        leftIcon={<NewsItems.icon />}
+        leftIcon={<Effects.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/presets"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.presets.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Presets.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/samples"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.samples.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Samples.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/samplesets"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.samplesets.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<SampleSets.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/projectcategories"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.projectcategories.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<ProjectCategories.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/musicalInstruments"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.musicalInstruments.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Instruments.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/genres"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.genres.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Genres.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/bpmTemp"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.bpms.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Bpms.icon />}
         dense={dense}
       />
     </Box>
