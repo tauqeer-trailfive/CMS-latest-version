@@ -1,27 +1,14 @@
 import * as React from "react";
 import { Card, CardContent } from "@mui/material";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOnOutlined";
-import MailIcon from "@mui/icons-material/MailOutline";
-import LocalOfferIcon from "@mui/icons-material/LocalOfferOutlined";
-import RoleIcon from "@mui/icons-material/TaskAlt";
 import VolumeIcon from "@mui/icons-material/VolumeOffRounded";
 import MusicIcon from "@mui/icons-material/MusicNoteRounded";
-
 import {
   FilterList,
   FilterListItem,
   FilterLiveSearch,
   SavedQueriesList,
-  useListContext,
 } from "react-admin";
-import {
-  endOfYesterday,
-  startOfWeek,
-  subWeeks,
-  startOfMonth,
-  subMonths,
-} from "date-fns";
+import SaveQueryIcon from "@mui/icons-material/BookmarkAddedRounded";
 
 const TracksListAside = () => {
   return (
@@ -40,6 +27,7 @@ const TracksListAside = () => {
     >
       <CardContent sx={{ pt: 1 }}>
         <FilterLiveSearch source="id" placeholder="Search by Track Id" />
+        <SavedQueriesList icon={<SaveQueryIcon />} />
         <FilterList
           label="resources.tracks.filters.is_muted"
           icon={<VolumeIcon />}

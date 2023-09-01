@@ -34,6 +34,7 @@ import Projects from "../Projects";
 import Comments from "../Comments";
 import NewsItems from "../NewsItems";
 import SampleSets from "../SampleSets";
+import TimelineItems from "../TimelineItems";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -284,6 +285,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Bpms.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/timelineitems"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.timelineitems.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<TimelineItems.icon />}
         dense={dense}
       />
     </Box>

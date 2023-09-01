@@ -10,7 +10,6 @@ import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
 import {
-  arrDiff,
   bpmConnectorOnEditSamples,
   categoriesConnectorInProjEdit,
   connectGenreInProjectCreate,
@@ -60,6 +59,8 @@ const getGqlResource = (resource: string) => {
       return "NewsItems";
     case "samplesets":
       return "SampleSet";
+    case "timelineitems":
+      return "Timelineitem";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -4056,6 +4057,288 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    /* Timeline Items */
+    if (resource === "Timelineitem" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query TimelineItem($where: TimelineItemWhereUniqueInput!) {
+            data: timelineItem(where: $where) {
+              id
+              type
+              text
+              startStickyDate
+              endStickyDate
+              weight
+              relatedProject {
+                id
+                name
+              }
+              owner {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Timelineitem" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query AllTimelineItems(
+            $filter: TimelineItemWhereInput
+            $orderBy: TimelineItemOrderByInput
+            $take: Int
+            $skip: Int
+          ) {
+            data: allTimelineItems(
+              filter: $filter
+              orderBy: $orderBy
+              take: $take
+              skip: $skip
+            ) {
+              id
+              type
+              text
+              createdAt
+              startStickyDate
+              endStickyDate
+              weight
+              relatedProject {
+                id
+                name
+              }
+              owner {
+                id
+                name
+              }
+            }
+            timelineItemsMeta(where: $filter) {
+              count
+            }
+          }
+        `,
+        variables: {
+          filter: {
+            ...((params.filter.text || params.filter.q) && {
+              text_contains: params.filter.text || params.filter.q,
+            }),
+            ...((params.filter.type || params.filter.q) && {
+              type_in: params.filter.type || params.filter.q,
+            }),
+          },
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.timelineItemsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Timelineitem" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query GetLastGlobalTimelineItem(
+            $where: TimelineItemWhereInput
+            $orderBy: TimelineItemOrderByInput
+          ) {
+            data: timelineItems(orderBy: $orderBy, where: $where) {
+              id
+              type
+              text
+              startStickyDate
+              endStickyDate
+              weight
+              relatedProject {
+                id
+                name
+              }
+              owner {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {},
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Timelineitem" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteTimelineItem($where: TimelineItemWhereUniqueInput!) {
+            data: deleteTimelineItem(where: $where) {
+              id
+            }
+          }
+        `,
+        // variables: {
+        //     where: params.id
+        // },
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            // total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Timelineitem" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteTimelineItems($where: TimelineItemWhereInput!) {
+            data: deleteTimelineItems(where: $where) {
+              count
+            }
+          }
+        `,
+
+        variables: {
+          where: { id_in: params.ids },
+        },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+            // total: response.data.data.length,
+          };
+        },
+      };
+
+      // fet.then(() => {
+
+      // })
+      //
+    }
+
+    if (resource === "Timelineitem" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createTimelineItem($data: TimelineItemCreateInput!) {
+            data: createTimelineItem(data: $data) {
+              id
+              type
+              text
+              startStickyDate
+              endStickyDate
+              weight
+              relatedProject {
+                id
+                name
+              }
+              owner {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            type: params.data.type,
+            text: params.data.text,
+            // owner : params.data.owner,
+          },
+        },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            // total: response.data.data.length,
+          };
+        },
+      };
+    }
+
+    if (resource === "Timelineitem" && type === "UPDATE") {
+      // const idUser = params.data.owner.id
+      // params.data.owner = { connect: { id: idUser } }
+      delete params.data.id;
+      delete params.data.__typename;
+      delete params.data.createdAt;
+      delete params.data.relatedProject;
+      if (params.data.endStickyDate === "") {
+        params.data.endStickyDate = null;
+      }
+      if (params.data.startStickyDate === "") {
+        params.data.startStickyDate = null;
+      }
+      return {
+        query: gql`
+          mutation updateTimelineItem(
+            $data: TimelineItemUpdateInput!
+            $where: TimelineItemWhereUniqueInput!
+          ) {
+            data: updateTimelineItem(data: $data, where: $where) {
+              id
+              type
+              text
+              startStickyDate
+              endStickyDate
+              weight
+              relatedProject {
+                id
+                name
+              }
+              owner {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          data: {
+            type: params.data.type,
+            text: params.data.text,
+            // owner : params.data.owner,
+            // weight : params.data.weight,
+            // startStickyDate : params.data.startStickyDate,
+            // endStickyDate : params.data.endStickyDate,
+          },
+          // data: params.data,
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        // tslint:disable-next-line:object-literal-sort-keys
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.data.length,
           };
         },
       };

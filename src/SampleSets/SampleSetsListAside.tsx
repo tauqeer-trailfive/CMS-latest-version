@@ -1,27 +1,7 @@
 import * as React from "react";
 import { Card, CardContent } from "@mui/material";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOnOutlined";
-import MailIcon from "@mui/icons-material/MailOutline";
-import LocalOfferIcon from "@mui/icons-material/LocalOfferOutlined";
-import RoleIcon from "@mui/icons-material/TaskAlt";
-
-import {
-  FilterList,
-  FilterListItem,
-  FilterLiveSearch,
-  SavedQueriesList,
-  useListContext,
-} from "react-admin";
-import {
-  endOfYesterday,
-  startOfWeek,
-  subWeeks,
-  startOfMonth,
-  subMonths,
-} from "date-fns";
-
-import segments from "../segments/data";
+import { FilterLiveSearch, SavedQueriesList } from "react-admin";
+import SaveQueryIcon from "@mui/icons-material/BookmarkAddedRounded";
 
 const SampleSetsListAside = () => {
   return (
@@ -40,7 +20,7 @@ const SampleSetsListAside = () => {
     >
       <CardContent sx={{ pt: 1 }}>
         <FilterLiveSearch source="name" placeholder="Name" />
-        <SavedQueriesList />
+        <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>
   );

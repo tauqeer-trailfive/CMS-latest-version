@@ -1,15 +1,16 @@
 import * as React from "react";
 import { Card, CardContent } from "@mui/material";
 import RoleIcon from "@mui/icons-material/TaskAlt";
+import SaveQueryIcon from "@mui/icons-material/BookmarkAddedRounded";
+
 import {
   FilterList,
   FilterListItem,
   FilterLiveSearch,
   SavedQueriesList,
 } from "react-admin";
-import SaveQueryIcon from "@mui/icons-material/BookmarkAddedRounded";
 
-const GenresListAside = () => {
+const TimelineItemsListAside = () => {
   return (
     <Card
       sx={{
@@ -25,52 +26,52 @@ const GenresListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="name" placeholder="Name" />
+        <FilterLiveSearch source="text" placeholder="Text" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
         <FilterList
-          label="resources.effects.filters.typeOfEffect"
+          label="resources.timelineitems.filters.type"
           icon={<RoleIcon />}
         >
           <FilterListItem
-            label="resources.effects.filters.DELAYBPM"
+            label="resources.timelineitems.filters.NEWRECORDING"
             value={{
-              typeOfEffect: "DELAYBPM",
+              type: "NEWRECORDING",
             }}
           />
           <FilterListItem
-            label="resources.effects.filters.DELAY"
+            label="resources.timelineitems.filters.NEWPROJECT"
             value={{
-              typeOfEffect: "DELAY",
+              type: "NEWPROJECT",
             }}
           />
           <FilterListItem
-            label="resources.effects.filters.REVERB"
+            label="resources.timelineitems.filters.NEWUSER"
             value={{
-              typeOfEffect: "REVERB",
+              type: "NEWUSER",
             }}
           />
           <FilterListItem
-            label="resources.effects.filters.EQUALIZER"
+            label="resources.timelineitems.filters.NEWFOLLOWER"
             value={{
-              typeOfEffect: "EQUALIZER",
+              type: "NEWFOLLOWER",
             }}
           />
           <FilterListItem
-            label="resources.effects.filters.COMPRESSOR"
+            label="resources.timelineitems.filters.NEWDERIVATIVE"
             value={{
-              typeOfEffect: "COMPRESSOR",
+              type: "NEWDERIVATIVE",
             }}
           />
           <FilterListItem
-            label="resources.effects.filters.COMPR_MASTERBUS"
+            label="resources.timelineitems.filters.LISTENPROJECT"
             value={{
-              typeOfEffect: "COMPRESSORMASTERBUS",
+              type: "LISTENPROJECT",
             }}
           />
           <FilterListItem
-            label="resources.effects.filters.LIMITER"
+            label="resources.timelineitems.filters.DJAMMPROJECT"
             value={{
-              typeOfEffect: "LIMITER",
+              type: "DJAMMPROJECT",
             }}
           />
         </FilterList>
@@ -79,4 +80,4 @@ const GenresListAside = () => {
   );
 };
 
-export default GenresListAside;
+export default TimelineItemsListAside;

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Card, CardContent } from "@mui/material";
 import { FilterLiveSearch, SavedQueriesList } from "react-admin";
+import SaveQueryIcon from "@mui/icons-material/BookmarkAddedRounded";
 
 const ReferralCodesListAside = () => {
   return (
@@ -19,7 +20,7 @@ const ReferralCodesListAside = () => {
     >
       <CardContent sx={{ pt: 1 }}>
         <FilterLiveSearch source="code" placeholder="Code" />
-        <SavedQueriesList />
+        <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>
   );

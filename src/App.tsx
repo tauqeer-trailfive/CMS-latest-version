@@ -34,6 +34,7 @@ import projects from "./Projects";
 import comments from "./Comments";
 import newsitems from "./NewsItems";
 import samplesets from "./SampleSets";
+import timelineitems from "./TimelineItems";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -92,6 +93,7 @@ const App = () => (
     <Resource name="comments" {...comments} />
     <Resource name="newsitems" {...newsitems} />
     <Resource name="samplesets" {...samplesets} />
+    <Resource name="timelineitems" {...timelineitems} />
   </Admin>
 );
 

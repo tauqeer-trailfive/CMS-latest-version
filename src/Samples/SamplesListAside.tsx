@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Card, CardContent } from "@mui/material";
 import CloudSyncTwoToneIcon from "@mui/icons-material/CloudSyncTwoTone";
+import SaveQueryIcon from "@mui/icons-material/BookmarkAddedRounded";
 import {
   Button,
   FilterLiveSearch,
@@ -73,7 +74,7 @@ const SamplesListAside = () => {
       <CardContent sx={{ pt: 1 }}>
         <FilterLiveSearch source="name" placeholder="Sample Name" />
         <FilterLiveSearch source="bpm" placeholder="BPM" />
-        <SavedQueriesList />
+        <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>
   );
