@@ -22,6 +22,7 @@ import PlaylistsListAside from "./PlaylistsListAside";
 import PlaylistLinkField from "./PlaylistLinkField";
 import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
+import PlaylistShow from "./PlaylistShow";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -57,6 +58,8 @@ const PlaylistsList = () => {
             },
           }}
           omit={["orderedProjects"]}
+          rowClick="expand"
+          expand={<PlaylistShow />}
         >
           <PlaylistLinkField sortable={false} />
           <BooleanField
