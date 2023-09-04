@@ -47,6 +47,7 @@ const i18nProvider = polyglotI18nProvider(
     return englishMessages;
   },
   "en",
+  { allowMissing: true },
   [
     { locale: "en", name: "English" },
     // { locale: "nl", name: "Dutch" },
