@@ -37,6 +37,7 @@ import SampleSets from "../SampleSets";
 import TimelineItems from "../TimelineItems";
 import PushNotifications from "../PushNotification";
 import Playlists from "../Playlists";
+import Homesreens from "../Homesreens";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -215,6 +216,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Projects.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/homescreens"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.homescreens.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Homesreens.icon />}
         dense={dense}
       />
       <MenuItemLink

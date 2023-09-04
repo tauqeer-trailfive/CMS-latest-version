@@ -10,10 +10,12 @@ import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import configFile from "../configFile";
 import {
+  arrDiff,
   bpmConnectorOnEditSamples,
   categoriesConnectorInProjEdit,
   connectGenreInProjectCreate,
   connectMusicInstruInProjectCreate,
+  connectRegionsInHSCreate,
   connectSamplesInSampSetCreate,
   connectTracksInProjectCreate,
   createBPMsOnCreateSamples,
@@ -22,7 +24,9 @@ import {
   genreConnectorOnEditProject,
   musicalInstrConnectorOnEditProject,
   musicallnstrumentConnector,
+  playlistsConnectorOnEditHS,
   RandomAvatars,
+  regionConnectorOnEditHS,
   samplesConnectorOnEditSamplesSet,
   tracksConnectorOnEditProject,
 } from "../utils/utils";
@@ -65,6 +69,8 @@ const getGqlResource = (resource: string) => {
       return "Notification";
     case "playlists":
       return "Playlist";
+    case "homescreens":
+      return "HomeScreen";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -4590,6 +4596,341 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             projects: params.data.orderedProjects,
             playlist_project: params.data.update_playlist_projects,
             total: response.data.data.length,
+          };
+        },
+      };
+    }
+    /* HomeScreens */
+
+    if (resource === "HomeScreen" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query getHomescreenConfig($where: HomescreenWhereInput!) {
+            data: getHomescreenConfig(where: $where) {
+              id
+              updatedAt
+              createdAt
+              title
+              description
+              offset
+              visibility
+              type
+              limit
+              contestId
+              playlist {
+                id
+                name
+              }
+              user {
+                id
+                email
+                username
+                name
+                artistName
+              }
+              region {
+                id
+                name
+              }
+              status
+              priority
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data[0],
+          };
+        },
+      };
+    }
+
+    if (resource === "HomeScreen" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query getHomescreenConfig(
+            $orderBy: HomescreenOrderByInput!
+            $where: HomescreenWhereInput!
+            $take: Int!
+            $skip: Int!
+          ) {
+            data: getHomescreenConfig(
+              orderBy: $orderBy
+              where: $where
+              take: $take
+              skip: $skip
+            ) {
+              id
+              updatedAt
+              createdAt
+              title
+              description
+              type
+              limit
+              offset
+              visibility
+              contestId
+              playlist {
+                id
+                name
+              }
+              user {
+                id
+                email
+                username
+                name
+                artistName
+              }
+              region {
+                name
+                id
+              }
+              status
+              priority
+            }
+            homescreenMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...(params?.filter?.region && {
+              region_some: { name: params.filter.region },
+            }),
+            ...((params.filter.title || params.filter.q) && {
+              title_contains: params.filter.title || params.filter.q,
+            }),
+            ...(params.filter.status && { status: params.filter.status }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.homescreenMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "HomeScreen" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query getHomescreenConfig($where: HomescreenWhereInput!) {
+            data: getHomescreenConfig(where: $where) {
+              id
+              updatedAt
+              createdAt
+              title
+              description
+              type
+              limit
+              offset
+              visibility
+              contestId
+              playlist {
+                id
+                name
+              }
+              user {
+                id
+                email
+                username
+                name
+                artistName
+              }
+              region {
+                id
+                name
+              }
+              status
+              priority
+            }
+            homescreenMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "HomeScreen" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deleteHomescreenConfig($where: HomescreenWhereInput!) {
+            data: deleteHomescreenConfig(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "HomeScreen" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deleteHomescreenConfig($where: HomescreenWhereInput!) {
+            data: deleteHomescreenConfig(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "HomeScreen" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createHomescreenConfig($data: HomescreenCreateInput!) {
+            data: createHomescreenConfig(data: $data) {
+              id
+              updatedAt
+              createdAt
+              title
+              description
+              offset
+              visibility
+              type
+              limit
+              contestId
+              playlist {
+                id
+                name
+              }
+              user {
+                id
+                email
+                username
+                name
+                artistName
+              }
+              region {
+                id
+                name
+              }
+              status
+              priority
+            }
+          }
+        `,
+        variables: {
+          data: {
+            title: params.data.title,
+            offset: params.data.offset,
+            visibility: params.data.visibility,
+            type: params.data.type,
+            status: params.data.status,
+            contestId: params.data.contestId,
+            priority: params.data.priority,
+            playlist: params.data.playlists,
+            user: { connect: { id: localStorage.getItem("user_id") } },
+            limit: params.data.limit,
+            description: params.data.description,
+            region: connectRegionsInHSCreate(params.data.regions),
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "HomeScreen" && type === "UPDATE") {
+      const cregions = params.data.region;
+      const pregions = params.previousData.region;
+      const cplaylists = params.data.playlist;
+      const pplaylists = params.previousData.playlist;
+      return {
+        query: gql`
+          mutation updateHomescreenConfig(
+            $data: HomescreenUpdateInput!
+            $where: HomescreenWhereUniqueInput!
+          ) {
+            data: updateHomescreenConfig(data: $data, where: $where) {
+              id
+              updatedAt
+              createdAt
+              title
+              description
+              offset
+              visibility
+              type
+              limit
+              contestId
+              playlist {
+                id
+                name
+              }
+              user {
+                id
+                email
+                username
+                name
+                artistName
+              }
+              region {
+                id
+                name
+              }
+              status
+              priority
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+          data: {
+            title: params.data.title,
+            type: params.data.type,
+            contestId: params.data.contestId,
+            status: params.data.status,
+            priority: params.data.priority,
+            limit: params.data.limit,
+            offset: params.data.offset,
+            visibility: params.data.visibility,
+            description: params.data.description,
+            playlist: playlistsConnectorOnEditHS(cplaylists, pplaylists),
+            region: regionConnectorOnEditHS(cregions, pregions),
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
           };
         },
       };
