@@ -63,6 +63,8 @@ const getGqlResource = (resource: string) => {
       return "Timelineitem";
     case "notification":
       return "Notification";
+    case "playlists":
+      return "Playlist";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -4089,7 +4091,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: { where: { id: params.id } },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
@@ -4185,7 +4186,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: {},
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
@@ -4204,16 +4204,11 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             }
           }
         `,
-        // variables: {
-        //     where: params.id
-        // },
         variables: { where: { id: params.id } },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
-            // total: response.data.data.length,
           };
         },
       };
@@ -4232,19 +4227,12 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         variables: {
           where: { id_in: params.ids },
         },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: [response.data.data],
-            // total: response.data.data.length,
           };
         },
       };
-
-      // fet.then(() => {
-
-      // })
-      //
     }
 
     if (resource === "Timelineitem" && type === "CREATE") {
@@ -4273,26 +4261,17 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           data: {
             type: params.data.type,
             text: params.data.text,
-            // owner : params.data.owner,
           },
         },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
-            // total: response.data.data.length,
           };
         },
       };
     }
 
     if (resource === "Timelineitem" && type === "UPDATE") {
-      // const idUser = params.data.owner.id
-      // params.data.owner = { connect: { id: idUser } }
-      delete params.data.id;
-      delete params.data.__typename;
-      delete params.data.createdAt;
-      delete params.data.relatedProject;
       if (params.data.endStickyDate === "") {
         params.data.endStickyDate = null;
       }
@@ -4327,19 +4306,289 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           data: {
             type: params.data.type,
             text: params.data.text,
-            // owner : params.data.owner,
-            // weight : params.data.weight,
-            // startStickyDate : params.data.startStickyDate,
-            // endStickyDate : params.data.endStickyDate,
           },
-          // data: params.data,
           where: { id: params.id },
         },
         options: { fetchPolicy: "network-only" },
-        // tslint:disable-next-line:object-literal-sort-keys
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
+            total: response.data.data.length,
+          };
+        },
+      };
+    }
+    /* Playlists */
+    if (resource === "Playlist" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query playlist($where: PlaylistWhereUniqueInput!) {
+            data: playlist(where: $where) {
+              id
+              name
+              public
+              orderedProjects {
+                id
+                sortOrder
+                dropDate
+                additionDate
+                project {
+                  id
+                  name
+                  clapsCount
+                  commentsCount
+                  views
+                }
+              }
+              owner {
+                id
+                name
+              }
+              projects {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: { where: { id: params.id } },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Playlist" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query playlists(
+            $orderBy: PlaylistOrderByInput!
+            $where: PlaylistWhereInput!
+            $take: Int!
+            $skip: Int!
+          ) {
+            data: playlists(
+              orderBy: $orderBy
+              where: $where
+              take: $take
+              skip: $skip
+            ) {
+              id
+              createdAt
+              name
+              public
+              owner {
+                id
+                name
+              }
+              orderedProjects {
+                id
+                sortOrder
+                dropDate
+                additionDate
+                project {
+                  id
+                  name
+                  clapsCount
+                  commentsCount
+                  views
+                }
+              }
+              projects {
+                id
+                name
+              }
+            }
+            playlistsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+            ...(params.filter.public && {
+              public: params.filter.public,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.playlistsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Playlist" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query playlists($where: PlaylistWhereInput!) {
+            data: playlists(where: $where) {
+              id
+              name
+              public
+              owner {
+                id
+                name
+              }
+              orderedProjects {
+                id
+                sortOrder
+                dropDate
+                additionDate
+                project {
+                  id
+                  name
+                  clapsCount
+                  commentsCount
+                  views
+                }
+              }
+              projects {
+                id
+                name
+              }
+            }
+            playlistsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: {
+            id_in: params.ids,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.playlistsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Playlist" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation deletePlaylist($where: PlaylistWhereUniqueInput!) {
+            data: deletePlaylist(where: $where) {
+              id
+            }
+          }
+        `,
+
+        variables: {
+          where: { id: params.id },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Playlist" && type === "DELETE_MANY") {
+      return {
+        query: gql`
+          mutation deletePlaylists($where: PlaylistWhereInput!) {
+            data: deletePlaylists(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: [response.data.data],
+          };
+        },
+      };
+    }
+
+    if (resource === "Playlist" && type === "CREATE") {
+      return {
+        query: gql`
+          mutation createPlaylist($data: PlaylistCreateInput!) {
+            data: createPlaylist(data: $data) {
+              id
+              name
+              public
+              owner {
+                id
+                name
+              }
+            }
+          }
+        `,
+        options: { fetchPolicy: "network-only" },
+        variables: {
+          data: {
+            name: params.data.name,
+            public: params.data.public,
+            owner: { connect: { id: params.data.owner.id } },
+          },
+        },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Playlist" && type === "UPDATE") {
+      return {
+        query: gql`
+          mutation updatePlaylist(
+            $data: PlaylistCreateInput!
+            $where: PlaylistWhereInput!
+          ) {
+            data: updatePlaylist(data: $data, where: $where) {
+              id
+              name
+              public
+              owner {
+                id
+                name
+              }
+              projects {
+                id
+                name
+              }
+            }
+          }
+        `,
+        variables: {
+          where: { id: params.id },
+          data: {
+            name: params.data.name,
+            public: params.data.public,
+            owner: { connect: { id: params.data.owner.id } },
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            projects: params.data.orderedProjects,
+            playlist_project: params.data.update_playlist_projects,
             total: response.data.data.length,
           };
         },

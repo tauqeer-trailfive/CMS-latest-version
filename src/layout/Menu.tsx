@@ -36,6 +36,7 @@ import NewsItems from "../NewsItems";
 import SampleSets from "../SampleSets";
 import TimelineItems from "../TimelineItems";
 import PushNotifications from "../PushNotification";
+import Playlists from "../Playlists";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -286,6 +287,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Instruments.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/playlists"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.playlists.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<Playlists.icon />}
         dense={dense}
       />
       <MenuItemLink
