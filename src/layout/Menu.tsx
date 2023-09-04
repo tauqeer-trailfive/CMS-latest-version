@@ -35,6 +35,7 @@ import Comments from "../Comments";
 import NewsItems from "../NewsItems";
 import SampleSets from "../SampleSets";
 import TimelineItems from "../TimelineItems";
+import PushNotifications from "../PushNotification";
 
 type MenuName = "menuCatalog" | "menuSales" | "menuCustomers";
 
@@ -153,6 +154,15 @@ const Menu = ({ dense = false }: MenuProps) => {
                 dense={dense}
             /> */}
       <MenuItemLink
+        to="/notification/create"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.notification.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<PushNotifications.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
         to="/contests"
         state={{ _scrollToTop: true }}
         primaryText={translate(`resources.contests.name`, {
@@ -213,6 +223,15 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Comments.icon />}
+        dense={dense}
+      />
+      <MenuItemLink
+        to="/timelineitems"
+        state={{ _scrollToTop: true }}
+        primaryText={translate(`resources.timelineitems.name`, {
+          smart_count: 2,
+        })}
+        leftIcon={<TimelineItems.icon />}
         dense={dense}
       />
       <MenuItemLink
@@ -285,15 +304,6 @@ const Menu = ({ dense = false }: MenuProps) => {
           smart_count: 2,
         })}
         leftIcon={<Bpms.icon />}
-        dense={dense}
-      />
-      <MenuItemLink
-        to="/timelineitems"
-        state={{ _scrollToTop: true }}
-        primaryText={translate(`resources.timelineitems.name`, {
-          smart_count: 2,
-        })}
-        leftIcon={<TimelineItems.icon />}
         dense={dense}
       />
     </Box>

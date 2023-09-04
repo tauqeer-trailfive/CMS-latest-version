@@ -61,6 +61,8 @@ const getGqlResource = (resource: string) => {
       return "SampleSet";
     case "timelineitems":
       return "Timelineitem";
+    case "notification":
+      return "Notification";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }

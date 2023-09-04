@@ -35,6 +35,7 @@ import comments from "./Comments";
 import newsitems from "./NewsItems";
 import samplesets from "./SampleSets";
 import timelineitems from "./TimelineItems";
+import notification from "./PushNotification";
 
 const i18nProvider = polyglotI18nProvider(
   (locale) => {
@@ -94,6 +95,7 @@ const App = () => (
     <Resource name="newsitems" {...newsitems} />
     <Resource name="samplesets" {...samplesets} />
     <Resource name="timelineitems" {...timelineitems} />
+    <Resource name="notification" {...notification} />
   </Admin>
 );
 
