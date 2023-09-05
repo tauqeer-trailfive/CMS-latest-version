@@ -24,8 +24,6 @@ import {
   subMonths,
 } from "date-fns";
 
-import segments from "../segments/data";
-
 const ProjectsListAside = () => {
   return (
     <Card
