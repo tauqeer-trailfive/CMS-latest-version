@@ -52,11 +52,9 @@ const EffectCreate = () => {
       const extractingRegions = data?.getAllRegions.map((item) => {
         return { id: item.id, name: item.name };
       });
-      console.log(extractingRegions);
       setRegions(extractingRegions);
     }
   }, [data]);
-  console.log(Regions);
   return (
     <Create redirect="list">
       <SimpleForm

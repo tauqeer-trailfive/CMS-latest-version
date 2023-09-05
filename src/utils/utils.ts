@@ -331,6 +331,15 @@ export const connectRegionsInHSCreate = (regions) => {
   return { connect: connector };
 };
 
+export const connectPlaylistsInHSCreate = (playlists) => {
+  const connector = playlists.map((playlistID) => {
+    return {
+      id: playlistID,
+    };
+  });
+  return { connect: connector };
+};
+
 export const regionConnectorOnEditHS = (
   curr: { id: string; name: string }[],
   prev: { id: string; name: string }[]
