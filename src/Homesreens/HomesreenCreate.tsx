@@ -41,7 +41,7 @@ export const validateForm = (
   return errors;
 };
 
-const EffectCreate = () => {
+const HomesreenCreate = () => {
   const [Regions, setRegions] = React.useState<{ id: string; name: string }[]>(
     []
   );
@@ -166,4 +166,4 @@ const SectionTitle = ({ label }: { label: string }) => {
 
 const Separator = () => <Box pt="1em" />;
 
-export default EffectCreate;
+export default HomesreenCreate;

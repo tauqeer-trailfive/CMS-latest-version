@@ -1901,7 +1901,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Contest" && type === "DELETE") {
-      //console.log("in delete");
       return {
         query: gql`
           mutation deleteContests($where: ContestWhereInput!) {
@@ -1925,7 +1924,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Contest" && type === "DELETE_MANY") {
-      //console.log("in delete Many");
       return {
         query: gql`
           mutation deleteContests($where: ContestWhereInput!) {
@@ -1949,10 +1947,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     }
 
     if (resource === "Contest" && type === "CREATE") {
-      //console.log(params.data.title);
-
-      //console.log(params.data.baseProject);
-
       let startDate = new Date(params.data.startDate).toISOString();
 
       let endDate = new Date(params.data.endDate).toISOString();
@@ -1960,8 +1954,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
       let CONTEST_MEDIA_DATA = JSON.parse(
         localStorage.getItem("CONTEST_MEDIA_DATA") as any
       );
-      //console.log("CONTEST_MEDIA_DATA", CONTEST_MEDIA_DATA);
-      // let baseProject = params.data.project.id;
       let chatysie = {};
       if (params.data?.baseProject) {
         chatysie = {
@@ -2634,7 +2626,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         variables: { filter: { id: params.id } },
         options: { fetchPolicy: "network-only" },
         parseResponse: (response: any) => {
-          //console.log(response.data.data.project);
           return {
             data: response.data.data,
             total: response.data.data.length,
