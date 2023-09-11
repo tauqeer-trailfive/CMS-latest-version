@@ -257,7 +257,7 @@ const ContestCreate = () => {
   return (
     <Create redirect="list">
       <SimpleForm
-        sx={{ maxWidth: 500 }}
+        sx={{ maxWidth: 500, mx: 2, my: 2 }}
         // Here for the GQL provider
         defaultValues={{
           title: "",

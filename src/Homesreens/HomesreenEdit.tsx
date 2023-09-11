@@ -43,8 +43,8 @@ const HomescreenEdit = () => {
     }
   }, [data]);
   return (
-    <Edit title={<VisitorTitle />} aside={<Aside />}>
-      <SimpleForm validate={validateForm} maxWidth={500}>
+    <Edit title={<VisitorTitle />}>
+      <SimpleForm validate={validateForm} maxWidth={500} sx={{ mx: 2, my: 2 }}>
         <Typography
           variant="h4"
           gutterBottom

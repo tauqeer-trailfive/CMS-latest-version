@@ -20,8 +20,8 @@ const TrackEdit = () => {
   const translate = useTranslate();
 
   return (
-    <Edit title={<UserTitle />} aside={<Aside />}>
-      <SimpleForm validate={validateForm}>
+    <Edit title={<UserTitle />}>
+      <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} md={8}>

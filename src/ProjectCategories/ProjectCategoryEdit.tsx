@@ -15,8 +15,8 @@ import { validateForm } from "./ProjectCategoryCreate";
 const ProjectCategoryEdit = () => {
   const translate = useTranslate();
   return (
-    <Edit title={<GenreTitle />} aside={<Aside />}>
-      <SimpleForm validate={validateForm}>
+    <Edit title={<GenreTitle />}>
+      <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
             <Grid item xs={12} md={8}>

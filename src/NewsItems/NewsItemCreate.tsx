@@ -29,7 +29,7 @@ const NewsItemCreate = () => {
   return (
     <Create redirect="list">
       <SimpleForm
-        sx={{ maxWidth: 500 }}
+        sx={{ maxWidth: 500, mx: 2, my: 2 }}
         defaultValues={{
           title: "",
           description: "",

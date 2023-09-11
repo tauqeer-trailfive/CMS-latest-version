@@ -317,12 +317,7 @@ const ContestEdit = () => {
     );
   };
   return (
-    <Edit
-      title={<UserTitle />}
-      aside={<Aside />}
-      redirect="list"
-      mutationMode="pessimistic"
-    >
+    <Edit title={<UserTitle />} redirect="list" mutationMode="pessimistic">
       <SimpleForm
         validate={validateForm}
         toolbar={
@@ -331,6 +326,7 @@ const ContestEdit = () => {
             <DeleteButton />
           </Toolbar>
         }
+        sx={{ mx: 2, my: 2 }}
       >
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>

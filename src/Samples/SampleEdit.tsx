@@ -74,7 +74,7 @@ const EffectEdit = () => {
     localStorage.setItem("BPM_DATA_FOR_EDIT", JSON.stringify(filesSuccess));
   }, [filesSuccess]);
   return (
-    <Edit title={<SampleTitle />} aside={<Aside />} mutationMode="pessimistic">
+    <Edit title={<SampleTitle />} mutationMode="pessimistic">
       <SimpleForm
         validate={validateForm}
         toolbar={
@@ -83,6 +83,7 @@ const EffectEdit = () => {
             <DeleteButton />
           </Toolbar>
         }
+        sx={{ mx: 2, my: 2 }}
       >
         <div>
           <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>

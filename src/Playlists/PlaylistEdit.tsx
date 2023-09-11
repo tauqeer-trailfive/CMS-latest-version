@@ -107,11 +107,10 @@ const PlaylistEdit = () => {
   return (
     <Edit
       title={<PlaylistTitle />}
-      aside={<Aside />}
       mutationOptions={{ onSuccess }}
       mutationMode="pessimistic"
     >
-      <SimpleForm validate={validateForm} maxWidth={500}>
+      <SimpleForm validate={validateForm} maxWidth={500} sx={{ mx: 2, my: 2 }}>
         <Typography
           variant="h4"
           gutterBottom
