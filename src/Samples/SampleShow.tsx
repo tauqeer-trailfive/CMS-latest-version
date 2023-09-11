@@ -41,13 +41,15 @@ const SampleShow = () => {
   return (
     <Card
       sx={{
-        width: 800,
         margin: "auto",
         boxShadow: 6,
-        borderRadius: 0.4,
+        borderRadius: 1,
         // border: "1px solid #909090",
-        paddingY: 1,
-        paddingX: 5,
+        // paddingY: 1,
+        // paddingX: 5,
+        width: "auto",
+        mx: 20,
+        my: 1,
       }}
     >
       <CardContent>

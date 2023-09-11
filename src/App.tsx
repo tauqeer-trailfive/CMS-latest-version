@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Admin, CustomRoutes, Resource } from "react-admin";
+import { Admin, Resource } from "react-admin";
 import polyglotI18nProvider from "ra-i18n-polyglot";
-import { Route } from "react-router";
 
 import authProvider from "./Auth/Auth";
 import { Login, Layout } from "./layout";
@@ -64,15 +63,6 @@ const App = () => (
     darkTheme={darkTheme}
     defaultTheme="dark"
   >
-    {/* <CustomRoutes>
-      <Route path="/segments" element={<Segments />} />
-    </CustomRoutes> */}
-    {/* <Resource name="customers" {...visitors} />
-    <Resource name="commands" {...orders} options={{ label: "Orders" }} />
-    <Resource name="invoices" {...invoices} />
-    <Resource name="products" {...products} />
-    <Resource name="categories" {...categories} />
-    <Resource name="reviews" {...reviews} /> */}
     <Resource name="users" {...users} />
     <Resource name="musicalInstruments" {...instruments} />
     <Resource name="genres" {...genres} />

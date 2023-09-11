@@ -17,12 +17,14 @@ const HomescreenShow = () => {
   return (
     <Card
       sx={{
-        width: 600,
         margin: "auto",
         boxShadow: 4,
         padding: 5,
-        borderRadius: 0.4,
+        borderRadius: 1,
         // border: "1px solid #909090",
+        width: "auto",
+        mx: 20,
+        my: 1,
       }}
     >
       <CardContent>

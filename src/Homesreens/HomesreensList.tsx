@@ -100,7 +100,6 @@ const TabbedDatagrid = () => {
       setRegions(extractingRegions);
     }
   }, [data]);
-  console.log(Regions);
   return (
     <React.Fragment>
       <Tabs
@@ -114,7 +113,7 @@ const TabbedDatagrid = () => {
             key={choice.id}
             label={<span>{choice.name}</span>}
             value={choice.name === "DEFAULT" ? null : choice.name}
-            defaultValue={"DEFAULT"}
+            defaultValue="DEFAULT"
           />
         ))}
       </Tabs>
