@@ -73,7 +73,7 @@ const PEMixdownscreenUploader = (props: Props) => {
     UpdateMixdownScreen({
       variables: {
         data: {
-          mixdownScreen: data?.singleImageUpload.download_url,
+          mixdownScreen: data?.singleImageUpload.mp3download_url,
         },
         where: {
           id: props.ProjectId,
