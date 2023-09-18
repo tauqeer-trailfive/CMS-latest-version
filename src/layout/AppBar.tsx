@@ -9,15 +9,7 @@ const CustomAppBar = () => {
     theme.breakpoints.up("sm")
   );
   return (
-    <AppBar
-      color="secondary"
-      elevation={10}
-      sx={{
-        filter: "20px",
-        backgroundColor: "rgba(0,0,0,0.9)",
-        border: "none",
-      }}
-    >
+    <AppBar color="secondary" elevation={10}>
       <TitlePortal />
       {/* {isLargeEnough && <Logo />} */}
       {isLargeEnough && <Box component="span" sx={{ flex: 1 }} />}

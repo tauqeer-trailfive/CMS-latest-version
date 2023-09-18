@@ -41,7 +41,9 @@ export const darkTheme = {
       styleOverrides: {
         colorSecondary: {
           color: "#fff",
-          backgroundColor: "#222",
+          filter: "20px",
+          backgroundColor: "rgba(0,0,0,0.9)",
+          border: "none",
         },
       },
     },
