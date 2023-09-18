@@ -19,6 +19,7 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import PresetsListAside from "./PresetsListAside";
 import EffectLinkField from "./PresetLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -42,6 +43,7 @@ const PresetsList = () => {
       perPage={10}
       aside={<PresetsListAside />}
       actions={<PresetListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

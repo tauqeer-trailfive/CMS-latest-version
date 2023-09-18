@@ -16,6 +16,7 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import ReferralCodesListAside from "./ReferralCodesListAside";
 import ReferralCodeLinkField from "./ReferralCodeLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -39,6 +40,7 @@ const ReferralCodesList = () => {
       perPage={10}
       aside={<ReferralCodesListAside />}
       actions={<ReferralCodeActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

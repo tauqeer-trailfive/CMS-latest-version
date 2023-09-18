@@ -18,6 +18,7 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import BpmsListAside from "./BpmsListAside";
 import BpmLinkField from "./BpmLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const BpmFilters = [<SearchInput source="value" alwaysOn />];
 
@@ -41,6 +42,7 @@ const BpmsList = () => {
       perPage={10}
       aside={<BpmsListAside />}
       actions={<BpmListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

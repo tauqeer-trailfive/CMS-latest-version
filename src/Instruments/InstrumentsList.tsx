@@ -25,6 +25,7 @@ import InstrumentListAside from "./InstrumentListAside";
 import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import InstrumentLinkField from "./InstrumentLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -48,6 +49,7 @@ const InstrumentsList = () => {
       perPage={10}
       aside={<InstrumentListAside />}
       actions={<PostListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

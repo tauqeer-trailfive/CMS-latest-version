@@ -25,6 +25,7 @@ import ContestsListAside from "./ContestsListAside";
 import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import ContestShow from "./ContestShow";
+import EmptyListPage from "./EmptyListPage";
 
 const ContestFilters = [<SearchInput source="artistName" alwaysOn />];
 
@@ -48,6 +49,7 @@ const ContestsList = () => {
       perPage={10}
       aside={<ContestsListAside />}
       actions={<ContestsListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

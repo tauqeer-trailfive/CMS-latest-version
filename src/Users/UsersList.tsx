@@ -24,6 +24,7 @@ import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
 import { gql, useQuery } from "@apollo/client";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="artistName" alwaysOn />];
 
@@ -69,6 +70,7 @@ const UsersList = () => {
       perPage={10}
       aside={<UsersListAside />}
       actions={<UsersListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

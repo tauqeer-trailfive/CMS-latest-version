@@ -19,6 +19,7 @@ import SamplesListAside from "./SamplesListAside";
 import SampleLinkField from "./SampleLinkField";
 import BPMNumberField from "./BMPNumberField";
 import SampleShow from "./SampleShow";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -42,6 +43,7 @@ const SamplesList = () => {
       perPage={10}
       aside={<SamplesListAside />}
       actions={<EffectListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

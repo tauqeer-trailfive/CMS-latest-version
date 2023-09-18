@@ -17,6 +17,7 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import NewsItemsListAside from "./NewsItemsListAside";
 import NewsItemLinkField from "./NewsItemLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -40,6 +41,7 @@ const NewsItemsList = () => {
       perPage={10}
       aside={<NewsItemsListAside />}
       actions={<NewsItemListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

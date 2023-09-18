@@ -19,6 +19,7 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import ProjectCategoriesListAside from "./ProjectCategoriesListAside";
 import ProjectCategoryLinkField from "./ProjectCategoryLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -42,6 +43,7 @@ const ProjectCategoriesList = () => {
       perPage={5}
       aside={<ProjectCategoriesListAside />}
       actions={<ProjectCategoriesListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

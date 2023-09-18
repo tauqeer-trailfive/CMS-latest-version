@@ -16,6 +16,7 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import GenresListAside from "./GenresListAside";
 import GenreLinkField from "./GenreLinkField";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -39,6 +40,7 @@ const GenresList = () => {
       perPage={10}
       aside={<GenresListAside />}
       actions={<GenreListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />

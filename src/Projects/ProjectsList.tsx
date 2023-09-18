@@ -27,6 +27,7 @@ import RatingField from "./RatingField";
 import { gql, useQuery } from "@apollo/client";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
 import ProjectShow from "./ProjectShow";
+import EmptyListPage from "./EmptyListPage";
 
 const EXPORT_PROJECTS_QUERY = gql`
   query Query($model: ModelNames!) {
@@ -72,6 +73,7 @@ const ProjectsList = () => {
       perPage={10}
       aside={<ProjectsListAside />}
       actions={<ProjectsListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />
