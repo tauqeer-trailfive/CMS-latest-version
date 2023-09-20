@@ -20,8 +20,8 @@ yarn run dev
 
 ## Require Node version [Node.js](https://nodejs.org/en)
 
-### `16.16.0`
+### `v18.18.0`
 
 ## Require Yarn version [Yarn](https://classic.yarnpkg.com/en/)
 
-### `1.22.19`
+### `v1.22.19`
