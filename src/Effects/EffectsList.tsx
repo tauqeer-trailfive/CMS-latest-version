@@ -18,6 +18,7 @@ import MobileGrid from "./MobileGrid";
 import EffectsListAside from "./EffectsListAside";
 import EffectLinkField from "./EffectLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -53,6 +54,7 @@ const EffectsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <EffectLinkField />
           <TextField source="name" label="resources.effects.fields.name" />

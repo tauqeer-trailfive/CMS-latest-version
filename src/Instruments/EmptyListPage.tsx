@@ -17,6 +17,7 @@ const EmptyListPage = (props: Props) => {
         alignItems: "center",
         mx: "auto",
         my: "auto",
+        pt: 5,
       }}
     >
       <MusicalInstrument.icon sx={{ fontSize: 100 }} />

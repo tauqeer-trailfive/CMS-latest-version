@@ -20,6 +20,7 @@ import MobileGrid from "./MobileGrid";
 import SampleSetsListAside from "./SampleSetsListAside";
 import SampleSetLinkField from "./SampleSetLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -55,6 +56,7 @@ const SampleSetsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <SampleSetLinkField />
           <TextField source="name" label="resources.samplesets.fields.name" />

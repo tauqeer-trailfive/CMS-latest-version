@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { CreateButton } from "react-admin";
-import Genre from "./index";
+import Homescreen from "./index";
 
 type Props = {};
 
@@ -17,17 +17,17 @@ const EmptyListPage = (props: Props) => {
         alignItems: "center",
         mx: "auto",
         my: "auto",
-        pt: 5,
+        py: 5,
       }}
     >
-      <Genre.icon sx={{ fontSize: 100 }} />
+      <Homescreen.icon sx={{ fontSize: 100 }} />
       <Typography variant="h4" paragraph fontWeight={"800"}>
-        No Genres available
+        No Homescreens available
       </Typography>
       <Typography variant="body1" fontWeight={"300"}>
         Do you want to add one?
       </Typography>
-      <CreateButton label="Create Genres" />
+      <CreateButton label="Create Homescreen" />
     </Box>
   );
 };

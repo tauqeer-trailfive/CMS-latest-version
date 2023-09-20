@@ -161,6 +161,10 @@ const UserEdit = () => {
                 label="Allow Audio core Plugin"
                 source="audioCorePluginAllowUser"
               />
+              <BooleanInput
+                label="Is Custom Artist Name?"
+                source="isCustomArtistName"
+              />
               <Box mt="1em" />
               {data?.avatarUrl !== "" ? (
                 <Button onClick={handleOpenAvatar}>Show Avatar Image</Button>
@@ -176,44 +180,48 @@ const UserEdit = () => {
               )}
               <HeaderModal url={data?.headerImage} />
               <HeaderImageField />
+              <Box display={{ xs: "block", sm: "flex" }}>
+                <Box flex={1}>
+                  <ArrayInput
+                    source="musicalInstruments"
+                    label="Musical Instruments (Search by name)"
+                  >
+                    <SimpleFormIterator
+                      disableReordering={true}
+                      fullWidth
+                      addButton={
+                        <IconButton title="Add Instrument">
+                          <AddIcon color="success" />
+                        </IconButton>
+                      }
+                      removeButton={
+                        <IconButton title="Remove Instrument">
+                          <MinusIcon color="secondary" />
+                        </IconButton>
+                      }
+                      disableClear
+                    >
+                      <ReferenceInput
+                        label="musicalInstruments"
+                        source="id"
+                        reference="musicalInstruments"
+                      >
+                        <AutocompleteInput
+                          optionText={(choice) =>
+                            `${choice.name}  /  ${choice.rank}  /  (${choice.id})`
+                          }
+                          optionValue="id"
+                          label="Name / Rank / id"
+                          fullWidth
+                        />
+                      </ReferenceInput>
+                    </SimpleFormIterator>
+                  </ArrayInput>
+                </Box>
+              </Box>
             </Grid>
           </Grid>
           <Box mt="1em" />
-          <ArrayInput
-            source="musicalInstruments"
-            label="Musical Instruments (Search by name)"
-          >
-            <SimpleFormIterator
-              disableReordering={true}
-              fullWidth
-              addButton={
-                <IconButton title="Add Instrument">
-                  <AddIcon color="success" />
-                </IconButton>
-              }
-              removeButton={
-                <IconButton title="Remove Instrument">
-                  <MinusIcon color="secondary" />
-                </IconButton>
-              }
-              disableClear
-            >
-              <ReferenceInput
-                label="musicalInstruments"
-                source="id"
-                reference="musicalInstruments"
-              >
-                <AutocompleteInput
-                  optionText={(choice) =>
-                    `${choice.name}  /  ${choice.rank}  /  (${choice.id})`
-                  }
-                  optionValue="id"
-                  label="Name / Rank / id"
-                  fullWidth
-                />
-              </ReferenceInput>
-            </SimpleFormIterator>
-          </ArrayInput>
         </div>
       </SimpleForm>
     </Edit>

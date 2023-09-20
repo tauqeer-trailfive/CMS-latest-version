@@ -20,6 +20,7 @@ import SampleLinkField from "./SampleLinkField";
 import BPMNumberField from "./BMPNumberField";
 import SampleShow from "./SampleShow";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -57,6 +58,7 @@ const SamplesList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <SampleLinkField />
           <TextField source="name" label="resources.samples.fields.name" />

@@ -18,6 +18,7 @@ import MobileGrid from "./MobileGrid";
 import TimelineItemsListAside from "./TimelineItemsListAside";
 import TimelineItemLinkField from "./TimelineItemLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -53,6 +54,7 @@ const TimelineItemsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <TimelineItemLinkField />
           <TextField

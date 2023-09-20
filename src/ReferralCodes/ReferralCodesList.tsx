@@ -17,6 +17,7 @@ import MobileGrid from "./MobileGrid";
 import ReferralCodesListAside from "./ReferralCodesListAside";
 import ReferralCodeLinkField from "./ReferralCodeLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -52,6 +53,7 @@ const ReferralCodesList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <ReferralCodeLinkField />
           <TextField source="code" label="resources.referralcode.fields.code" />

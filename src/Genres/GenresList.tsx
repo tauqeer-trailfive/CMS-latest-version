@@ -17,6 +17,7 @@ import MobileGrid from "./MobileGrid";
 import GenresListAside from "./GenresListAside";
 import GenreLinkField from "./GenreLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -52,6 +53,7 @@ const GenresList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <GenreLinkField />
           <TextField source="name" label="resources.genres.fields.name" />

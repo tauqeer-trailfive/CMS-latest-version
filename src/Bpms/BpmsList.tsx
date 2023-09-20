@@ -19,6 +19,7 @@ import MobileGrid from "./MobileGrid";
 import BpmsListAside from "./BpmsListAside";
 import BpmLinkField from "./BpmLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const BpmFilters = [<SearchInput source="value" alwaysOn />];
 
@@ -54,6 +55,7 @@ const BpmsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <BpmLinkField />
           <TextField source="value" label="resources.bpms.fields.value" />

@@ -120,6 +120,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               name
               artistName
               role
+              isCustomArtistName
               avatarUrl
               audioCorePluginAllowUser
               headerImage
@@ -171,6 +172,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               name
               artistName
               role
+              isCustomArtistName
               id
               isValidated
               avatarUrl
@@ -219,6 +221,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             role: params.data.role,
             audioCorePluginAllowUser: params.data.audioCorePluginAllowUser,
             musicalInstruments: musicallnstrumentConnector(UIns, PIns),
+            isCustomArtistName: params.data.isCustomArtistName,
           },
           where: { id: params.id },
         },
@@ -244,6 +247,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               name
               artistName
               role
+              isCustomArtistName
               avatarUrl
               audioCorePluginAllowUser
               headerImage

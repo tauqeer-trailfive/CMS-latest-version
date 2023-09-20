@@ -18,6 +18,7 @@ import MobileGrid from "./MobileGrid";
 import NewsItemsListAside from "./NewsItemsListAside";
 import NewsItemLinkField from "./NewsItemLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -53,6 +54,7 @@ const NewsItemsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <NewsItemLinkField />
           <TextField source="title" label="resources.newsitems.fields.title" />

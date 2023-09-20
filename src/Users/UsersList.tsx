@@ -25,6 +25,7 @@ import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
 import { gql, useQuery } from "@apollo/client";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="artistName" alwaysOn />];
 
@@ -83,6 +84,7 @@ const UsersList = () => {
             },
           }}
           omit={["email"]}
+          empty={<NotFoundRecord />}
         >
           <UserLinkField label="Avatar & Name" />
           <TextField source="artistName" label="Artist Name" />
@@ -91,6 +93,12 @@ const UsersList = () => {
           <BooleanField
             source="audioCorePluginAllowUser"
             label="Audio Core Plugin"
+            TrueIcon={CheckCircle}
+            FalseIcon={CancelCircle}
+          />
+          <BooleanField
+            source="isCustomArtistName"
+            label="Custom Artist Name"
             TrueIcon={CheckCircle}
             FalseIcon={CancelCircle}
           />

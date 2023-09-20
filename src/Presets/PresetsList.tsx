@@ -20,6 +20,7 @@ import MobileGrid from "./MobileGrid";
 import PresetsListAside from "./PresetsListAside";
 import EffectLinkField from "./PresetLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -55,6 +56,7 @@ const PresetsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <EffectLinkField />
           <TextField source="name" label="resources.presets.fields.name" />

@@ -28,6 +28,7 @@ import { gql, useQuery } from "@apollo/client";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
 import ProjectShow from "./ProjectShow";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const EXPORT_PROJECTS_QUERY = gql`
   query Query($model: ModelNames!) {
@@ -88,6 +89,7 @@ const ProjectsList = () => {
           omit={["slug", "availableFrom", "createdAt", "private", "category"]}
           rowClick="expand"
           expand={<ProjectShow />}
+          empty={<NotFoundRecord />}
         >
           <ProjectLinkField />
           <TextField source="name" label="resources.projects.fields.name" />

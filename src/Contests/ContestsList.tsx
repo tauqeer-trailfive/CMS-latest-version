@@ -26,6 +26,7 @@ import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import ContestShow from "./ContestShow";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const ContestFilters = [<SearchInput source="artistName" alwaysOn />];
 
@@ -63,6 +64,7 @@ const ContestsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <ContestLinkField source="id" label="resources.contests.fields.id" />
           <TextField source="title" label="resources.contests.fields.title" />

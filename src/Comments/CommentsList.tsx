@@ -17,6 +17,8 @@ import { useMediaQuery, Theme } from "@mui/material";
 import MobileGrid from "./MobileGrid";
 import CommentsListAside from "./CommentsListAside";
 import CommentLinkField from "./CommentLinkField";
+import NotFoundRecord from "./NotFoundRecord";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -40,6 +42,7 @@ const CommentsList = () => {
       perPage={10}
       aside={<CommentsListAside />}
       actions={<CommentListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />
@@ -51,6 +54,7 @@ const CommentsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <CommentLinkField />
           <TextField source="text" label="resources.comments.fields.text" />

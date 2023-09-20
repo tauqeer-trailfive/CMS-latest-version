@@ -25,6 +25,8 @@ import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import { gql, useQuery } from "@apollo/client";
 import HomescreenShow from "./HomescreenShow";
+import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const GET_REGIONS = gql`
   query GetAllRegions($orderBy: MetricsFEOrderByInput) {
@@ -57,6 +59,7 @@ const HomesreensList = () => {
       perPage={10}
       aside={<HomesreensListAside />}
       actions={<HomesreenListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? <MobileGrid /> : <TabbedDatagrid />}
     </List>
@@ -131,6 +134,7 @@ const TabbedDatagrid = () => {
             omit={["priority", "limit", "type", "visibility"]}
             rowClick="expand"
             expand={<HomescreenShow />}
+            empty={<NotFoundRecord />}
           >
             <HomesreenLinkField />
             <TextField

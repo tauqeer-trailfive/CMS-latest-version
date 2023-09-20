@@ -20,6 +20,7 @@ import MobileGrid from "./MobileGrid";
 import ProjectCategoriesListAside from "./ProjectCategoriesListAside";
 import ProjectCategoryLinkField from "./ProjectCategoryLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -55,6 +56,7 @@ const ProjectCategoriesList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <ProjectCategoryLinkField />
           <TextField

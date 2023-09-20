@@ -26,6 +26,7 @@ import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import DownloadCSVIcon from "@mui/icons-material/DownloadForOfflineTwoTone";
 import { gql, useQuery } from "@apollo/client";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="id" alwaysOn />];
 
@@ -84,6 +85,7 @@ const TracksList = () => {
             },
           }}
           omit={["project"]}
+          empty={<NotFoundRecord />}
         >
           <TrackLinkField label="Id" />
           <NumberField source="order" label="Order" />

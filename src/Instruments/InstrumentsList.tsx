@@ -26,6 +26,7 @@ import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import InstrumentLinkField from "./InstrumentLinkField";
 import EmptyListPage from "./EmptyListPage";
+import NotFoundRecord from "./NotFoundRecord";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -61,6 +62,7 @@ const InstrumentsList = () => {
               lg: { display: "table-cell" },
             },
           }}
+          empty={<NotFoundRecord />}
         >
           <InstrumentLinkField />
           <TextField

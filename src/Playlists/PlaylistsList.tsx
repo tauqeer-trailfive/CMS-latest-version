@@ -23,6 +23,8 @@ import PlaylistLinkField from "./PlaylistLinkField";
 import CheckCircle from "@mui/icons-material/CheckCircleTwoTone";
 import CancelCircle from "@mui/icons-material/CancelTwoTone";
 import PlaylistShow from "./PlaylistShow";
+import NotFoundRecord from "./NotFoundRecord";
+import EmptyListPage from "./EmptyListPage";
 
 const userFilters = [<SearchInput source="name" alwaysOn />];
 
@@ -46,6 +48,7 @@ const PlaylistsList = () => {
       perPage={10}
       aside={<PlaylistsListAside />}
       actions={<PlaylistListActions />}
+      empty={<EmptyListPage />}
     >
       {isXsmall ? (
         <MobileGrid />
@@ -60,6 +63,7 @@ const PlaylistsList = () => {
           omit={["orderedProjects"]}
           rowClick="expand"
           expand={<PlaylistShow />}
+          empty={<NotFoundRecord />}
         >
           <PlaylistLinkField sortable={false} />
           <BooleanField
