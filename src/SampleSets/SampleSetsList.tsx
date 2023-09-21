@@ -45,6 +45,7 @@ const SampleSetsList = () => {
       aside={<SampleSetsListAside />}
       actions={<SampleSetListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

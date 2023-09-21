@@ -44,6 +44,7 @@ const BpmsList = () => {
       aside={<BpmsListAside />}
       actions={<BpmListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

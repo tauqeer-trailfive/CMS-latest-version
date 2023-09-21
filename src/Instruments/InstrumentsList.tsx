@@ -51,6 +51,7 @@ const InstrumentsList = () => {
       aside={<InstrumentListAside />}
       actions={<PostListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

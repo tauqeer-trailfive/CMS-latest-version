@@ -43,6 +43,7 @@ const CommentsList = () => {
       aside={<CommentsListAside />}
       actions={<CommentListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

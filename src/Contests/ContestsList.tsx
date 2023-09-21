@@ -51,6 +51,7 @@ const ContestsList = () => {
       aside={<ContestsListAside />}
       actions={<ContestsListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

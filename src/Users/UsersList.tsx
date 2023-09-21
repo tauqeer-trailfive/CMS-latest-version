@@ -72,6 +72,7 @@ const UsersList = () => {
       aside={<UsersListAside />}
       actions={<UsersListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

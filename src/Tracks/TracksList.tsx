@@ -73,6 +73,7 @@ const TracksList = () => {
       aside={<TracksListAside />}
       actions={<TracksListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

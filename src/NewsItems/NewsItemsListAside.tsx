@@ -14,7 +14,7 @@ const NewsItemsListAside = () => {
         order: -1,
         flex: "0 0 15em",
         mr: 2,
-        mt: 8,
+        mt: 6,
         alignSelf: "flex-start",
       }}
     >

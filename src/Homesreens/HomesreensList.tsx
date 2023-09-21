@@ -60,6 +60,7 @@ const HomesreensList = () => {
       aside={<HomesreensListAside />}
       actions={<HomesreenListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? <MobileGrid /> : <TabbedDatagrid />}
     </List>

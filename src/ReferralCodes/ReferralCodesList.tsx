@@ -42,6 +42,7 @@ const ReferralCodesList = () => {
       aside={<ReferralCodesListAside />}
       actions={<ReferralCodeActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

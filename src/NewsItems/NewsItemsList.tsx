@@ -43,6 +43,7 @@ const NewsItemsList = () => {
       aside={<NewsItemsListAside />}
       actions={<NewsItemListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

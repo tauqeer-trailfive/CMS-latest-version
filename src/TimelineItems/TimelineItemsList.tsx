@@ -43,6 +43,7 @@ const TimelineItemsList = () => {
       aside={<TimelineItemsListAside />}
       actions={<TimelineItemListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

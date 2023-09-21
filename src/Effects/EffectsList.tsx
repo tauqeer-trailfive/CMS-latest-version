@@ -43,6 +43,7 @@ const EffectsList = () => {
       aside={<EffectsListAside />}
       actions={<EffectListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />

@@ -45,6 +45,7 @@ const PresetsList = () => {
       aside={<PresetsListAside />}
       actions={<PresetListActions />}
       empty={<EmptyListPage />}
+      sx={{ mt: 2 }}
     >
       {isXsmall ? (
         <MobileGrid />
