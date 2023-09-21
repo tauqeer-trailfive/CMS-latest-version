@@ -19,7 +19,7 @@ const CommentsListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="text" placeholder="Comment Text" />
+        <FilterLiveSearch source="text" label="Comment Text" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>

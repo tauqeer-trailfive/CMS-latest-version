@@ -72,8 +72,8 @@ const SamplesListAside = () => {
         </Button>
       </CardContent>
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="name" placeholder="Sample Name" />
-        <FilterLiveSearch source="bpm" placeholder="BPM" />
+        <FilterLiveSearch source="name" label="Sample Name" />
+        <FilterLiveSearch source="bpm" label="BPM" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>

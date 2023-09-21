@@ -26,7 +26,7 @@ const TracksListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="id" placeholder="Search by Track Id" />
+        <FilterLiveSearch source="id" label="Search by Track Id" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
         <FilterList
           label="resources.tracks.filters.is_muted"

@@ -25,9 +25,9 @@ const UsersListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="name" placeholder="Name" />
-        <FilterLiveSearch source="artistName" placeholder="Artist Name" />
-        <FilterLiveSearch source="email" placeholder="Email" />
+        <FilterLiveSearch source="name" label="Name" />
+        <FilterLiveSearch source="artistName" label="Artist Name" />
+        <FilterLiveSearch source="email" label="Email" />
 
         <SavedQueriesList icon={<SaveQueryIcon />} />
 

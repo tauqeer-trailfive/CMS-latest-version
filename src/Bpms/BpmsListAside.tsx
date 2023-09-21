@@ -19,7 +19,7 @@ const BpmsListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch type="number" source="value" placeholder="Value" />
+        <FilterLiveSearch type="number" source="value" label="Value" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>

@@ -13,14 +13,16 @@ import {
   useRefresh,
   useRedirect,
   DateTimeInput,
+  useGetOne,
+  ImageField,
 } from "react-admin";
 import { Box, Typography, Divider } from "@mui/material";
 
-import Aside from "./Aside";
 import IdField from "./IdField";
 import { validateForm } from "./PlaylistCreate";
 import { useMutation, gql } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import PECoverImageUploader from "./PECoverImageUploader/PECoverImageUploader";
+import { useParams } from "react-router";
 
 const UPDATE_PLAYLIST_PROJECT = gql`
   mutation updatePlaylistProjectsOrder(
@@ -34,7 +36,9 @@ const UPDATE_PLAYLIST_PROJECT = gql`
 `;
 
 const PlaylistEdit = () => {
+  const { id } = useParams();
   const translate = useTranslate();
+  const { data: playlist } = useGetOne("playlists", { id: id });
   const notify = useNotify();
   const refresh = useRefresh();
   const redirect = useRedirect();
@@ -127,17 +131,16 @@ const PlaylistEdit = () => {
           </Box>
         </Box>
         <Separator />
+        <ImageField source="imageUrl" />
+        <Separator />
+        <PECoverImageUploader PlaylistID={id} ownerID={playlist?.owner?.id} />
+        <Separator />
         <BooleanInput source="public" fullWidth color="primary" />
         <Separator />
 
         <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
           <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-            <ReferenceInput
-              label="User"
-              source="owner.id"
-              reference="users"
-              filter={{ role: ["SUPERADMIN", "ADMIN", "USER", "ANON"] }}
-            >
+            <ReferenceInput label="User" source="owner.id" reference="users">
               <AutocompleteInput
                 optionText={(choice) =>
                   `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`

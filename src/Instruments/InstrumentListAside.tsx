@@ -19,7 +19,7 @@ const InstrumentListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="name" placeholder="Name" />
+        <FilterLiveSearch source="name" label="Name" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>

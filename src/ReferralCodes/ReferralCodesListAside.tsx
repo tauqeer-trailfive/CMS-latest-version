@@ -19,7 +19,7 @@ const ReferralCodesListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="code" placeholder="Code" />
+        <FilterLiveSearch source="code" label="Code" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>

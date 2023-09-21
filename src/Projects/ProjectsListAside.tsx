@@ -40,8 +40,8 @@ const ProjectsListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="name" placeholder="Name" />
-        <FilterLiveSearch source="email" placeholder="Owner Email" />
+        <FilterLiveSearch source="name" label="Name" />
+        <FilterLiveSearch source="email" label="Owner Email" />
         <SavedQueriesList />
         <FilterList label="Filter By Rating" icon={<RatingIcon />}>
           <FilterListItem

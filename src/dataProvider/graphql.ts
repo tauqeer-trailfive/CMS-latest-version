@@ -139,8 +139,8 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         variables: {
           filter: {
-            ...((params.filter.name || params.filter.q) && {
-              name_contains: params.filter.name || params.filter.q,
+            ...(params.filter.name && {
+              name_contains: params.filter.name,
             }),
             ...((params.filter.artistName || params.filter.q) && {
               artistName_contains: params.filter.artistName || params.filter.q,
@@ -4329,6 +4329,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               id
               name
               public
+              imageUrl
               orderedProjects {
                 id
                 sortOrder
@@ -4382,6 +4383,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
               createdAt
               name
               public
+              imageUrl
               owner {
                 id
                 name

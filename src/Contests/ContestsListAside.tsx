@@ -19,7 +19,7 @@ const ContestsListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="title" placeholder="Title" />
+        <FilterLiveSearch source="title" label="Title" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
       </CardContent>
     </Card>

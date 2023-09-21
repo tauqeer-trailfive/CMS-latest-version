@@ -25,7 +25,7 @@ const GenresListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="title" placeholder="Title" />
+        <FilterLiveSearch source="title" label="Title" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
         <FilterList
           label="resources.homescreens.filters.status"

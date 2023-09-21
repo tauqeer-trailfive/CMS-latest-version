@@ -25,7 +25,7 @@ const PlaylistsListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="name" placeholder="Name" />
+        <FilterLiveSearch source="name" label="Name" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
         <FilterList
           label="resources.playlists.filters.public"

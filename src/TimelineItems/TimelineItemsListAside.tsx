@@ -26,7 +26,7 @@ const TimelineItemsListAside = () => {
       }}
     >
       <CardContent sx={{ pt: 1 }}>
-        <FilterLiveSearch source="text" placeholder="Text" />
+        <FilterLiveSearch source="text" label="Text" />
         <SavedQueriesList icon={<SaveQueryIcon />} />
         <FilterList
           label="resources.timelineitems.filters.type"

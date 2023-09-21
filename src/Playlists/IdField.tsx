@@ -4,6 +4,7 @@ import { memo } from "react";
 
 import { FieldProps, useRecordContext } from "react-admin";
 import { Playlist } from "../types";
+import AvatarField from "./AvatarField";
 
 interface Props extends FieldProps<Playlist> {
   size?: string;
@@ -22,7 +23,16 @@ const IdField = (props: Props) => {
       component="div"
       sx={props.sx}
     >
-      {record.id}
+      <AvatarField
+        record={record}
+        size={size}
+        sx={{
+          mr: 1,
+          mt: -0.5,
+          mb: -0.5,
+        }}
+      />
+      {record.name}
     </Typography>
   ) : null;
 };
