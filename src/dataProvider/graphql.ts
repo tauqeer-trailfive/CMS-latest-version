@@ -2815,7 +2815,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         `,
         options: { fetchPolicy: "network-only" },
         variables: {
-          projectId: { connect: { id: params.data.project.id } },
+          projectId: params.data.project.id,
           order: params.data.order,
           isMuted: params.data.isMuted,
           isSolo: params.data.isSolo,

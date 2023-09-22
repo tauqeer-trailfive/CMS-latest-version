@@ -160,6 +160,21 @@ const EffectEdit = () => {
                   />
                 </Box>
               </Box>
+              <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
+                <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                  <ReferenceInput
+                    label="Genre"
+                    source="genre.id"
+                    reference="genres"
+                  >
+                    <AutocompleteInput
+                      optionText="name"
+                      fullWidth
+                      label="Genre"
+                    />
+                  </ReferenceInput>
+                </Box>
+              </Box>
               <SectionTitle label="resources.bpms.fields.name" />
               <Box
                 display={{ xs: "block", sm: "flex", width: "100%" }}
