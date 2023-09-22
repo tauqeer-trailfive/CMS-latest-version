@@ -64,7 +64,7 @@ const PresetsList = () => {
           <ChipField source="category" />
           <DateField source="createdAt" label="Created At" showTime />
           <ArrayField source="effects">
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="effects">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>

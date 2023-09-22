@@ -68,7 +68,7 @@ const ProjectCategoriesList = () => {
             source="Project"
             label="resources.projectcategories.fields.project"
           >
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="projects">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>

@@ -14,6 +14,7 @@ import {
   BooleanField,
   ArrayField,
   SingleFieldList,
+  ReferenceField,
 } from "react-admin";
 import { useMediaQuery, Theme } from "@mui/material";
 
@@ -73,11 +74,13 @@ const PlaylistsList = () => {
             FalseIcon={CancelCircle}
           />
           <TextField source="name" />
-          <ChipField
-            source="owner.name"
-            label="resources.playlists.fields.ownername"
-            sortable={false}
-          />
+          <ReferenceField label="Owner" source="owner.id" reference="users">
+            <ChipField
+              source="name"
+              label="resources.playlists.fields.ownername"
+              sortable={false}
+            />
+          </ReferenceField>
           <ArrayField source="orderedProjects" sortable={false}>
             <SingleFieldList linkType={false}>
               <ChipField source="project.name" size="small" />

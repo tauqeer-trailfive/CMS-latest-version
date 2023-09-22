@@ -11,6 +11,7 @@ import {
   SearchInput,
   NumberField,
   ChipField,
+  ReferenceField,
 } from "react-admin";
 import { useMediaQuery, Theme } from "@mui/material";
 
@@ -71,10 +72,9 @@ const SamplesList = () => {
             source="instrument"
             label="resources.samples.fields.instrument"
           />
-          <ChipField
-            source="genre.name"
-            label="resources.samples.fields.genre"
-          />
+          <ReferenceField label="Genre" source="genre.id" reference="genres">
+            <ChipField source="name" label="resources.samples.fields.genre" />
+          </ReferenceField>
         </DatagridConfigurable>
       )}
     </List>

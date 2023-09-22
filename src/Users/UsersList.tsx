@@ -105,7 +105,7 @@ const UsersList = () => {
           />
           <DateField source="createdAt" showTime label="Created At" />
           <ArrayField source="musicalInstruments">
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="musicalInstruments">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>

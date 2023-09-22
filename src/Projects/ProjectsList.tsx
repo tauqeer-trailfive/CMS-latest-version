@@ -107,17 +107,17 @@ const ProjectsList = () => {
           <RatingField source="rating" />
           <ChipField source="status" />
           <ArrayField source="musicalInstruments">
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="musicalInstruments">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>
           <ArrayField source="genres">
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="genres">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>
           <ArrayField source="category">
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="projectCategories">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>

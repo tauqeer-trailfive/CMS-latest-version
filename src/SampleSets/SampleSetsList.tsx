@@ -13,6 +13,7 @@ import {
   ChipField,
   ArrayField,
   SingleFieldList,
+  ReferenceField,
 } from "react-admin";
 import { useMediaQuery, Theme } from "@mui/material";
 
@@ -61,19 +62,23 @@ const SampleSetsList = () => {
         >
           <SampleSetLinkField />
           <TextField source="name" label="resources.samplesets.fields.name" />
-          <ChipField
-            source="owner.name"
-            label="resources.samplesets.fields.user"
-            sortable={false}
-          />
-          <ChipField
-            source="genre.name"
-            label="resources.samplesets.fields.genre"
-            sortable={false}
-          />
+          <ReferenceField label="Owner" source="owner.id" reference="users">
+            <ChipField
+              source="name"
+              label="resources.samplesets.fields.user"
+              sortable={false}
+            />
+          </ReferenceField>
+          <ReferenceField label="Genre" source="genre.id" reference="genres">
+            <ChipField
+              source="name"
+              label="resources.samplesets.fields.genre"
+              sortable={false}
+            />
+          </ReferenceField>
           <DateField source="createdAt" label="Created At" showTime />
           <ArrayField source="samples" sortable={false}>
-            <SingleFieldList linkType={false}>
+            <SingleFieldList linkType="edit" resource="samples">
               <ChipField source="name" size="small" />
             </SingleFieldList>
           </ArrayField>
