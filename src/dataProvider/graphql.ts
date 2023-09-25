@@ -3355,7 +3355,12 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         variables: {
           orderBy: `${params.sort.field}_${params.sort.order}`,
           where: {
-            text_contains: params.filter.text || params.filter.q,
+            ...((params.filter.text || params.filter.q) && {
+              text_contains: params.filter.text || params.filter.q,
+            }),
+            ...(params.filter.project.id && {
+              project: { id: params.filter.project.id },
+            }),
           },
           first: params.pagination.perPage,
           skip: params.pagination.perPage * (params.pagination.page - 1),
@@ -3373,18 +3378,8 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
     if (resource === "Comment" && type === "GET_MANY") {
       return {
         query: gql`
-          query CommentsV1(
-            $orderBy: CommentOrderByInput
-            $where: CommentWhereInput
-            $first: Int
-            $skip: Int
-          ) {
-            data: commentsV1(
-              orderBy: $orderBy
-              where: $where
-              first: $first
-              skip: $skip
-            ) {
+          query CommentsV1($where: CommentWhereInput) {
+            data: commentsV1(where: $where) {
               id
               createdAt
               text
@@ -3404,11 +3399,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
           }
         `,
         variables: {
-          orderBy: `${params.sort.field}_${params.sort.order}`,
-          // where: {name_contains: params.filter.name},
-          // tslint:disable-next-line:object-literal-sort-keys
-          first: params.pagination.perPage,
-          skip: params.pagination.perPage * (params.pagination.page - 1),
+          where: { id_in: params.ids },
         },
         options: { fetchPolicy: "network-only" },
         // tslint:disable-next-line:object-literal-sort-keys

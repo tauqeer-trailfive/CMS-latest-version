@@ -285,7 +285,6 @@ const SendPushNotificationToUser = (props: Props) => {
                 }
                 optionValue="id"
                 onChange={(newValue) => {
-                  //console.log(newValue);
                   setUserId(newValue);
                 }}
               />
@@ -304,11 +303,11 @@ const SendPushNotificationToUser = (props: Props) => {
                 filter={{ status: "PUBLISHED" }}
               >
                 <AutocompleteInput
+                  label="Project"
                   key="project"
-                  optionText="name"
+                  optionText={(choice) => `${choice.name} /  (${choice.id})`}
                   optionValue="id"
                   onChange={(newValue) => {
-                    //console.log(newValue);
                     setProjectId(newValue);
                   }}
                 />
@@ -319,28 +318,22 @@ const SendPushNotificationToUser = (props: Props) => {
           {ProjectId && commentData && (
             <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
               <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Select Project Comment
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={commentId}
+                <ReferenceInput
+                  label="Comment"
+                  source="comment.id"
+                  reference="comments"
+                  filter={{ project: { id: ProjectId } }}
+                >
+                  <AutocompleteInput
                     label="Comment"
-                    onChange={handleComment}
-                    disabled={CommentLoading}
-                  >
-                    {commentData &&
-                      commentData?.comments.map((item, index) => {
-                        return (
-                          <MenuItem key={index} value={item.id}>
-                            {item.text}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
+                    key="comment"
+                    optionText={(choice) => `${choice.text} / (${choice.id})`}
+                    optionValue="id"
+                    onChange={(newValue) => {
+                      setComment(newValue);
+                    }}
+                  />
+                </ReferenceInput>
               </Box>
             </Box>
           )}
@@ -425,7 +418,7 @@ const SendPushNotificationToUser = (props: Props) => {
               },
             });
           }}
-          disabled={checkValidations()}
+          disabled={checkValidations() || loading}
         >
           {loading ? (
             <Box
@@ -435,7 +428,7 @@ const SendPushNotificationToUser = (props: Props) => {
                 justifyContent: "center",
               }}
             >
-              <CircularProgress size={15} sx={{ mx: 1 }} />
+              <CircularProgress size={15} sx={{ mx: 1 }} color="primary" />
               <span>Sending</span>
             </Box>
           ) : (
