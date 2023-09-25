@@ -76,27 +76,8 @@ const ContestShow = () => {
           </Grid>
         </Grid>
         <Box margin="10px 0">
-          {/* <ReferenceField reference="commands" source="command_id" link={false}> */}
           <Basket />
-          {/* <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Contest</TableCell>
-                <TableCellRight>Project</TableCellRight>
-                <TableCellRight>Highlighted</TableCellRight>
-              </TableRow>
-            </TableHead>
-            <TableBody></TableBody>
-          </Table> */}
-          {/* </ReferenceField> */}
         </Box>
-        {/* <Box margin="10px 0">
-          <Stack direction="row" gap={1} flexWrap="wrap">
-            {record.submittedProjects.map((sp) => (
-              <Chip key={sp.id} label={sp.highlighted} />
-            ))}
-          </Stack>
-        </Box> */}
       </CardContent>
     </Card>
   );
@@ -105,17 +86,14 @@ const ContestShow = () => {
 const ContestDescriptionField = () => {
   const record = useRecordContext<Contest>();
   return record ? (
-    <>
+    <Box sx={{ display: "inline-flex", alignItems: "center", gap: 2 }}>
       <Typography variant="h6" align="left" fontWeight={"400"}>
         Description :
       </Typography>
-      <Typography variant="body2" align="left" fontWeight={"300"}>
-        <br />
+      <Typography variant="body1" fontWeight={"200"}>
         {record.description}
-        {/* <br />
-      {record.description}, {record.description} */}
       </Typography>
-    </>
+    </Box>
   ) : null;
 };
 

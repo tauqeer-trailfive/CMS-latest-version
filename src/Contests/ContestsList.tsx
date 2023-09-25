@@ -66,6 +66,7 @@ const ContestsList = () => {
             },
           }}
           empty={<NotFoundRecord />}
+          omit={["submittedProjects"]}
         >
           <ContestLinkField source="id" label="resources.contests.fields.id" />
           <TextField source="title" label="resources.contests.fields.title" />
@@ -76,6 +77,11 @@ const ContestsList = () => {
             TrueIcon={CheckCircle}
             FalseIcon={CancelCircle}
           />
+          <ArrayField source="submittedProjects" sortable={false}>
+            <SingleFieldList linkType={false}>
+              <ChipField source="project.name" size="small" />
+            </SingleFieldList>
+          </ArrayField>
         </DatagridConfigurable>
       )}
     </List>
