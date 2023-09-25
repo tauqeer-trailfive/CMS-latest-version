@@ -3358,7 +3358,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             ...((params.filter.text || params.filter.q) && {
               text_contains: params.filter.text || params.filter.q,
             }),
-            ...(params.filter.project.id && {
+            ...(params?.filter?.project?.id && {
               project: { id: params.filter.project.id },
             }),
           },

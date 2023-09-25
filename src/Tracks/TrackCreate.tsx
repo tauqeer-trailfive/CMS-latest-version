@@ -101,6 +101,8 @@ const TrackCreate = () => {
               <AutocompleteInput
                 optionText={(choice) => `${choice.name}  /  (${choice.id})`}
                 optionValue="id"
+                label="Project"
+                noOptionsText="Project does'nt exist."
               />
             </ReferenceInput>
           </Box>

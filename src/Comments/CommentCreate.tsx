@@ -62,6 +62,8 @@ const EffectCreate = () => {
                   `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                 }
                 optionValue="id"
+                noOptionsText="Owner does'nt exist."
+                label="Owner"
               />
             </ReferenceInput>
           </Box>
@@ -79,6 +81,8 @@ const EffectCreate = () => {
                 key="project"
                 optionText={(choice) => `${choice.name}  /  (${choice.id})`}
                 optionValue="id"
+                noOptionsText="Project does'nt exist."
+                label="Project"
               />
             </ReferenceInput>
           </Box>

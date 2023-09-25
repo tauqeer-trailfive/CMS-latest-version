@@ -63,6 +63,8 @@ const CommentEdit = () => {
                         `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                       }
                       optionValue="id"
+                      noOptionsText="Owner does'nt exist."
+                      label="Owner"
                     />
                   </ReferenceInput>
                 </Box>
@@ -82,6 +84,8 @@ const CommentEdit = () => {
                         `${choice.name}  /  (${choice.id})`
                       }
                       optionValue="id"
+                      noOptionsText="Project does'nt exist."
+                      label="Project"
                     />
                   </ReferenceInput>
                 </Box>

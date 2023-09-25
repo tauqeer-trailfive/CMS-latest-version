@@ -146,6 +146,8 @@ const PlaylistEdit = () => {
                   `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                 }
                 optionValue="id"
+                noOptionsText="Owner does'nt exist."
+                label="Owner"
               />
             </ReferenceInput>
           </Box>
@@ -189,6 +191,8 @@ const PlaylistEdit = () => {
                     }
                     optionValue="id"
                     fullWidth
+                    noOptionsText="Project does'nt exist."
+                    label="Project"
                   />
                 </ReferenceInput>
                 <DateTimeInput

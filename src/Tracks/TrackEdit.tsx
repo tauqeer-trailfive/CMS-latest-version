@@ -74,6 +74,8 @@ const TrackEdit = () => {
                 <AutocompleteInput
                   optionText={(choice) => `${choice.name}  /  (${choice.id})`}
                   optionValue="id"
+                  noOptionsText="Project does'nt exist."
+                  label="Project"
                 />
               </ReferenceInput>
             </Grid>

@@ -83,6 +83,7 @@ const PresetEdit = () => {
                       optionValue="id"
                       label="Name / typeOfEffect / id"
                       fullWidth
+                      noOptionsText="Effect does'nt exist."
                     />
                   </ReferenceInput>
                 </SimpleFormIterator>

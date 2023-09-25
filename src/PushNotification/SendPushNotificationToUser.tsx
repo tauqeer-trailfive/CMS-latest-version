@@ -287,6 +287,7 @@ const SendPushNotificationToUser = (props: Props) => {
                 onChange={(newValue) => {
                   setUserId(newValue);
                 }}
+                noOptionsText="User does'nt exist."
               />
             </ReferenceInput>
           </Box>
@@ -310,6 +311,7 @@ const SendPushNotificationToUser = (props: Props) => {
                   onChange={(newValue) => {
                     setProjectId(newValue);
                   }}
+                  noOptionsText="Project does'nt exist"
                 />
               </ReferenceInput>
             </Box>
@@ -332,6 +334,7 @@ const SendPushNotificationToUser = (props: Props) => {
                     onChange={(newValue) => {
                       setComment(newValue);
                     }}
+                    noOptionsText="Comment does'nt exist."
                   />
                 </ReferenceInput>
               </Box>
@@ -355,6 +358,7 @@ const SendPushNotificationToUser = (props: Props) => {
                   //console.log(newValue);
                   setContestId(newValue);
                 }}
+                noOptionsText="Contest does'nt exist."
               />
             </ReferenceInput>
           </Box>

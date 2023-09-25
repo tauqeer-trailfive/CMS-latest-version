@@ -171,6 +171,7 @@ const EffectEdit = () => {
                       optionText="name"
                       fullWidth
                       label="Genre"
+                      noOptionsText="Genre does'nt exist."
                     />
                   </ReferenceInput>
                 </Box>

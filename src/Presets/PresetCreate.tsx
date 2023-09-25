@@ -78,6 +78,7 @@ const PresetCreate = () => {
             id="id"
             fullWidth
             label="Effect"
+            noOptionsText="Effect does'nt exist."
           />
         </ReferenceArrayInput>
       </SimpleForm>

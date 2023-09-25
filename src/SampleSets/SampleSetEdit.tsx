@@ -49,6 +49,8 @@ const SampleSetEdit = () => {
                         `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                       }
                       optionValue="id"
+                      noOptionsText="Owner does'nt exist."
+                      label="Owner"
                     />
                   </ReferenceInput>
                 </Box>
@@ -71,7 +73,11 @@ const SampleSetEdit = () => {
                     source="genre.id"
                     reference="genres"
                   >
-                    <AutocompleteInput optionText="name" />
+                    <AutocompleteInput
+                      optionText="name"
+                      noOptionsText="Genre does'nt exist."
+                      label="Genres"
+                    />
                   </ReferenceInput>
                 </Box>
               </Box>
@@ -88,6 +94,8 @@ const SampleSetEdit = () => {
                         `${choice.name}  /  (${choice.id})`
                       }
                       fullWidth
+                      noOptionsText="Sample does'nt exist."
+                      label="Samples"
                     />
                   </ReferenceInput>
                 </SimpleFormIterator>

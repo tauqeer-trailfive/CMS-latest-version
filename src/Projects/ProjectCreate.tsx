@@ -121,7 +121,11 @@ const ProjectCreate = () => {
               reference="genres"
               allowEmpty
             >
-              <AutocompleteArrayInput optionText="name" optionValue="id" />
+              <AutocompleteArrayInput
+                optionText="name"
+                optionValue="id"
+                noOptionsText="Genre does'nt exist."
+              />
             </ReferenceArrayInput>
           </Box>
         </Box>
@@ -139,6 +143,7 @@ const ProjectCreate = () => {
             }
             optionValue="id"
             fullWidth
+            noOptionsText="Musical Instrument does'nt exist."
           />
         </ReferenceArrayInput>
         <Separator />
@@ -182,6 +187,8 @@ const ProjectCreate = () => {
                   `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                 }
                 optionValue="id"
+                noOptionsText="Owner does'nt exist."
+                label="Owner"
               />
             </ReferenceInput>
           </Box>
@@ -196,7 +203,11 @@ const ProjectCreate = () => {
               allowEmpty
               perPage={50}
             >
-              <AutocompleteArrayInput optionText="id" optionValue="id" />
+              <AutocompleteArrayInput
+                optionText="id"
+                optionValue="id"
+                noOptionsText="Track does'nt exist."
+              />
             </ReferenceArrayInput>
           </Box>
         </Box>

@@ -118,6 +118,7 @@ const HomescreenEdit = () => {
               }}
               choices={Regions}
               fullWidth
+              noOptionsText="Region does'nt exist."
             />
           </SimpleFormIterator>
         </ArrayInput>
@@ -131,6 +132,7 @@ const HomescreenEdit = () => {
                 }}
                 optionValue="id"
                 fullWidth
+                noOptionsText="Playlist does'nt exist."
               />
             </ReferenceInput>
           </SimpleFormIterator>

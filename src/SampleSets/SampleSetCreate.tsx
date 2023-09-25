@@ -59,6 +59,8 @@ const SampleSetCreate = () => {
                   `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                 }
                 optionValue="id"
+                noOptionsText="Owner does'nt exist."
+                label="Owner"
               />
             </ReferenceInput>
           </Box>
@@ -78,7 +80,11 @@ const SampleSetCreate = () => {
         <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
           <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
             <ReferenceInput label="Genre" source="genre.id" reference="genres">
-              <AutocompleteInput optionText="name" />
+              <AutocompleteInput
+                optionText="name"
+                noOptionsText="Genre does'nt exist."
+                label="Genres"
+              />
             </ReferenceInput>
           </Box>
         </Box>
@@ -94,6 +100,8 @@ const SampleSetCreate = () => {
             >
               <AutocompleteArrayInput
                 optionText={(choice) => `${choice.name}  /  (${choice.id})`}
+                noOptionsText="Sample does'nt exist."
+                label="Samples"
               />
             </ReferenceArrayInput>
           </Box>

@@ -103,6 +103,7 @@ const HomesreenCreate = () => {
           optionText="name"
           optionValue="id"
           choices={Regions}
+          noOptionsText="Region does'nt exist."
         />
         <NumberInput fullWidth source="offset" />
         <SelectInput
@@ -145,6 +146,7 @@ const HomesreenCreate = () => {
               <AutocompleteArrayInput
                 optionText={(choice) => `${choice.name} / (${choice.id})`}
                 optionValue="id"
+                noOptionsText="Playlist does'nt exist."
               />
             </ReferenceArrayInput>
           </Box>

@@ -64,6 +64,8 @@ const PlaylistCreate = () => {
                   `${choice.name}  /  (${choice.artistName})  /  (${choice.id})`
                 }
                 optionValue="id"
+                noOptionsText="Owner does'nt exist."
+                label="Owner"
               />
             </ReferenceInput>
           </Box>

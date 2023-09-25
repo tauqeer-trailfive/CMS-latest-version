@@ -233,6 +233,7 @@ const SampleCreate = () => {
                 optionText={(choice) => `${choice.name}  /  (${choice.id})`}
                 optionValue="id"
                 label="Select Genre"
+                noOptionsText="Genre does'nt exist."
               />
             </ReferenceInput>
           </Box>
