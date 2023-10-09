@@ -32,6 +32,14 @@ import {
   tracksConnectorOnEditProject,
 } from "../utils/utils";
 
+// import schema here
+const schema_dev = require("../schema-dev.json");
+const schema_prod = require("../schema-prod.json");
+
+// prefer schema w.r.t curren enviorment dev or prod
+const schema =
+  process.env.REACT_APP_ENVIORMENT === "PROD" ? schema_prod : schema_dev;
+
 const getGqlResource = (resource: string) => {
   switch (resource) {
     case "contests":
@@ -4936,9 +4944,7 @@ export default async () => {
       cache: new InMemoryCache() as any,
     },
     introspection: {
-      operationNames: {
-        [DELETE]: (resource: IntrospectionType) => `remove${resource.name}`,
-      },
+      schema: (schema as any).__schema,
     },
     buildQuery: customBuildQuery,
   });
