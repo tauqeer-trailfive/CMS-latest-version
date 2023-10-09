@@ -33,8 +33,8 @@ import {
 } from "../utils/utils";
 
 // import schema here
-const schema_dev = require("../schema-dev.json");
-const schema_prod = require("../schema-prod.json");
+import schema_dev from "../schema-dev.json";
+import schema_prod from "../schema-prod.json";
 
 // prefer schema w.r.t curren enviorment dev or prod
 const schema =
