@@ -38,7 +38,7 @@ import schema_prod from "../schema-prod.json";
 
 // prefer schema w.r.t curren enviorment dev or prod
 const schema =
-  process.env.REACT_APP_ENVIORMENT === "PROD" ? schema_prod : schema_dev;
+  import.meta.env.REACT_APP_ENVIORMENT === "PROD" ? schema_prod : schema_dev;
 
 const getGqlResource = (resource: string) => {
   switch (resource) {
