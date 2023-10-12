@@ -1,16 +1,14 @@
-import { ApolloQueryResult, InMemoryCache } from "@apollo/client";
+import { InMemoryCache } from "@apollo/client";
 import buildApolloClient, {
   buildQuery as buildQueryFactory,
 } from "ra-data-graphql-simple";
 import { BuildQueryFactory } from "ra-data-graphql";
-import { CREATE, DataProvider, DELETE } from "react-admin";
+import { DataProvider } from "react-admin";
 import gql from "graphql-tag";
-import { IntrospectionType } from "graphql";
 import { ApolloLink, concat } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
-import configFile from "../configFile";
+import config from "../configFile";
 import {
-  arrDiff,
   bpmConnectorOnEditSamples,
   categoriesConnectorInProjEdit,
   connectGenreInProjectCreate,
@@ -100,7 +98,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   }
 });
 
-const httpLink = new HttpLink({ uri: configFile.ip });
+const httpLink = new HttpLink({ uri: config.ip });
 
 const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
   const buildQuery = buildQueryFactory(introspectionResults);
