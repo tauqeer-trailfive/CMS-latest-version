@@ -78,6 +78,8 @@ const getGqlResource = (resource: string) => {
       return "Playlist";
     case "homescreens":
       return "HomeScreen";
+    case "groups":
+      return "Group";
     default:
       throw new Error(`Unknown resource ${resource}`);
   }
@@ -4926,6 +4928,230 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
         parseResponse: (response: any) => {
           return {
             data: response.data.data,
+          };
+        },
+      };
+    }
+
+    /* Groups */
+    if (resource === "Group" && type === "GET_LIST") {
+      return {
+        query: gql`
+          query GetAllGroups(
+            $where: GroupWhereInput
+            $orderBy: GroupOrderByInput
+            $take: Int
+            $skip: Int
+          ) {
+            data: getAllGroups(
+              where: $where
+              orderBy: $orderBy
+              take: $take
+              skip: $skip
+            ) {
+              id
+              avatarUrl
+              name
+              createdAt
+              description
+              createdById
+              createdBy {
+                id
+                name
+              }
+              isPublic
+              projects {
+                id
+                name
+              }
+            }
+            groupsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          orderBy: `${params.sort.field}_${params.sort.order}`,
+          where: {
+            ...((params.filter.name || params.filter.q) && {
+              name_contains: params.filter.name || params.filter.q,
+            }),
+          },
+          take: params.pagination.perPage,
+          skip: params.pagination.perPage * (params.pagination.page - 1),
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.groupsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Group" && type === "GET_ONE") {
+      return {
+        query: gql`
+          query GetGroupById($getGroupByIdId: ID!) {
+            data: getGroupById(id: $getGroupByIdId) {
+              id
+              name
+              description
+              avatarUrl
+              createdBy {
+                id
+                name
+                artistName
+              }
+              isPublic
+              projects {
+                id
+                name
+              }
+              members {
+                role
+                user {
+                  id
+                  name
+                  artistName
+                }
+              }
+            }
+          }
+        `,
+        variables: { getGroupByIdId: params.id },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Group" && type === "UPDATE") {
+      const usersIds = params?.data?.members?.map((item) => {
+        return item.user.id;
+      });
+      return {
+        query: gql`
+          mutation UpdateGroup($data: UpdateGroupInput) {
+            updateGroup(data: $data) {
+              id
+            }
+          }
+        `,
+        variables: {
+          data: {
+            groupId: params.id,
+            name: params.data.name,
+            description: params.data.description,
+            isPublic: params.data.isPublic,
+            userIds: usersIds,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.updateGroup,
+          };
+        },
+      };
+    }
+
+    if (resource === "Group" && type === "GET_MANY") {
+      return {
+        query: gql`
+          query GetAllGroups(
+            $where: GroupWhereInput
+            $orderBy: GroupOrderByInput
+            $take: Int
+            $skip: Int
+          ) {
+            data: getAllGroups(
+              where: $where
+              orderBy: $orderBy
+              take: $take
+              skip: $skip
+            ) {
+              id
+              avatarUrl
+              name
+              createdAt
+              description
+              createdById
+              createdBy {
+                id
+                name
+              }
+              isPublic
+              projects {
+                id
+                name
+              }
+            }
+            groupsMeta(where: $where) {
+              count
+            }
+          }
+        `,
+        variables: {
+          where: { id_in: params.ids },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+            total: response.data.groupsMeta.count,
+          };
+        },
+      };
+    }
+
+    if (resource === "Group" && type === "DELETE") {
+      return {
+        query: gql`
+          mutation DeleteGroup($groupId: String) {
+            data: deleteGroup(groupId: $groupId)
+          }
+        `,
+        variables: {
+          groupId: params.id,
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.data,
+          };
+        },
+      };
+    }
+
+    if (resource === "Group" && type === "CREATE") {
+      const usersIds = params?.data?.members?.map((item) => {
+        return item.user.id;
+      });
+      return {
+        query: gql`
+          mutation CreateGroup($data: CreateGroupInput) {
+            createGroup(data: $data) {
+              id
+            }
+          }
+        `,
+        variables: {
+          data: {
+            name: params.data.name,
+            description: params.data.description,
+            isPublic: params.data.isPublic,
+            userIds: usersIds,
+          },
+        },
+        options: { fetchPolicy: "network-only" },
+        parseResponse: (response: any) => {
+          return {
+            data: response.data.createGroup,
           };
         },
       };

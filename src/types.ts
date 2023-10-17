@@ -231,6 +231,18 @@ export interface User extends RaRecord {
   date: Date;
 }
 
+export interface Group extends RaRecord {
+  name: string;
+  avatarUrl: string;
+  description: string;
+  createdById: string;
+  createdBy: {
+    id: string;
+    name: string;
+  };
+  isPublic: boolean;
+}
+
 declare global {
   interface Window {
     restServer: any;
