@@ -1,23 +1,23 @@
 import * as React from "react";
 import {
   Create,
+  DateInput,
   SimpleForm,
   TextInput,
   useTranslate,
-  PasswordInput,
-  email,
-  SelectInput,
-  DateInput,
   BooleanInput,
 } from "react-admin";
-import { Box, Button, Grid, Typography } from "@mui/material";
-import { gql, useMutation } from "@apollo/client";
+import { Box, Typography, Button } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useMutation, gql } from "@apollo/client";
+import { useEffect } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
-let config_data_contestMedia: any = {
+let config_data_contestMedia = {
   "x-goog-meta-test": "",
   key: "",
   "x-goog-algorithm": "",
@@ -77,6 +77,9 @@ const ContestCreate = () => {
   const translate = useTranslate();
 
   const [value, setValue] = React.useState(0);
+
+  const [currentFile, setCurrentFile] = React.useState<any>();
+  const [currentUrl, setCurrentUrl] = React.useState<any>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -186,18 +189,37 @@ const ContestCreate = () => {
     }
   `;
 
+  useEffect(() => {
+    if (!currentFile?.file) {
+      setCurrentUrl(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(currentFile?.file);
+    setCurrentUrl(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [currentFile]);
+
   const [uploadSampleImage, { data, loading, error }] =
     useMutation(UPLOAD_POLICY);
 
-  React.useEffect(() => {}, [contestMediaFiles1]);
+  useEffect(() => {}, [contestMediaFiles1]);
   let stateData;
 
   const uploadFile = async (
     index: number,
     key: string,
     filename: string,
-    form: any
+    form: any,
+    currentInputFile?: any
   ) => {
+    setCurrentFile({
+      index,
+      key,
+      file: currentInputFile,
+    });
     const finalFilename = new Date().getTime() + "-" + filename;
     const response = await uploadSampleImage({
       variables: {
@@ -234,7 +256,7 @@ const ContestCreate = () => {
     setContestMediaFiles1(stateData);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.removeItem("CONTEST_MEDIA_DATA");
     localStorage.setItem(
       "CONTEST_MEDIA_DATA",
@@ -254,11 +276,47 @@ const ContestCreate = () => {
     };
   }
   //console.log("contestMediaFiles1", contestMediaFiles1);
+
+  const ImageMedia = ({ source }) => {
+    return (
+      <img
+        src={source}
+        width="220"
+        height="140"
+        style={{
+          maxWidth: "100%",
+          height: "auto",
+          padding: 0,
+          margin: 0,
+          borderRadius: 10,
+        }}
+      />
+    );
+  };
+
+  const VideoMedia = ({ source }) => {
+    return (
+      <video
+        src={source}
+        controls
+        width="220"
+        height="140"
+        style={{
+          maxWidth: "100%",
+          height: "auto",
+          padding: 0,
+          margin: 0,
+          borderRadius: 10,
+        }}
+      />
+    );
+  };
+
+  const defaultDate = new Date().toISOString().slice(0, 10);
   return (
     <Create redirect="list">
       <SimpleForm
-        sx={{ maxWidth: 500, mx: 2, my: 2 }}
-        // Here for the GQL provider
+        sx={{ maxWidth: 800, mx: 2, my: 2 }}
         defaultValues={{
           title: "",
           description: "",
@@ -271,28 +329,71 @@ const ContestCreate = () => {
           gutterBottom
           color={"primary"}
           align="left"
-          fontWeight={"800"}
+          fontWeight={"900"}
         >
           {translate("resources.contests.fieldGroups.CreateContest")}
         </Typography>
-        <TextInput source="title" isRequired fullWidth />
-        <TextInput source="termsAndConds" multiline isRequired fullWidth />
-        <TextInput source="prize" multiline isRequired fullWidth />
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid item xs={6}>
+
+        <Box display={{ xs: "block", sm: "flex", width: "70%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <TextInput source="title" isRequired fullWidth />
+          </Box>
+        </Box>
+        <Box display={{ xs: "block", sm: "flex", width: "70%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <TextInput source="termsAndConds" multiline isRequired fullWidth />
+          </Box>
+        </Box>
+        <Box display={{ xs: "block", sm: "flex", width: "70%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <TextInput source="prize" multiline isRequired fullWidth />
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            width: "70%",
+          }}
+        >
+          <Box
+            mr={{ xs: 0, sm: "0.5em" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <DateInput
               source="startDate"
               type="date"
               defaultValue={new Date()}
             />
-          </Grid>
-          <Grid item xs={6}>
             <DateInput source="endDate" type="date" defaultValue={new Date()} />
-          </Grid>
-        </Grid>
-        <TextInput source="baseProject" fullWidth />
-        <BooleanInput label="Allow Track Upload" source="allowTrackUpload" />
+          </Box>
+        </Box>
+
+        <Box display={{ xs: "block", sm: "flex", width: "70%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <SectionTitle label="resources.contests.fields.baseproject" />
+            <TextInput source="baseProject" fullWidth />
+          </Box>
+        </Box>
+
+        <Box display={{ xs: "block", sm: "flex", width: "70%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <BooleanInput
+              label="Allow Track Upload"
+              source="allowTrackUpload"
+              options={{
+                checkedIcon: <CheckCircleIcon />,
+                icon: <CancelIcon />,
+              }}
+            />
+          </Box>
+        </Box>
+
         <SectionTitle label="resources.contests.fields.contestMedia" />
+
         <Box sx={{ width: "auto" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
@@ -300,12 +401,12 @@ const ContestCreate = () => {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              {contestMediaFiles1.map((field: any, index: any) => {
+              {contestMediaFiles1.map((field, index) => {
                 return <Tab label={field.stage} {...a11yProps(index)} />;
               })}
             </Tabs>
           </Box>
-          {contestMediaFiles1.map((field: any, index: any) => {
+          {contestMediaFiles1.map((field, index) => {
             return (
               <TabPanel value={value} index={index}>
                 {(field.stage === "DURINGCONTEST" ||
@@ -316,10 +417,8 @@ const ContestCreate = () => {
                       key={`${field.stage}-${index}`}
                       source={`${field.stage}-Date`}
                       type="date"
-                      // defaultValue={new Date().toISOString()}
                       value={field.startDate}
                       fullWidth
-                      variant="outlined"
                       onChange={(e: any) => {
                         const dateValue = e.target.value;
                         let afterFormatting = new Date(dateValue).toISOString();
@@ -332,11 +431,11 @@ const ContestCreate = () => {
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
                   <TextInput
                     source={`${field.stage}-description`}
+                    label={`${field.stage}-description`}
                     multiline
                     isRequired
                     rows={5}
                     fullWidth
-                    variant="outlined"
                     helperText={
                       field.stage === "DURINGCONTEST" ? (
                         <p style={{ color: "red" }}>
@@ -348,13 +447,28 @@ const ContestCreate = () => {
                       )
                     }
                     onChange={(e: any) => {
-                      //console.log("value of sec", e.target.value);
                       let description = e.target.value;
                       setDescriptionForStage(description, "description", index);
                     }}
                   />
                 </Box>
                 <SectionTitle label="resources.contests.fields.image" />
+
+                {field?.image && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <ImageMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "image"
+                            ? currentUrl
+                            : field?.image
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
+
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -372,7 +486,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -400,15 +513,10 @@ const ContestCreate = () => {
                               index,
                               "image",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
-
-                            // setTimeout(() => {
-                            //   form.submit();
-                            //   // setContestImage(true);
-                            // }, 1000);
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -425,7 +533,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.image,
                         }}
                         value={contestMediaFiles1[index]?.image}
-                        variant="outlined"
                       />
 
                       <p style={{ color: "green" }}>
@@ -436,6 +543,20 @@ const ContestCreate = () => {
                   )}
                 </Box>
                 <SectionTitle label="resources.contests.fields.bannerimmage" />
+                {field?.bannerImage && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <ImageMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "bannerImage"
+                            ? currentUrl
+                            : field?.bannerImage
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -453,7 +574,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -482,15 +602,10 @@ const ContestCreate = () => {
                               index,
                               "bannerImage",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
-
-                            // setTimeout(() => {
-                            //   form.submit();
-                            //   // setUploadedBannerImage(true);
-                            // }, 1000);
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -507,7 +622,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.bannerImage,
                         }}
                         value={contestMediaFiles1[index]?.bannerImage}
-                        variant="outlined"
                       />
                       <p style={{ color: "green" }}>
                         {" "}
@@ -517,6 +631,20 @@ const ContestCreate = () => {
                   )}
                 </Box>
                 <SectionTitle label="resources.contests.fields.contestvideo" />
+                {field?.contestVideo && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <VideoMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "contestVideo"
+                            ? currentUrl
+                            : field?.contestVideo
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -534,7 +662,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -563,15 +690,10 @@ const ContestCreate = () => {
                               index,
                               "contestVideo",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
-
-                            // setTimeout(() => {
-                            //   form.submit();
-                            //   // setUploadedContestVideo(true);
-                            // }, 1000);
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -588,7 +710,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.contestVideo,
                         }}
                         value={contestMediaFiles1[index]?.contestVideo}
-                        variant="outlined"
                       />
                       <p style={{ color: "green" }}>
                         {" "}
@@ -598,6 +719,20 @@ const ContestCreate = () => {
                   )}
                 </Box>
                 <SectionTitle label="resources.contests.fields.bannervideo" />
+                {field?.bannerVideo && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <VideoMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "bannerVideo"
+                            ? currentUrl
+                            : field?.bannerVideo
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -615,7 +750,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -644,15 +778,10 @@ const ContestCreate = () => {
                               index,
                               "bannerVideo",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
-
-                            // setTimeout(() => {
-                            //   form.submit();
-                            //   // setUploadedBannerVideo(true);
-                            // }, 1000);
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -669,7 +798,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.bannerVideo,
                         }}
                         value={contestMediaFiles1[index]?.bannerVideo}
-                        variant="outlined"
                       />
                       <p style={{ color: "green" }}>
                         {" "}
@@ -679,6 +807,20 @@ const ContestCreate = () => {
                   )}
                 </Box>
                 <SectionTitle label="resources.contests.fields.carouselBanner1" />
+                {field?.carouselBanner1 && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <ImageMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "carouselBanner1"
+                            ? currentUrl
+                            : field?.carouselBanner1
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -696,7 +838,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -725,10 +866,10 @@ const ContestCreate = () => {
                               index,
                               "carouselBanner1",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -746,7 +887,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.carouselBanner1,
                         }}
                         value={contestMediaFiles1[index]?.carouselBanner1}
-                        variant="outlined"
                       />
                       <p style={{ color: "green" }}>
                         {" "}
@@ -756,6 +896,20 @@ const ContestCreate = () => {
                   )}
                 </Box>
                 <SectionTitle label="resources.contests.fields.carouselBanner2" />
+                {field?.carouselBanner2 && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <ImageMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "carouselBanner2"
+                            ? currentUrl
+                            : field?.carouselBanner2
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -773,7 +927,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -802,10 +955,10 @@ const ContestCreate = () => {
                               index,
                               "carouselBanner2",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -823,7 +976,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.carouselBanner2,
                         }}
                         value={contestMediaFiles1[index]?.carouselBanner2}
-                        variant="outlined"
                       />
                       <p style={{ color: "green" }}>
                         {" "}
@@ -833,6 +985,20 @@ const ContestCreate = () => {
                   )}
                 </Box>
                 <SectionTitle label="resources.contests.fields.carouselBanner3" />
+                {field?.carouselBanner3 && (
+                  <Box display={{ xs: "block", sm: "flex" }}>
+                    <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+                      <ImageMedia
+                        source={
+                          currentFile?.index === index &&
+                          currentFile?.key === "carouselBanner3"
+                            ? currentUrl
+                            : field?.carouselBanner3
+                        }
+                      />
+                    </Box>
+                  </Box>
+                )}
                 <Box flex={1} mr={{ xs: 0, sm: "0.5em" }} my={2}>
                   <form
                     action="https://storage.googleapis.com/contest_image/"
@@ -850,7 +1016,6 @@ const ContestCreate = () => {
                       />
                     ))}
                     <Button
-                      variant="outlined"
                       component="label"
                       size="small"
                       color="primary"
@@ -879,10 +1044,10 @@ const ContestCreate = () => {
                               index,
                               "carouselBanner3",
                               e.target.files[0]?.name,
-                              form
+                              form,
+                              e.target.files[0]
                             );
                           }
-                          1;
                         }}
                       />
                     </Button>
@@ -900,7 +1065,6 @@ const ContestCreate = () => {
                           value: contestMediaFiles1[index]?.carouselBanner3,
                         }}
                         value={contestMediaFiles1[index]?.carouselBanner3}
-                        variant="outlined"
                       />
                       <p style={{ color: "green" }}>
                         {" "}
@@ -922,7 +1086,7 @@ const SectionTitle = ({ label }: { label: string }) => {
   const translate = useTranslate();
 
   return (
-    <Typography variant="button" gutterBottom color={"lightpink"}>
+    <Typography variant="button" gutterBottom>
       {translate(label as string)}
     </Typography>
   );

@@ -86,7 +86,15 @@ const ContestShow = () => {
 const ContestDescriptionField = () => {
   const record = useRecordContext<Contest>();
   return record ? (
-    <Box sx={{ display: "inline-flex", alignItems: "center", gap: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "start",
+        justifyContent: "center",
+        gap: 2,
+      }}
+    >
       <Typography variant="h6" align="left" fontWeight={"400"}>
         Description :
       </Typography>

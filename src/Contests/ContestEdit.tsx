@@ -1,31 +1,33 @@
 import * as React from "react";
 import {
+  DateInput,
   Edit,
   TextInput,
   SimpleForm,
   useTranslate,
-  BooleanInput,
-  DateInput,
+  useRecordContext,
   useRefresh,
   useNotify,
-  useRecordContext,
+  Toolbar,
   SaveButton,
   DeleteButton,
-  Toolbar,
+  BooleanInput,
+  LinearProgress,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { Grid, Box, Typography, Button } from "@mui/material";
-import Aside from "./Aside";
-import IdField from "./IdField";
-import { validateForm } from "./ContestCreate";
-import { useQuery } from "@apollo/client/react/hooks";
-import { useMutation, gql } from "@apollo/client";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { Box, Typography, Button } from "@mui/material";
+
+import IdField from "./IdField";
+import { validateForm } from "./ContestCreate";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useMutation, gql } from "@apollo/client";
+import { useEffect } from "react";
+import { useQuery } from "@apollo/client/react/hooks";
 
-let config_data_contestMedia: any = {
+let config_data_contestMedia = {
   "x-goog-meta-test": "",
   key: "",
   "x-goog-algorithm": "",
@@ -120,7 +122,7 @@ const ContestEdit = () => {
           id: id,
         },
       },
-      fetchPolicy: "no-cache",
+      fetchPolicy: "network-only",
     }
   );
 
@@ -135,6 +137,9 @@ const ContestEdit = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const [currentFile, setCurrentFile] = React.useState<any>();
+  const [currentUrl, setCurrentUrl] = React.useState<any>();
 
   const [contestDataUpdated, setcontestDataUpdated] =
     React.useState<boolean>(false);
@@ -155,18 +160,37 @@ const ContestEdit = () => {
   const [uploadedcarouselBanner3, setUploadedcarouselBanner3] =
     React.useState<boolean>(false);
 
+  useEffect(() => {
+    if (!currentFile?.file) {
+      setCurrentUrl(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(currentFile?.file);
+    setCurrentUrl(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [currentFile]);
+
   const [uploadSampleImage, { data, loading, error }] =
     useMutation(UPLOAD_POLICY);
 
-  React.useEffect(() => {}, [contestMediaFiles1]);
+  useEffect(() => {}, [contestMediaFiles1]);
   let stateData;
 
   const uploadFile = async (
     index: number,
     key: string,
     filename: string,
-    form: any
+    form: any,
+    currentInputFile?: any
   ) => {
+    setCurrentFile({
+      index,
+      key,
+      file: currentInputFile,
+    });
     const finalFilename = new Date().getTime() + "-" + filename;
     const response = await uploadSampleImage({
       variables: {
@@ -180,12 +204,14 @@ const ContestEdit = () => {
     const url = response?.data?.singleImageUpload?.mp3download_url;
     const prevData = JSON.parse(JSON.stringify(contestMediaFiles1));
     prevData[index]["data"][key] = url;
+    //console.log(prevData);
     setContestMediaFiles1(prevData);
   };
 
   const setDateForStage = (date: any, key: string, index: number) => {
     const prevData = JSON.parse(JSON.stringify(contestMediaFiles1));
     prevData[index]["data"][key] = date;
+    //console.log(prevData);
     setContestMediaFiles1(prevData);
   };
 
@@ -196,10 +222,11 @@ const ContestEdit = () => {
   ) => {
     const prevData = JSON.parse(JSON.stringify(contestMediaFiles1));
     prevData[index]["data"][key] = description;
+    //console.log(prevData);
     setContestMediaFiles1(prevData);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.removeItem("CONTEST_MEDIA_EDIT_DATA");
     localStorage.setItem(
       "CONTEST_MEDIA_EDIT_DATA",
@@ -207,7 +234,7 @@ const ContestEdit = () => {
     );
   }, [contestMediaFiles1]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!singleContestLoading) {
       if (!!!contestDataUpdated && getContestData) {
         localStorage.removeItem("CONTEST_MEDIA_EDIT_DATA");
@@ -243,13 +270,14 @@ const ContestEdit = () => {
             };
           }
         );
+        //console.log("formatedContestMedia", formatedContestMedia);
         setContestMediaFiles1(formatedContestMedia);
         setcontestDataUpdated(true);
       }
     }
   }, [getContestData]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       setContestMediaFiles1([]);
       setcontestDataUpdated(false);
@@ -316,9 +344,16 @@ const ContestEdit = () => {
       />
     );
   };
+
   return (
-    <Edit title={<UserTitle />} redirect="list" mutationMode="pessimistic">
+    <Edit
+      title={<VisitorTitle />}
+      redirect="/contests"
+      mutationMode="pessimistic"
+    >
       <SimpleForm
+        maxWidth={500}
+        sx={{ mx: 2, my: 2 }}
         validate={validateForm}
         toolbar={
           <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -326,58 +361,63 @@ const ContestEdit = () => {
             <DeleteButton />
           </Toolbar>
         }
-        sx={{ mx: 2, my: 2 }}
       >
-        <div>
-          <Grid container width={{ xs: "100%", xl: 800 }} spacing={2}>
-            <Grid item xs={12} md={8}>
-              <Typography
-                variant="h4"
-                gutterBottom
-                color={"primary"}
-                align="left"
-                fontWeight={"800"}
-              >
-                {translate("resources.contests.fieldGroups.EditContest")}
-              </Typography>
-              <TextInput source="title" isRequired fullWidth />
-              <TextInput
-                source="termsAndConds"
-                multiline
-                isRequired
-                fullWidth
-              />
-              <TextInput source="prize" isRequired fullWidth />
-              <Grid
-                container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              >
-                <Grid item xs={6}>
-                  <DateInput
-                    source="startDate"
-                    type="date"
-                    defaultValue={new Date()}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <DateInput
-                    source="endDate"
-                    type="date"
-                    defaultValue={new Date()}
-                  />
-                </Grid>
-              </Grid>
-              {/* <TextInput source="baseProject" fullWidth /> */}
-              <BooleanInput
-                label="Allow Track Upload"
-                source="allowTrackUpload"
-              />
-            </Grid>
-          </Grid>
-          <Box mt="3em" />
-          <SectionTitle label="resources.contests.fields.contestMedia" />
+        <Typography
+          variant="h4"
+          gutterBottom
+          color={"primary"}
+          align="left"
+          fontWeight={"900"}
+        >
+          {translate("resources.contests.fieldGroups.EditContest")}
+        </Typography>
+        <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <TextInput source="title" isRequired fullWidth />
+          </Box>
+        </Box>
+        <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <TextInput source="termsAndConds" multiline isRequired fullWidth />
+          </Box>
+        </Box>
+        <Box display={{ xs: "block", sm: "flex", width: "100%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <TextInput source="prize" multiline isRequired fullWidth />
+          </Box>
+        </Box>
 
+        <Box sx={{ width: "100%" }}>
+          <Box
+            mr={{ xs: 0, sm: "0.5em" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <DateInput
+              source="startDate"
+              type="date"
+              defaultValue={new Date()}
+            />
+            <DateInput source="endDate" type="date" defaultValue={new Date()} />
+          </Box>
+        </Box>
+        <Box display={{ xs: "block", sm: "flex", width: "70%" }}>
+          <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
+            <BooleanInput
+              label="Allow Track Upload"
+              source="allowTrackUpload"
+            />
+          </Box>
+        </Box>
+        <Box pt="3em" />
+        <SectionTitle label="resources.contests.fields.contestMedia" />
+
+        {singleContestLoading ? (
+          <LinearProgress sx={{ width: "100%" }} />
+        ) : (
           <Box sx={{ width: "auto" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
@@ -388,12 +428,6 @@ const ContestEdit = () => {
                 {contestMediaFiles1?.map((field, index) => {
                   return <Tab label={field.data.stage} {...a11yProps(index)} />;
                 })}
-                {/* <Tab label="PRECONTEST" {...a11yProps(0)} />
-              <Tab label="START" {...a11yProps(1)} />
-              <Tab label="DURINGCONTEST" {...a11yProps(2)} />
-              <Tab label="VOTINGCOUNTDOWN" {...a11yProps(3)} />
-              <Tab label="VOTING" {...a11yProps(4)} />
-              <Tab label="FINISH" {...a11yProps(5)} /> */}
               </Tabs>
             </Box>
             {contestMediaFiles1?.map((field, index) => {
@@ -419,14 +453,18 @@ const ContestEdit = () => {
                         defaultValue={field?.data?.startDate}
                         value={field?.data?.startDate}
                         fullWidth
-                        variant="outlined"
                         onChange={(e: any) => {
                           const dateValue = e.target.value;
                           let afterFormatting = new Date(
                             dateValue
                           ).toISOString();
-                          //console.log("afterFormatting", afterFormatting);
-                          setDateForStage(afterFormatting, "startDate", index);
+                          setTimeout(() => {
+                            setDateForStage(
+                              afterFormatting,
+                              "startDate",
+                              index
+                            );
+                          }, 3000);
                         }}
                       />
                     </Box>
@@ -439,7 +477,6 @@ const ContestEdit = () => {
                       rows={5}
                       fullWidth
                       defaultValue={field?.data?.description}
-                      variant="outlined"
                       helperText={
                         field?.data?.stage === "DURINGCONTEST" ? (
                           <p style={{ color: "red" }}>
@@ -451,13 +488,14 @@ const ContestEdit = () => {
                         )
                       }
                       onChange={(e: any) => {
-                        //console.log("value of sec", e.target.value);
                         let description = e.target.value;
-                        setDescriptionForStage(
-                          description,
-                          "description",
-                          index
-                        );
+                        setTimeout(() => {
+                          setDescriptionForStage(
+                            description,
+                            "description",
+                            index
+                          );
+                        }, 3000);
                       }}
                     />
                   </Box>
@@ -465,8 +503,14 @@ const ContestEdit = () => {
                   {field?.data?.image && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <ImageMedia source={field?.data?.image} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <ImageMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "image"
+                              ? currentUrl
+                              : field?.data?.image
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -487,7 +531,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -517,15 +560,10 @@ const ContestEdit = () => {
                                 index,
                                 "image",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setContestImage(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -533,7 +571,6 @@ const ContestEdit = () => {
                     {contestMediaFiles1[index].data?.image && (
                       <>
                         <TextInput
-                          // type="hidden"
                           source={`image`}
                           defaultValue={contestMediaFiles1[index].data?.image}
                           fullWidth
@@ -542,7 +579,6 @@ const ContestEdit = () => {
                             value: contestMediaFiles1[index].data?.image,
                           }}
                           value={contestMediaFiles1[index].data?.image}
-                          variant="outlined"
                         />
 
                         <p style={{ color: "green" }}>
@@ -556,8 +592,14 @@ const ContestEdit = () => {
                   {field?.data?.bannerImage && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <ImageMedia source={field?.data?.bannerImage} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <ImageMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "bannerImage"
+                              ? currentUrl
+                              : field?.data?.bannerImage
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -578,7 +620,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -609,15 +650,10 @@ const ContestEdit = () => {
                                 index,
                                 "bannerImage",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setUploadedBannerImage(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -626,7 +662,6 @@ const ContestEdit = () => {
                       <>
                         {" "}
                         <TextInput
-                          // type="hidden"
                           source={`bannerImage`}
                           defaultValue={
                             contestMediaFiles1[index].data?.bannerImage
@@ -636,7 +671,6 @@ const ContestEdit = () => {
                             value: contestMediaFiles1[index].data?.bannerImage,
                           }}
                           value={contestMediaFiles1[index].data?.bannerImage}
-                          variant="outlined"
                         />
                         <p style={{ color: "green" }}>
                           {" "}
@@ -649,8 +683,14 @@ const ContestEdit = () => {
                   {field?.data?.contestVideo && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <VideoMedia source={field?.data?.contestVideo} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <VideoMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "contestVideo"
+                              ? currentUrl
+                              : field?.data?.contestVideo
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -671,7 +711,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -702,15 +741,10 @@ const ContestEdit = () => {
                                 index,
                                 "contestVideo",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setUploadedContestVideo(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -719,7 +753,6 @@ const ContestEdit = () => {
                       <>
                         {" "}
                         <TextInput
-                          // type="hidden"
                           source={`contestVideo`}
                           defaultValue={
                             contestMediaFiles1[index].data?.contestVideo
@@ -729,7 +762,6 @@ const ContestEdit = () => {
                             value: contestMediaFiles1[index].data?.contestVideo,
                           }}
                           value={contestMediaFiles1[index].data?.contestVideo}
-                          variant="outlined"
                         />
                         <p style={{ color: "green" }}>
                           {" "}
@@ -742,8 +774,14 @@ const ContestEdit = () => {
                   {field?.data?.bannerVideo && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <VideoMedia source={field?.data?.bannerVideo} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <VideoMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "bannerVideo"
+                              ? currentUrl
+                              : field?.data?.bannerVideo
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -764,7 +802,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -795,15 +832,10 @@ const ContestEdit = () => {
                                 index,
                                 "bannerVideo",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setUploadedBannerVideo(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -822,7 +854,6 @@ const ContestEdit = () => {
                             value: contestMediaFiles1[index].data?.bannerVideo,
                           }}
                           value={contestMediaFiles1[index].data?.bannerVideo}
-                          variant="outlined"
                         />
                         <p style={{ color: "green" }}>
                           {" "}
@@ -836,8 +867,14 @@ const ContestEdit = () => {
                   {field?.data?.carouselBanner1 && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <ImageMedia source={field?.data?.carouselBanner1} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <ImageMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "carouselBanner1"
+                              ? currentUrl
+                              : field?.data?.carouselBanner1
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -858,7 +895,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -889,15 +925,10 @@ const ContestEdit = () => {
                                 index,
                                 "carouselBanner1",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setUploadedcarouselBanner1(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -919,7 +950,6 @@ const ContestEdit = () => {
                           value={
                             contestMediaFiles1[index].data?.carouselBanner1
                           }
-                          variant="outlined"
                         />
                         <p style={{ color: "green" }}>
                           {" "}
@@ -933,8 +963,14 @@ const ContestEdit = () => {
                   {field?.data?.carouselBanner2 && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <ImageMedia source={field?.data?.carouselBanner2} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <ImageMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "carouselBanner2"
+                              ? currentUrl
+                              : field?.data?.carouselBanner2
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -955,7 +991,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -986,15 +1021,10 @@ const ContestEdit = () => {
                                 index,
                                 "carouselBanner2",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setUploadedcarouselBanner2(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -1016,7 +1046,6 @@ const ContestEdit = () => {
                           value={
                             contestMediaFiles1[index].data?.carouselBanner2
                           }
-                          variant="outlined"
                         />
                         <p style={{ color: "green" }}>
                           {" "}
@@ -1030,8 +1059,14 @@ const ContestEdit = () => {
                   {field?.data?.carouselBanner3 && (
                     <Box display={{ xs: "block", sm: "flex" }}>
                       <Box flex={1} mr={{ xs: 0, sm: "0.5em" }}>
-                        <ImageMedia source={field?.data?.carouselBanner3} />
-                        {/* <img src={field.image} width="220" height="140" /> */}
+                        <ImageMedia
+                          source={
+                            currentFile?.index === index &&
+                            currentFile?.key === "carouselBanner3"
+                              ? currentUrl
+                              : field?.data?.carouselBanner3
+                          }
+                        />
                       </Box>
                     </Box>
                   )}
@@ -1052,7 +1087,6 @@ const ContestEdit = () => {
                         />
                       ))}
                       <Button
-                        variant="outlined"
                         component="label"
                         size="small"
                         color="primary"
@@ -1074,7 +1108,6 @@ const ContestEdit = () => {
                           onChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                           ) => {
-                            //console.log("JUST RUN");
                             if (e.target.files != null) {
                               const form: any = document.querySelector(
                                 `#carouselBanner3urlfield${index}`
@@ -1083,15 +1116,10 @@ const ContestEdit = () => {
                                 index,
                                 "carouselBanner3",
                                 e.target.files[0]?.name,
-                                form
+                                form,
+                                e.target.files[0]
                               );
-
-                              // setTimeout(() => {
-                              //   form.submit();
-                              //   // setUploadedcarouselBanner3(true);
-                              // }, 1000);
                             }
-                            1;
                           }}
                         />
                       </Button>
@@ -1113,7 +1141,6 @@ const ContestEdit = () => {
                           value={
                             contestMediaFiles1[index].data?.carouselBanner2
                           }
-                          variant="outlined"
                         />
                         <p style={{ color: "green" }}>
                           {" "}
@@ -1126,22 +1153,22 @@ const ContestEdit = () => {
               );
             })}
           </Box>
-        </div>
+        )}
       </SimpleForm>
     </Edit>
   );
 };
 
-const UserTitle = () => <IdField size="32" sx={{ margin: "5px 0" }} />;
-
 const SectionTitle = ({ label }: { label: string }) => {
   const translate = useTranslate();
 
   return (
-    <Typography variant="button" gutterBottom color={"lightpink"}>
+    <Typography variant="button" gutterBottom>
       {translate(label as string)}
     </Typography>
   );
 };
+
+const VisitorTitle = () => <IdField size="32" sx={{ margin: "5px 0" }} />;
 
 export default ContestEdit;
