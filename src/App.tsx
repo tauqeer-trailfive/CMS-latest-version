@@ -29,7 +29,6 @@ import timelineitems from './TimelineItems'
 import notification from './PushNotification'
 import playlists from './Playlists'
 import homescreens from './Homesreens'
-import groups from './Groups'
 
 const i18nProvider = polyglotI18nProvider(
    (locale) => {
@@ -84,7 +83,6 @@ const App = () => (
       <Resource name="notification" {...notification} />
       <Resource name="playlists" {...playlists} />
       <Resource name="homescreens" {...homescreens} />
-      <Resource name="groups" {...groups} />
    </Admin>
 )
 

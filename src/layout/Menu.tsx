@@ -28,7 +28,6 @@ import TimelineItems from '../TimelineItems'
 import PushNotifications from '../PushNotification'
 import Playlists from '../Playlists'
 import Homesreens from '../Homesreens'
-import Groups from '../Groups'
 
 type MenuName = 'menuCatalog' | 'menuSales' | 'menuCustomers'
 
@@ -93,15 +92,6 @@ const Menu = ({ dense = false }: MenuProps) => {
                smart_count: 2,
             })}
             leftIcon={<UsersList.icon />}
-            dense={dense}
-         />
-         <MenuItemLink
-            to="/groups"
-            state={{ _scrollToTop: true }}
-            primaryText={translate(`resources.groups.name`, {
-               smart_count: 2,
-            })}
-            leftIcon={<Groups.icon />}
             dense={dense}
          />
          <MenuItemLink

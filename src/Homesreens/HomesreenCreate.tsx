@@ -13,15 +13,6 @@ import {
 import { Box, Typography } from '@mui/material'
 import { gql, useQuery } from '@apollo/client'
 
-const GET_REGIONS = gql`
-   query GetAllRegions($orderBy: MetricsFEOrderByInput) {
-      getAllRegions(orderBy: $orderBy) {
-         id
-         name
-      }
-   }
-`
-
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
@@ -42,19 +33,7 @@ export const validateForm = (
 }
 
 const HomesreenCreate = () => {
-   const [Regions, setRegions] = React.useState<{ id: string; name: string }[]>(
-      []
-   )
-   const { data, loading, error } = useQuery(GET_REGIONS)
    const translate = useTranslate()
-   React.useEffect(() => {
-      if (data?.getAllRegions) {
-         const extractingRegions = data?.getAllRegions.map((item) => {
-            return { id: item.id, name: item.name }
-         })
-         setRegions(extractingRegions)
-      }
-   }, [data])
    return (
       <Create redirect="list">
          <SimpleForm
@@ -95,16 +74,6 @@ const HomesreenCreate = () => {
                   />
                </Box>
             </Box>
-
-            <AutocompleteArrayInput
-               source="region"
-               isRequired
-               fullWidth
-               optionText="name"
-               optionValue="id"
-               choices={Regions}
-               noOptionsText="Region does'nt exist."
-            />
             <NumberInput fullWidth source="offset" />
             <SelectInput
                source="visibility"

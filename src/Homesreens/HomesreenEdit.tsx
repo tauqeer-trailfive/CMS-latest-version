@@ -17,31 +17,9 @@ import { Box, Typography } from '@mui/material'
 import Aside from './Aside'
 import IdField from './IdField'
 import { validateForm } from './HomesreenCreate'
-import { useQuery, gql } from '@apollo/client'
-
-const GET_REGIONS = gql`
-   query GetAllRegions($orderBy: MetricsFEOrderByInput) {
-      getAllRegions(orderBy: $orderBy) {
-         id
-         name
-      }
-   }
-`
 
 const HomescreenEdit = () => {
-   const [Regions, setRegions] = React.useState<{ id: string; name: string }[]>(
-      []
-   )
-   const { data, loading, error } = useQuery(GET_REGIONS)
    const translate = useTranslate()
-   React.useEffect(() => {
-      if (data?.getAllRegions) {
-         const extractingRegions = data?.getAllRegions.map((item) => {
-            return { id: item.id, name: item.name }
-         })
-         setRegions(extractingRegions)
-      }
-   }, [data])
    return (
       <Edit title={<VisitorTitle />}>
          <SimpleForm
@@ -122,20 +100,6 @@ const HomescreenEdit = () => {
             <Box display={{ xs: 'block', sm: 'flex' }}>
                <Box flex={1} mr={{ xs: 0, sm: '0.5em' }}></Box>
             </Box>
-            <ArrayInput source="region">
-               <SimpleFormIterator disableReordering={true} fullWidth>
-                  <AutocompleteInput
-                     source="name"
-                     optionValue="name"
-                     optionText={(choices) => {
-                        return `${choices.name} / ${choices.id}`
-                     }}
-                     choices={Regions}
-                     fullWidth
-                     noOptionsText="Region does'nt exist."
-                  />
-               </SimpleFormIterator>
-            </ArrayInput>
 
             <ArrayInput source="playlist">
                <SimpleFormIterator disableReordering={true} fullWidth>

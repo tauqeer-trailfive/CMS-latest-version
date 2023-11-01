@@ -326,15 +326,6 @@ export const samplesConnectorOnEditSamplesSet = (
 
 /* Homescreens */
 
-export const connectRegionsInHSCreate = (regions) => {
-   const connector = regions.map((regionID) => {
-      return {
-         id: regionID,
-      }
-   })
-   return { connect: connector }
-}
-
 export const connectPlaylistsInHSCreate = (playlists) => {
    const connector = playlists.map((playlistID) => {
       return {
@@ -342,34 +333,6 @@ export const connectPlaylistsInHSCreate = (playlists) => {
       }
    })
    return { connect: connector }
-}
-
-export const regionConnectorOnEditHS = (
-   curr: { id: string; name: string }[],
-   prev: { id: string; name: string }[]
-) => {
-   /* Filtering out the disconnected regions by compairing arrays */
-   const disconnectedRegions = prev.filter(
-      (prevObj: { id: string; name: string }) => {
-         return !curr.some(
-            (currObj: { id: string; name: string }) =>
-               currObj.name === prevObj.name
-         )
-      }
-   )
-
-   /* Making connect and disconnect form for query variable for createOrConnect is not working */
-   const connector = curr.map(({ name }) => {
-      return {
-         name: name,
-      }
-   })
-
-   const disconnector = disconnectedRegions.map(({ name }) => {
-      return { name: name }
-   })
-
-   return { connect: connector, disconnect: disconnector }
 }
 
 export const playlistsConnectorOnEditHS = (
