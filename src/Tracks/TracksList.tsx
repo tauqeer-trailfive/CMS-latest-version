@@ -87,7 +87,7 @@ const TracksList = () => {
                      lg: { display: 'table-cell' },
                   },
                }}
-               omit={['project']}
+               omit={['project.name']}
                empty={<NotFoundRecord />}
             >
                <TrackLinkField label="Id" />

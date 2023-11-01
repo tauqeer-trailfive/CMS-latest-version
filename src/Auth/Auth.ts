@@ -62,6 +62,10 @@ const authProvider: AuthProvider = {
             throw new Error(
                `${data.data.login.user.role} doesn't have permission to access!`
             );
+         })
+         .catch((error) => {
+            // Handle network-related errors and other unexpected errors here.
+            throw new Error(`${error.message}`);
          });
    },
 
@@ -95,7 +99,13 @@ const authProvider: AuthProvider = {
          ? Promise.resolve()
          : Promise.reject({ message: false }),
 
-   getPermissions: () => Promise.reject('Unknown method'),
+   getPermissions: () => {
+      if (localStorage.getItem('token')) {
+         return Promise.resolve();
+      } else {
+         return Promise.reject();
+      }
+   },
    getIdentity: () =>
       Promise.resolve({
          id: `${localStorage.getItem('user_id')}`,

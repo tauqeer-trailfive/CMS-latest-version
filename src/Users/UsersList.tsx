@@ -86,7 +86,7 @@ const UsersList = () => {
                      lg: { display: 'table-cell' },
                   },
                }}
-               omit={['email']}
+               omit={['email', 'musicalInstruments', 'isCustomArtistName']}
                empty={<NotFoundRecord />}
             >
                <UserLinkField label="Avatar & Name" />
