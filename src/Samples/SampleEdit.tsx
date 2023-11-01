@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -15,7 +15,7 @@ import {
    Toolbar,
    SaveButton,
    DeleteButton,
-} from 'react-admin'
+} from 'react-admin';
 import {
    Grid,
    Box,
@@ -23,16 +23,16 @@ import {
    LinearProgress,
    IconButton,
    Button,
-} from '@mui/material'
+} from '@mui/material';
 
-import Aside from './Aside'
-import FullNameField from './IdField'
-import { validateForm } from './SampleCreate'
-import { useParams } from 'react-router-dom'
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import DriveFolderUploadTwoToneIcon from '@mui/icons-material/DriveFolderUploadTwoTone'
-import SamplesUploaded from './SamplesUploaded'
-import axios from 'axios'
+import Aside from './Aside';
+import FullNameField from './IdField';
+import { validateForm } from './SampleCreate';
+import { useParams } from 'react-router-dom';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import DriveFolderUploadTwoToneIcon from '@mui/icons-material/DriveFolderUploadTwoTone';
+import SamplesUploaded from './SamplesUploaded';
+import axios from 'axios';
 
 const typesofEffects = [
    { id: 'DELAYBPM', name: 'DELAYBPM' },
@@ -45,20 +45,20 @@ const typesofEffects = [
       name: 'COMPRESSORMASTERBUS',
    },
    { id: 'LIMITER', name: 'LIMITER' },
-]
+];
 const EffectEdit = () => {
-   const translate = useTranslate()
-   const { id } = useParams()
-   const notify = useNotify()
+   const translate = useTranslate();
+   const { id } = useParams();
+   const notify = useNotify();
 
-   const [filesSuccess, setFilesSuccess] = React.useState<any>()
-   const [ShowLoaders, setShowLoaders] = React.useState(false)
-   const [filesSelected, setFilesSelected] = React.useState<any>()
+   const [filesSuccess, setFilesSuccess] = React.useState<any>();
+   const [ShowLoaders, setShowLoaders] = React.useState(false);
+   const [filesSelected, setFilesSelected] = React.useState<any>();
 
    //console.log(id);
 
    const AudioInput = ({ source, label }) => {
-      const { id, field, fieldState } = useInput({ source })
+      const { id, field, fieldState } = useInput({ source });
       return (
          <label htmlFor={id}>
             {label}
@@ -66,13 +66,13 @@ const EffectEdit = () => {
             <audio id={id} {...field} src={field.value} controls />
             {fieldState.error && <span>{fieldState.error.message}</span>}
          </label>
-      )
-   }
+      );
+   };
 
    React.useEffect(() => {
-      localStorage.removeItem('BPM_DATA_FOR_EDIT')
-      localStorage.setItem('BPM_DATA_FOR_EDIT', JSON.stringify(filesSuccess))
-   }, [filesSuccess])
+      localStorage.removeItem('BPM_DATA_FOR_EDIT');
+      localStorage.setItem('BPM_DATA_FOR_EDIT', JSON.stringify(filesSuccess));
+   }, [filesSuccess]);
    return (
       <Edit title={<SampleTitle />} mutationMode="pessimistic">
          <SimpleForm
@@ -278,7 +278,7 @@ const EffectEdit = () => {
                                  multiple={true}
                                  onChange={(e: any) => {
                                     //console.log(e.target?.files);
-                                    setFilesSelected(e.target?.files)
+                                    setFilesSelected(e.target?.files);
                                  }}
                               />
                               Choose OGGs
@@ -289,16 +289,16 @@ const EffectEdit = () => {
                               size="large"
                               title="Upload"
                               onClick={() => {
-                                 const data = new FormData()
+                                 const data = new FormData();
                                  for (
                                     var x = 0;
                                     x < filesSelected.length;
                                     x++
                                  ) {
-                                    data.append('file', filesSelected[x])
+                                    data.append('file', filesSelected[x]);
                                  }
-                                 setShowLoaders(false)
-                                 setShowLoaders(true)
+                                 setShowLoaders(false);
+                                 setShowLoaders(true);
                                  axios
                                     .put(
                                        'https://play.djaminn.com/uploadFiles',
@@ -307,30 +307,30 @@ const EffectEdit = () => {
                                     .then((res) => {
                                        const finalArray = res?.data?.map(
                                           (item, index) => {
-                                             let initalFileName = item.filename
+                                             let initalFileName = item.filename;
                                              const match =
-                                                initalFileName.match(/\d+/)
+                                                initalFileName.match(/\d+/);
                                              const firstThreeNumbers = match
                                                 ? match[0].slice(0, 3)
-                                                : null
+                                                : null;
                                              return {
                                                 value: parseInt(
                                                    firstThreeNumbers
                                                 ),
                                                 audioUrl: item.fileUrl,
                                                 originalName: item.filename,
-                                             }
+                                             };
                                           }
-                                       )
+                                       );
 
-                                       setFilesSuccess(finalArray)
+                                       setFilesSuccess(finalArray);
                                        if (filesSuccess) {
-                                          setShowLoaders(false)
+                                          setShowLoaders(false);
                                        }
                                     })
                                     .catch((error) => {
-                                       notify(`${error.message}`)
-                                    })
+                                       notify(`${error.message}`);
+                                    });
                               }}
                            >
                               <DriveFolderUploadTwoToneIcon />
@@ -366,7 +366,7 @@ const EffectEdit = () => {
                                          BPMNO={index + 1}
                                       />
                                    </Box>
-                                )
+                                );
                              }
                           )
                         : ShowLoaders && (
@@ -395,19 +395,19 @@ const EffectEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const SampleTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />
-const Separator = () => <Box pt="1em" />
+const SampleTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />;
+const Separator = () => <Box pt="1em" />;
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="button" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-export default EffectEdit
+export default EffectEdit;

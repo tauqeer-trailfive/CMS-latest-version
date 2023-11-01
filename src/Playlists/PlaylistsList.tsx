@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -15,19 +15,19 @@ import {
    ArrayField,
    SingleFieldList,
    ReferenceField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import PlaylistsListAside from './PlaylistsListAside'
-import PlaylistLinkField from './PlaylistLinkField'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
-import PlaylistShow from './PlaylistShow'
-import NotFoundRecord from './NotFoundRecord'
-import EmptyListPage from './EmptyListPage'
+import MobileGrid from './MobileGrid';
+import PlaylistsListAside from './PlaylistsListAside';
+import PlaylistLinkField from './PlaylistLinkField';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
+import PlaylistShow from './PlaylistShow';
+import NotFoundRecord from './NotFoundRecord';
+import EmptyListPage from './EmptyListPage';
 
-const userFilters = [<SearchInput source="name" alwaysOn />]
+const userFilters = [<SearchInput source="name" alwaysOn />];
 
 const PlaylistListActions = () => (
    <TopToolbar>
@@ -35,13 +35,15 @@ const PlaylistListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const PlaylistsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? userFilters : undefined}
@@ -94,7 +96,7 @@ const PlaylistsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default PlaylistsList
+export default PlaylistsList;

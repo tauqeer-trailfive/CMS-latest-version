@@ -1,18 +1,18 @@
-import * as React from 'react'
-import { SxProps, Typography } from '@mui/material'
-import { memo } from 'react'
+import * as React from 'react';
+import { SxProps, Typography } from '@mui/material';
+import { memo } from 'react';
 
-import { FieldProps, useRecordContext } from 'react-admin'
-import { Sample } from '../types'
+import { FieldProps, useRecordContext } from 'react-admin';
+import { Sample } from '../types';
 
 interface Props extends FieldProps<Sample> {
-   size?: string
-   sx?: SxProps
+   size?: string;
+   sx?: SxProps;
 }
 
 const IdField = (props: Props) => {
-   const { size } = props
-   const record = useRecordContext<Sample>()
+   const { size } = props;
+   const record = useRecordContext<Sample>();
    return record ? (
       <Typography
          variant="body2"
@@ -24,12 +24,12 @@ const IdField = (props: Props) => {
       >
          {record.id}
       </Typography>
-   ) : null
-}
+   ) : null;
+};
 
 IdField.defaultProps = {
    source: 'name' as const,
    label: 'resources.samples.fields.id',
-}
+};
 
-export default memo<Props>(IdField)
+export default memo<Props>(IdField);

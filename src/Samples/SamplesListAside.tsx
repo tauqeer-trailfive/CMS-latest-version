@@ -1,42 +1,42 @@
-import * as React from 'react'
-import { Card, CardContent } from '@mui/material'
-import CloudSyncTwoToneIcon from '@mui/icons-material/CloudSyncTwoTone'
-import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded'
+import * as React from 'react';
+import { Card, CardContent } from '@mui/material';
+import CloudSyncTwoToneIcon from '@mui/icons-material/CloudSyncTwoTone';
+import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded';
 import {
    Button,
    FilterLiveSearch,
    SavedQueriesList,
    useNotify,
-} from 'react-admin'
-import { gql, useMutation } from '@apollo/client'
+} from 'react-admin';
+import { gql, useMutation } from '@apollo/client';
 
 const SamplesListAside = () => {
    const Syncronize_WATCH_FOLDER = gql`
       mutation Mutation {
          createSamplesFromWatchFolder
       }
-   `
+   `;
 
-   const notify = useNotify()
+   const notify = useNotify();
    const [mutateWatchFolder, { data, loading, error }] = useMutation(
       Syncronize_WATCH_FOLDER
-   )
+   );
 
    const memoizedNotify = React.useCallback(
       (data) => {
          if (data) {
             notify(`${data.createSamplesFromWatchFolder}`, {
                type: 'success',
-            })
+            });
          }
       },
       [notify]
-   )
+   );
 
    React.useEffect(() => {
-      memoizedNotify(data)
-      return () => {}
-   }, [data, memoizedNotify])
+      memoizedNotify(data);
+      return () => {};
+   }, [data, memoizedNotify]);
 
    return (
       <Card
@@ -63,7 +63,7 @@ const SamplesListAside = () => {
          >
             <Button
                onClick={() => {
-                  mutateWatchFolder()
+                  mutateWatchFolder();
                }}
                variant="text"
                label="Sync Watch Folder"
@@ -77,7 +77,7 @@ const SamplesListAside = () => {
             <SavedQueriesList icon={<SaveQueryIcon />} />
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default SamplesListAside
+export default SamplesListAside;

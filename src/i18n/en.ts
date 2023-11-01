@@ -1,5 +1,5 @@
-import { TranslationMessages } from 'react-admin'
-import englishMessages from 'ra-language-english'
+import { TranslationMessages } from 'react-admin';
+import englishMessages from 'ra-language-english';
 
 const customEnglishMessages: TranslationMessages = {
    ...englishMessages,
@@ -1193,6 +1193,6 @@ const customEnglishMessages: TranslationMessages = {
          },
       },
    },
-}
+};
 
-export default customEnglishMessages
+export default customEnglishMessages;

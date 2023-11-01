@@ -6,26 +6,26 @@ import {
    ListItem,
    ListItemAvatar,
    ListItemText,
-} from '@mui/material'
-import { Link } from 'react-router-dom'
-import { useTranslate, useGetList, LinearProgress } from 'react-admin'
-import { subDays } from 'date-fns'
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useTranslate, useGetList, LinearProgress } from 'react-admin';
+import { subDays } from 'date-fns';
 
-import CardWithIcon from './CardWithIcon'
-import { Track } from '../types'
+import CardWithIcon from './CardWithIcon';
+import { Track } from '../types';
 
-import LyricsTwoToneIcon from '@mui/icons-material/LyricsTwoTone'
-import { useQuery } from '@apollo/client/react'
-import gql from 'graphql-tag'
-import React from 'react'
+import LyricsTwoToneIcon from '@mui/icons-material/LyricsTwoTone';
+import { useQuery } from '@apollo/client/react';
+import gql from 'graphql-tag';
+import React from 'react';
 
 const TotalTracks = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    const { isLoading, data: tracks } = useGetList<Track>('tracks', {
       sort: { field: 'createdAt', order: 'DESC' },
       pagination: { page: 1, perPage: 6 },
-   })
+   });
 
    const GET_TRACKS_COUNT = gql`
       query AllTracks {
@@ -33,9 +33,9 @@ const TotalTracks = () => {
             count
          }
       }
-   `
+   `;
 
-   const { data } = useQuery(GET_TRACKS_COUNT)
+   const { data } = useQuery(GET_TRACKS_COUNT);
 
    return (
       // <CardWithIcon
@@ -99,7 +99,7 @@ const TotalTracks = () => {
          title={translate('pos.dashboard.new_tracks')}
          subtitle={data ? data.trackMeta?.count : 0}
       />
-   )
-}
+   );
+};
 
-export default TotalTracks
+export default TotalTracks;

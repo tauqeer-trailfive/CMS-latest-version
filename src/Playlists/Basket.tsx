@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Table,
    TableBody,
@@ -7,7 +7,7 @@ import {
    TableRow,
    Typography,
    Box,
-} from '@mui/material'
+} from '@mui/material';
 import {
    Link,
    useTranslate,
@@ -38,14 +38,14 @@ import {
    ArrayInput,
    SimpleFormIterator,
    FormDataConsumer,
-} from 'react-admin'
+} from 'react-admin';
 
-import { Playlist } from '../types'
-import { TableCellRight } from './TableCellRight'
-import { useMutation, gql, useQuery } from '@apollo/client'
-import clsx from 'clsx'
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Playlist } from '../types';
+import { TableCellRight } from './TableCellRight';
+import { useMutation, gql, useQuery } from '@apollo/client';
+import clsx from 'clsx';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Playlist_Projects = gql`
    query playlistProjects(
@@ -65,19 +65,19 @@ const Playlist_Projects = gql`
          sortOrder
       }
    }
-`
+`;
 
 const Basket = () => {
-   const record = useRecordContext<Playlist>()
-   const translate = useTranslate()
-   const refresh = useRefresh()
+   const record = useRecordContext<Playlist>();
+   const translate = useTranslate();
+   const refresh = useRefresh();
    //console.log(record.id);
    const [highlighted_value, sethighlighted_value] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
 
    const PostPagination = () => (
       <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />
-   )
+   );
 
    const { data, error, loading } = useQuery(Playlist_Projects, {
       variables: {
@@ -88,9 +88,9 @@ const Basket = () => {
          },
          orderBy: 'sortOrder_ASC',
       },
-   })
+   });
 
-   if (!data) return null
+   if (!data) return null;
    return (
       <Table>
          <TableHead>
@@ -128,7 +128,7 @@ const Basket = () => {
             ))}
          </TableBody>
       </Table>
-   )
+   );
    // return (
    //   <Create>
    //     <SimpleForm>
@@ -155,18 +155,18 @@ const Basket = () => {
    //     </SimpleForm>
    //   </Create>
    // );
-}
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="button" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default Basket
+export default Basket;

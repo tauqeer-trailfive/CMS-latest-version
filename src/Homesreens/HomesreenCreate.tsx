@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    SimpleForm,
@@ -9,31 +9,31 @@ import {
    AutocompleteArrayInput,
    BooleanInput,
    ReferenceArrayInput,
-} from 'react-admin'
-import { Box, Typography } from '@mui/material'
-import { gql, useQuery } from '@apollo/client'
+} from 'react-admin';
+import { Box, Typography } from '@mui/material';
+import { gql, useQuery } from '@apollo/client';
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.title) {
-      errors.title = 'ra.validation.required'
+      errors.title = 'ra.validation.required';
    }
    if (!values.type) {
-      errors.type = 'ra.validation.required'
+      errors.type = 'ra.validation.required';
    }
    if (!values.priority) {
-      errors.priority = 'ra.validation.required'
+      errors.priority = 'ra.validation.required';
    }
    if (!values.limit) {
-      errors.limit = 'ra.validation.required'
+      errors.limit = 'ra.validation.required';
    }
-   return errors
-}
+   return errors;
+};
 
 const HomesreenCreate = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Create redirect="list">
          <SimpleForm
@@ -129,19 +129,19 @@ const HomesreenCreate = () => {
             </Box>
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="h6" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default HomesreenCreate
+export default HomesreenCreate;

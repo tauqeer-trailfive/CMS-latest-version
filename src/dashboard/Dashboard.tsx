@@ -1,28 +1,28 @@
-import React, { CSSProperties, useEffect } from 'react'
-import { useMediaQuery, Theme, Box, CircularProgress } from '@mui/material'
+import React, { CSSProperties, useEffect } from 'react';
+import { useMediaQuery, Theme, Box, CircularProgress } from '@mui/material';
 
-import Welcome from './Welcome'
+import Welcome from './Welcome';
 
-import TotalProjects from './TotalProjects'
-import TotalTracks from './TotalTracks'
-import TotalUsers from './TotalUsers'
-import TotalGenres from './TotalGenres'
-import ProjectsChart from './ProjectsChart'
-import UsersChart from './UsersChart'
-import DailyActiveUsersChart from './DailyActiveUsersChart'
-import WeeklyActiveUsersChart from './WeeklyActiveUsersChart'
-import MonthlyActiveUsersChart from './MonthlyActiveUsersChart'
-import UserEngagementCard from './UserEngagmentCard'
-import { gql, useLazyQuery } from '@apollo/client'
-import DayIcon from '@mui/icons-material/InsertInvitation'
-import WeekIcon from '@mui/icons-material/DateRange'
-import MonthIcon from '@mui/icons-material/CalendarMonth'
+import TotalProjects from './TotalProjects';
+import TotalTracks from './TotalTracks';
+import TotalUsers from './TotalUsers';
+import TotalGenres from './TotalGenres';
+import ProjectsChart from './ProjectsChart';
+import UsersChart from './UsersChart';
+import DailyActiveUsersChart from './DailyActiveUsersChart';
+import WeeklyActiveUsersChart from './WeeklyActiveUsersChart';
+import MonthlyActiveUsersChart from './MonthlyActiveUsersChart';
+import UserEngagementCard from './UserEngagmentCard';
+import { gql, useLazyQuery } from '@apollo/client';
+import DayIcon from '@mui/icons-material/InsertInvitation';
+import WeekIcon from '@mui/icons-material/DateRange';
+import MonthIcon from '@mui/icons-material/CalendarMonth';
 
 const GET_ACTIVE_USER = gql`
    query Query($where: ActiveUserWhereInput) {
       getActiveUsersCount(where: $where)
    }
-`
+`;
 
 const styles = {
    flex: { display: 'flex' },
@@ -30,34 +30,34 @@ const styles = {
    leftCol: { flex: 1, marginRight: '0.5em' },
    rightCol: { flex: 1, marginLeft: '0.5em' },
    singleCol: { marginTop: '1em', marginBottom: '1em' },
-}
+};
 
-const Spacer = () => <span style={{ width: '1em' }} />
-const VerticalSpacer = () => <span style={{ height: '1em' }} />
+const Spacer = () => <span style={{ width: '1em' }} />;
+const VerticalSpacer = () => <span style={{ height: '1em' }} />;
 
 const Dashboard = () => {
    const [
       getDailyActiveUsers,
       { data: dataDaily, loading: loadingDaily, error: errorDaily },
-   ] = useLazyQuery(GET_ACTIVE_USER)
+   ] = useLazyQuery(GET_ACTIVE_USER);
 
    const [
       getWeeklyActiveUsers,
       { data: dataWeekly, loading: loadingWeekly, error: errorWeekly },
-   ] = useLazyQuery(GET_ACTIVE_USER)
+   ] = useLazyQuery(GET_ACTIVE_USER);
 
    const [
       getMonthlyActiveUsers,
       { data: dataMonthly, loading: loadingMonthly, error: errorMonthly },
-   ] = useLazyQuery(GET_ACTIVE_USER)
+   ] = useLazyQuery(GET_ACTIVE_USER);
 
    const caluculateData = (days: 1 | 7 | 30) => {
-      let today = new Date()
+      let today = new Date();
 
       if (days === 1) {
          let past1day = new Date(
             today.getTime() - 1 * 24 * 60 * 60 * 1000
-         ).toISOString()
+         ).toISOString();
          if (past1day) {
             getDailyActiveUsers({
                variables: {
@@ -65,13 +65,13 @@ const Dashboard = () => {
                      lastActive_gte: past1day,
                   },
                },
-            })
+            });
          }
       }
       if (days === 7) {
          let past7days = new Date(
             today.getTime() - 7 * 24 * 60 * 60 * 1000
-         ).toISOString()
+         ).toISOString();
          if (past7days) {
             getWeeklyActiveUsers({
                variables: {
@@ -79,13 +79,13 @@ const Dashboard = () => {
                      lastActive_gte: past7days,
                   },
                },
-            })
+            });
          }
       }
       if (days === 30) {
          let past30days = new Date(
             today.getTime() - 30 * 24 * 60 * 60 * 1000
-         ).toISOString()
+         ).toISOString();
 
          if (past30days) {
             getMonthlyActiveUsers({
@@ -94,22 +94,24 @@ const Dashboard = () => {
                      lastActive_gte: past30days,
                   },
                },
-            })
+            });
          }
       }
-   }
+   };
 
    useEffect(() => {
-      caluculateData(1)
-      caluculateData(7)
-      caluculateData(30)
-      return () => {}
-   }, [])
+      caluculateData(1);
+      caluculateData(7);
+      caluculateData(30);
+      return () => {};
+   }, []);
 
    const isXSmall = useMediaQuery((theme: Theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
+   );
+   const isSmall = useMediaQuery((theme: Theme) =>
+      theme.breakpoints.down('lg')
+   );
 
    const loader = () => {
       return (
@@ -122,8 +124,8 @@ const Dashboard = () => {
          >
             <CircularProgress size={20} />
          </Box>
-      )
-   }
+      );
+   };
 
    return isXSmall ? (
       <div>
@@ -247,7 +249,7 @@ const Dashboard = () => {
             <MonthlyActiveUsersChart />
          </div>
       </>
-   )
-}
+   );
+};
 
-export default Dashboard
+export default Dashboard;

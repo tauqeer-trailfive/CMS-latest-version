@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { SxProps, Typography } from '@mui/material'
-import { memo } from 'react'
+import * as React from 'react';
+import { SxProps, Typography } from '@mui/material';
+import { memo } from 'react';
 
-import { FieldProps, useRecordContext } from 'react-admin'
-import { Playlist } from '../types'
-import AvatarField from './AvatarField'
+import { FieldProps, useRecordContext } from 'react-admin';
+import { Playlist } from '../types';
+import AvatarField from './AvatarField';
 
 interface Props extends FieldProps<Playlist> {
-   size?: string
-   sx?: SxProps
+   size?: string;
+   sx?: SxProps;
 }
 
 const IdField = (props: Props) => {
-   const { size } = props
-   const record = useRecordContext<Playlist>()
+   const { size } = props;
+   const record = useRecordContext<Playlist>();
    return record ? (
       <Typography
          variant="body2"
@@ -34,12 +34,12 @@ const IdField = (props: Props) => {
          />
          {record.name}
       </Typography>
-   ) : null
-}
+   ) : null;
+};
 
 IdField.defaultProps = {
    source: 'name' as const,
    label: 'resources.Genre.fields.id',
-}
+};
 
-export default memo<Props>(IdField)
+export default memo<Props>(IdField);

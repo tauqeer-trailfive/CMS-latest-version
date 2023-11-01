@@ -1,17 +1,17 @@
-import React from 'react'
-import { Typography } from '@mui/material'
-import { useInput } from 'react-admin'
+import React from 'react';
+import { Typography } from '@mui/material';
+import { useInput } from 'react-admin';
 
 type Props = {
-   audioUrl?: string
-   fileName?: string
-   value?: number
-   BPMNO?: number
-}
+   audioUrl?: string;
+   fileName?: string;
+   value?: number;
+   BPMNO?: number;
+};
 
 const SamplesUploaded = (props: Props) => {
    const AudioInput = ({ source, label }) => {
-      const { id, field, fieldState } = useInput({ source })
+      const { id, field, fieldState } = useInput({ source });
       return (
          <label htmlFor={id}>
             {label}
@@ -19,8 +19,8 @@ const SamplesUploaded = (props: Props) => {
             <audio id={id} {...field} src={field.name} controls />
             {fieldState.error && <span>{fieldState.error.message}</span>}
          </label>
-      )
-   }
+      );
+   };
    return (
       <>
          <Typography variant="h5" color={'primary'} fontWeight={'900'} my={2}>
@@ -34,7 +34,7 @@ const SamplesUploaded = (props: Props) => {
          </Typography>
          <AudioInput source={props.audioUrl} label={''} />
       </>
-   )
-}
+   );
+};
 
-export default SamplesUploaded
+export default SamplesUploaded;

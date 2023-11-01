@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -8,12 +8,12 @@ import {
    SelectInput,
    AutocompleteInput,
    ReferenceInput,
-} from 'react-admin'
-import { Grid, Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Grid, Box, Typography } from '@mui/material';
 
-import Aside from './Aside'
-import IdField from './IdField'
-import { validateForm } from './CommentCreate'
+import Aside from './Aside';
+import IdField from './IdField';
+import { validateForm } from './CommentCreate';
 
 const typesofEffects = [
    { id: 'DELAYBPM', name: 'DELAYBPM' },
@@ -26,9 +26,9 @@ const typesofEffects = [
       name: 'COMPRESSORMASTERBUS',
    },
    { id: 'LIMITER', name: 'LIMITER' },
-]
+];
 const CommentEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<CommentTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -124,10 +124,10 @@ const CommentEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const CommentTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
-const Separator = () => <Box pt="1em" />
+const CommentTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
+const Separator = () => <Box pt="1em" />;
 
-export default CommentEdit
+export default CommentEdit;

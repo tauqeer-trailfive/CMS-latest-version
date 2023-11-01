@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -6,12 +6,12 @@ import {
    useTranslate,
    NumberInput,
    SelectInput,
-} from 'react-admin'
-import { Grid, Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Grid, Box, Typography } from '@mui/material';
 
-import Aside from './Aside'
-import IdField from './IdField'
-import { validateForm } from './TimelineItemCreate'
+import Aside from './Aside';
+import IdField from './IdField';
+import { validateForm } from './TimelineItemCreate';
 
 const typesofEffects = [
    { id: 'DELAYBPM', name: 'DELAYBPM' },
@@ -24,9 +24,9 @@ const typesofEffects = [
       name: 'COMPRESSORMASTERBUS',
    },
    { id: 'LIMITER', name: 'LIMITER' },
-]
+];
 const TimelineItemEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<VisitorTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -104,9 +104,9 @@ const TimelineItemEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const VisitorTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
+const VisitorTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
 
-export default TimelineItemEdit
+export default TimelineItemEdit;

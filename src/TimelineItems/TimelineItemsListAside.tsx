@@ -1,14 +1,14 @@
-import * as React from 'react'
-import { Card, CardContent } from '@mui/material'
-import RoleIcon from '@mui/icons-material/TaskAlt'
-import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded'
+import * as React from 'react';
+import { Card, CardContent } from '@mui/material';
+import RoleIcon from '@mui/icons-material/TaskAlt';
+import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded';
 
 import {
    FilterList,
    FilterListItem,
    FilterLiveSearch,
    SavedQueriesList,
-} from 'react-admin'
+} from 'react-admin';
 
 const TimelineItemsListAside = () => {
    return (
@@ -77,7 +77,7 @@ const TimelineItemsListAside = () => {
             </FilterList>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default TimelineItemsListAside
+export default TimelineItemsListAside;

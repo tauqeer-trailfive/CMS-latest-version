@@ -1,6 +1,6 @@
 // in src/comments.js
-import * as React from 'react'
-import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
+import * as React from 'react';
+import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
 import {
    DateField,
    EditButton,
@@ -11,16 +11,16 @@ import {
    ChipField,
    ArrayField,
    SingleFieldList,
-} from 'react-admin'
+} from 'react-admin';
 
-import { User } from '../types'
+import { User } from '../types';
 
 const MobileGrid = () => {
-   const translate = useTranslate()
-   const { data, isLoading } = useListContext<User>()
+   const translate = useTranslate();
+   const { data, isLoading } = useListContext<User>();
 
    if (isLoading || data.length === 0) {
-      return null
+      return null;
    }
 
    return (
@@ -60,7 +60,7 @@ const MobileGrid = () => {
             </RecordContextProvider>
          ))}
       </Box>
-   )
-}
+   );
+};
 
-export default MobileGrid
+export default MobileGrid;

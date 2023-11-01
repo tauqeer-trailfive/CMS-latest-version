@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    DateInput,
    Edit,
@@ -13,19 +13,19 @@ import {
    DeleteButton,
    BooleanInput,
    LinearProgress,
-} from 'react-admin'
-import { useParams } from 'react-router-dom'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import { Box, Typography, Button } from '@mui/material'
+} from 'react-admin';
+import { useParams } from 'react-router-dom';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { Box, Typography, Button } from '@mui/material';
 
-import IdField from './IdField'
-import { validateForm } from './ContestCreate'
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { useMutation, gql } from '@apollo/client'
-import { useEffect } from 'react'
-import { useQuery } from '@apollo/client/react/hooks'
+import IdField from './IdField';
+import { validateForm } from './ContestCreate';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { useMutation, gql } from '@apollo/client';
+import { useEffect } from 'react';
+import { useQuery } from '@apollo/client/react/hooks';
 
 let config_data_contestMedia = {
    'x-goog-meta-test': '',
@@ -35,16 +35,16 @@ let config_data_contestMedia = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 interface TabPanelProps {
-   children?: React.ReactNode
-   index: number
-   value: number
+   children?: React.ReactNode;
+   index: number;
+   value: number;
 }
 
 function TabPanel(props: TabPanelProps) {
-   const { children, value, index, ...other } = props
+   const { children, value, index, ...other } = props;
 
    return (
       <div
@@ -60,14 +60,14 @@ function TabPanel(props: TabPanelProps) {
             </Box>
          )}
       </div>
-   )
+   );
 }
 
 function a11yProps(index: number) {
    return {
       id: `simple-tab-${index}`,
       'aria-controls': `simple-tabpanel-${index}`,
-   }
+   };
 }
 
 const UPLOAD_POLICY = gql`
@@ -85,7 +85,7 @@ const UPLOAD_POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 const GET_CONTEST_MEDIA = gql`
    query Contest($where: ContestWhereUniqueInput!) {
@@ -106,13 +106,13 @@ const GET_CONTEST_MEDIA = gql`
          id
       }
    }
-`
+`;
 
 const ContestEdit = () => {
-   const translate = useTranslate()
-   const { id } = useParams()
-   const refresh = useRefresh()
-   const notify = useNotify()
+   const translate = useTranslate();
+   const { id } = useParams();
+   const refresh = useRefresh();
+   const notify = useNotify();
 
    const { data: getContestData, loading: singleContestLoading } = useQuery(
       GET_CONTEST_MEDIA,
@@ -124,7 +124,7 @@ const ContestEdit = () => {
          },
          fetchPolicy: 'network-only',
       }
-   )
+   );
 
    // const {
    //   data: getContestData,
@@ -132,52 +132,52 @@ const ContestEdit = () => {
    //   isSuccess,
    // } = useGetOne("contests", { id });
 
-   const [value, setValue] = React.useState(0)
+   const [value, setValue] = React.useState(0);
 
    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-      setValue(newValue)
-   }
+      setValue(newValue);
+   };
 
-   const [currentFile, setCurrentFile] = React.useState<any>()
-   const [currentUrl, setCurrentUrl] = React.useState<any>()
+   const [currentFile, setCurrentFile] = React.useState<any>();
+   const [currentUrl, setCurrentUrl] = React.useState<any>();
 
    const [contestDataUpdated, setcontestDataUpdated] =
-      React.useState<boolean>(false)
-   const [contestMediaFiles1, setContestMediaFiles1] = React.useState<any>([])
+      React.useState<boolean>(false);
+   const [contestMediaFiles1, setContestMediaFiles1] = React.useState<any>([]);
 
    const [uploadedContestImage, setContestImage] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
    const [uploadedBannerImage, setUploadedBannerImage] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
    const [uploadedContestVideo, setUploadedContestVideo] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
    const [uploadedBannerVideo, setUploadedBannerVideo] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
    const [uploadedcarouselBanner1, setUploadedcarouselBanner1] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
    const [uploadedcarouselBanner2, setUploadedcarouselBanner2] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
    const [uploadedcarouselBanner3, setUploadedcarouselBanner3] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
 
    useEffect(() => {
       if (!currentFile?.file) {
-         setCurrentUrl(undefined)
-         return
+         setCurrentUrl(undefined);
+         return;
       }
 
-      const objectUrl = URL.createObjectURL(currentFile?.file)
-      setCurrentUrl(objectUrl)
+      const objectUrl = URL.createObjectURL(currentFile?.file);
+      setCurrentUrl(objectUrl);
 
       // free memory when ever this component is unmounted
-      return () => URL.revokeObjectURL(objectUrl)
-   }, [currentFile])
+      return () => URL.revokeObjectURL(objectUrl);
+   }, [currentFile]);
 
    const [uploadSampleImage, { data, loading, error }] =
-      useMutation(UPLOAD_POLICY)
+      useMutation(UPLOAD_POLICY);
 
-   useEffect(() => {}, [contestMediaFiles1])
-   let stateData
+   useEffect(() => {}, [contestMediaFiles1]);
+   let stateData;
 
    const uploadFile = async (
       index: number,
@@ -190,54 +190,54 @@ const ContestEdit = () => {
          index,
          key,
          file: currentInputFile,
-      })
-      const finalFilename = new Date().getTime() + '-' + filename
+      });
+      const finalFilename = new Date().getTime() + '-' + filename;
       const response = await uploadSampleImage({
          variables: {
             imageName: finalFilename,
             bType: 'contest_image',
          },
-      })
+      });
 
-      form.submit()
+      form.submit();
 
-      const url = response?.data?.singleImageUpload?.mp3download_url
-      const prevData = JSON.parse(JSON.stringify(contestMediaFiles1))
-      prevData[index]['data'][key] = url
+      const url = response?.data?.singleImageUpload?.mp3download_url;
+      const prevData = JSON.parse(JSON.stringify(contestMediaFiles1));
+      prevData[index]['data'][key] = url;
       //console.log(prevData);
-      setContestMediaFiles1(prevData)
-   }
+      setContestMediaFiles1(prevData);
+   };
 
    const setDateForStage = (date: any, key: string, index: number) => {
-      const prevData = JSON.parse(JSON.stringify(contestMediaFiles1))
-      prevData[index]['data'][key] = date
+      const prevData = JSON.parse(JSON.stringify(contestMediaFiles1));
+      prevData[index]['data'][key] = date;
       //console.log(prevData);
-      setContestMediaFiles1(prevData)
-   }
+      setContestMediaFiles1(prevData);
+   };
 
    const setDescriptionForStage = (
       description: string,
       key: string,
       index: number
    ) => {
-      const prevData = JSON.parse(JSON.stringify(contestMediaFiles1))
-      prevData[index]['data'][key] = description
+      const prevData = JSON.parse(JSON.stringify(contestMediaFiles1));
+      prevData[index]['data'][key] = description;
       //console.log(prevData);
-      setContestMediaFiles1(prevData)
-   }
+      setContestMediaFiles1(prevData);
+   };
 
    useEffect(() => {
-      localStorage.removeItem('CONTEST_MEDIA_EDIT_DATA')
+      localStorage.removeItem('CONTEST_MEDIA_EDIT_DATA');
       localStorage.setItem(
          'CONTEST_MEDIA_EDIT_DATA',
          JSON.stringify(contestMediaFiles1)
-      )
-   }, [contestMediaFiles1])
+      );
+   }, [contestMediaFiles1]);
 
    useEffect(() => {
       if (!singleContestLoading) {
          if (!!!contestDataUpdated && getContestData) {
-            localStorage.removeItem('CONTEST_MEDIA_EDIT_DATA')
+            localStorage.removeItem('CONTEST_MEDIA_EDIT_DATA');
             const formatedContestMedia =
                getContestData?.contest?.contestMedia?.map((media) => {
                   const {
@@ -252,7 +252,7 @@ const ContestEdit = () => {
                      carouselBanner1,
                      carouselBanner2,
                      carouselBanner3,
-                  } = media
+                  } = media;
                   return {
                      where: { id },
                      data: {
@@ -267,21 +267,21 @@ const ContestEdit = () => {
                         carouselBanner2,
                         carouselBanner3,
                      },
-                  }
-               })
+                  };
+               });
             //console.log("formatedContestMedia", formatedContestMedia);
-            setContestMediaFiles1(formatedContestMedia)
-            setcontestDataUpdated(true)
+            setContestMediaFiles1(formatedContestMedia);
+            setcontestDataUpdated(true);
          }
       }
-   }, [getContestData])
+   }, [getContestData]);
 
    useEffect(() => {
       return () => {
-         setContestMediaFiles1([])
-         setcontestDataUpdated(false)
-      }
-   }, [])
+         setContestMediaFiles1([]);
+         setcontestDataUpdated(false);
+      };
+   }, []);
 
    if (data !== null) {
       config_data_contestMedia = {
@@ -292,11 +292,11 @@ const ContestEdit = () => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
 
    const ContestVideo = (props) => {
-      const record = useRecordContext(props)
+      const record = useRecordContext(props);
       return (
          <video
             src={`${record.contestVideo}`}
@@ -304,11 +304,11 @@ const ContestEdit = () => {
             width="220"
             height="140"
          />
-      )
-   }
+      );
+   };
 
    const BannerVideo = (props) => {
-      const record = useRecordContext(props)
+      const record = useRecordContext(props);
       return (
          <video
             src={`${record.bannerVideo}`}
@@ -316,8 +316,8 @@ const ContestEdit = () => {
             width="220"
             height="140"
          />
-      )
-   }
+      );
+   };
 
    const ImageMedia = ({ source }) => {
       return (
@@ -333,8 +333,8 @@ const ContestEdit = () => {
                borderRadius: 10,
             }}
          />
-      )
-   }
+      );
+   };
 
    const VideoMedia = ({ source }) => {
       return (
@@ -351,8 +351,8 @@ const ContestEdit = () => {
                borderRadius: 10,
             }}
          />
-      )
-   }
+      );
+   };
 
    return (
       <Edit
@@ -449,7 +449,7 @@ const ContestEdit = () => {
                                  label={field.data.stage}
                                  {...a11yProps(index)}
                               />
-                           )
+                           );
                         })}
                      </Tabs>
                   </Box>
@@ -477,17 +477,17 @@ const ContestEdit = () => {
                                     value={field?.data?.startDate}
                                     fullWidth
                                     onChange={(e: any) => {
-                                       const dateValue = e.target.value
+                                       const dateValue = e.target.value;
                                        let afterFormatting = new Date(
                                           dateValue
-                                       ).toISOString()
+                                       ).toISOString();
                                        setTimeout(() => {
                                           setDateForStage(
                                              afterFormatting,
                                              'startDate',
                                              index
-                                          )
-                                       }, 3000)
+                                          );
+                                       }, 3000);
                                     }}
                                  />
                               </Box>
@@ -511,14 +511,14 @@ const ContestEdit = () => {
                                     )
                                  }
                                  onChange={(e: any) => {
-                                    let description = e.target.value
+                                    let description = e.target.value;
                                     setTimeout(() => {
                                        setDescriptionForStage(
                                           description,
                                           'description',
                                           index
-                                       )
-                                    }, 3000)
+                                       );
+                                    }, 3000);
                                  }}
                               />
                            </Box>
@@ -586,14 +586,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#imageurlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'image',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -689,14 +689,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#bannerimageurlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'bannerImage',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -793,14 +793,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#contestvideourlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'contestVideo',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -897,14 +897,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#bannervideourlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'bannerVideo',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -1003,14 +1003,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#carouselBanner1urlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'carouselBanner1',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -1110,14 +1110,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#carouselBanner2urlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'carouselBanner2',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -1216,14 +1216,14 @@ const ContestEdit = () => {
                                              const form: any =
                                                 document.querySelector(
                                                    `#carouselBanner3urlfield${index}`
-                                                )
+                                                );
                                              uploadFile(
                                                 index,
                                                 'carouselBanner3',
                                                 e.target.files[0]?.name,
                                                 form,
                                                 e.target.files[0]
-                                             )
+                                             );
                                           }
                                        }}
                                     />
@@ -1258,25 +1258,25 @@ const ContestEdit = () => {
                               )}
                            </Box>
                         </TabPanel>
-                     )
+                     );
                   })}
                </Box>
             )}
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="button" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const VisitorTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
+const VisitorTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
 
-export default ContestEdit
+export default ContestEdit;

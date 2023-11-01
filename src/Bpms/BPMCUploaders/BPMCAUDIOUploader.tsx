@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    DateInput,
@@ -9,12 +9,12 @@ import {
    email,
    SelectInput,
    NumberInput,
-} from 'react-admin'
-import { Box, Button, Typography } from '@mui/material'
-import { useMutation, gql } from '@apollo/client'
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { useEffect } from 'react'
+} from 'react-admin';
+import { Box, Button, Typography } from '@mui/material';
+import { useMutation, gql } from '@apollo/client';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { useEffect } from 'react';
 
 const POLICY = gql`
    mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -31,7 +31,7 @@ const POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 let config_data_audio: any = {
    'x-goog-meta-test': '',
@@ -41,33 +41,33 @@ let config_data_audio: any = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
-type Props = {}
+type Props = {};
 
 const BPMCAUDIOUploader = (props: Props) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
-   const [mp3audiofileurl, setaudiofileurl] = React.useState<any>()
-   const [mp3audioupload, setaudiofileupload] = React.useState<any>(false)
-   const [uploadedaudio, setuploadedaudio] = React.useState<boolean>(false)
+   const [mp3audiofileurl, setaudiofileurl] = React.useState<any>();
+   const [mp3audioupload, setaudiofileupload] = React.useState<any>(false);
+   const [uploadedaudio, setuploadedaudio] = React.useState<boolean>(false);
    const [
       uploadBPMAudioFile,
       { data: audio_data, loading: audio_loading, error: audio_error },
-   ] = useMutation(POLICY)
+   ] = useMutation(POLICY);
 
    useEffect(() => {
       const uploadaudioFile = () => {
-         const filename = new Date().getTime() + '-' + mp3audiofileurl.name
+         const filename = new Date().getTime() + '-' + mp3audiofileurl.name;
          uploadBPMAudioFile({
             variables: {
                imageName: filename,
                bType: 'image-compression',
             },
-         })
-      }
-      mp3audiofileurl && uploadaudioFile()
-   }, [mp3audiofileurl])
+         });
+      };
+      mp3audiofileurl && uploadaudioFile();
+   }, [mp3audiofileurl]);
 
    if (audio_data !== null) {
       config_data_audio = {
@@ -78,13 +78,13 @@ const BPMCAUDIOUploader = (props: Props) => {
          'x-goog-date': audio_data?.singleImageUpload.x_goog_date,
          'x-goog-signature': audio_data?.singleImageUpload.x_goog_signature,
          policy: audio_data?.singleImageUpload.policy,
-      }
+      };
 
       if (mp3audioupload) {
          localStorage.setItem(
             'bpmaudiofile',
             audio_data?.singleImageUpload.mp3download_url
-         )
+         );
       }
    }
 
@@ -133,18 +133,20 @@ const BPMCAUDIOUploader = (props: Props) => {
                                  e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                  if (e.target.files != null) {
-                                    setaudiofileurl(e.target.files[0])
-                                    setaudiofileupload(true)
+                                    setaudiofileurl(e.target.files[0]);
+                                    setaudiofileupload(true);
                                     const form: any =
-                                       document.querySelector('#audio_file')
+                                       document.querySelector('#audio_file');
                                     const input: any =
-                                       document.querySelector('#urlaudiofileid')
+                                       document.querySelector(
+                                          '#urlaudiofileid'
+                                       );
                                     setTimeout(() => {
-                                       form.submit()
-                                       setuploadedaudio(true)
-                                    }, 1000)
+                                       form.submit();
+                                       setuploadedaudio(true);
+                                    }, 1000);
                                  }
-                                 1
+                                 1;
                               }}
                            />
                         </Button>
@@ -162,7 +164,7 @@ const BPMCAUDIOUploader = (props: Props) => {
             </>
          )}
       </>
-   )
-}
+   );
+};
 
-export default BPMCAUDIOUploader
+export default BPMCAUDIOUploader;

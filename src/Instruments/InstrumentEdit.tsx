@@ -1,19 +1,19 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
    SimpleForm,
    useTranslate,
    NumberInput,
-} from 'react-admin'
-import { Grid, Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Grid, Box, Typography } from '@mui/material';
 
-import Aside from './Aside'
-import FullNameField from './IdField'
-import { validateForm } from './InstrumentCreate'
+import Aside from './Aside';
+import FullNameField from './IdField';
+import { validateForm } from './InstrumentCreate';
 
 const InstrumentEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<InstrumentTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -67,11 +67,11 @@ const InstrumentEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
 const InstrumentTitle = () => (
    <FullNameField size="32" sx={{ margin: '5px 0' }} />
-)
+);
 
-export default InstrumentEdit
+export default InstrumentEdit;

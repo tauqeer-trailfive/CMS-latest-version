@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { useTranslate, useRefresh, useNotify } from 'react-admin'
-import { Box, Button, CircularProgress } from '@mui/material'
+import * as React from 'react';
+import { useTranslate, useRefresh, useNotify } from 'react-admin';
+import { Box, Button, CircularProgress } from '@mui/material';
 
-import { useMutation, gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const POLICY = gql`
    mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -23,7 +23,7 @@ const POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 const UPDATE_COVER_IMAGE = gql`
    mutation UpdatePlaylist(
@@ -35,7 +35,7 @@ const UPDATE_COVER_IMAGE = gql`
          imageUrl
       }
    }
-`
+`;
 
 let cover_image_config_data = {
    'x-goog-meta-test': '',
@@ -45,20 +45,20 @@ let cover_image_config_data = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 type Props = {
-   PlaylistID: any
-   ownerID: any
-}
+   PlaylistID: any;
+   ownerID: any;
+};
 
 const PECoverImageUploader = (props: Props) => {
-   const refresh = useRefresh()
-   const notify = useNotify()
+   const refresh = useRefresh();
+   const notify = useNotify();
 
    const [coverimageuploaded, setcoverimageuploaded] =
-      React.useState<boolean>(false)
-   const [coverimage, setcoverimage] = React.useState<any>()
+      React.useState<boolean>(false);
+   const [coverimage, setcoverimage] = React.useState<any>();
 
    const [
       UpdateCoverImage,
@@ -67,9 +67,9 @@ const PECoverImageUploader = (props: Props) => {
          loading: updatecoverimageLoading,
          error: updatecoverimageError,
       },
-   ] = useMutation(UPDATE_COVER_IMAGE)
+   ] = useMutation(UPDATE_COVER_IMAGE);
 
-   const [uploadCoverImage, { data, loading, error }] = useMutation(POLICY)
+   const [uploadCoverImage, { data, loading, error }] = useMutation(POLICY);
 
    const saveavatarURLMutaiton = () => {
       UpdateCoverImage({
@@ -82,25 +82,25 @@ const PECoverImageUploader = (props: Props) => {
                id: props.PlaylistID,
             },
          },
-      })
-      notify('Cover Image Updated')
-      refresh()
-   }
+      });
+      notify('Cover Image Updated');
+      refresh();
+   };
 
    useEffect(() => {
       const UploadCImage = () => {
-         const filename_data = new Date().getTime() + '-' + coverimage.name
+         const filename_data = new Date().getTime() + '-' + coverimage.name;
          const filename =
-            'playlists' + '/' + 'cover_photos' + '/' + filename_data
+            'playlists' + '/' + 'cover_photos' + '/' + filename_data;
          uploadCoverImage({
             variables: {
                imageName: filename,
                bType: 'djam_rn',
             },
-         })
-      }
-      coverimage && UploadCImage()
-   }, [coverimage])
+         });
+      };
+      coverimage && UploadCImage();
+   }, [coverimage]);
 
    if (data !== undefined) {
       cover_image_config_data = {
@@ -111,7 +111,7 @@ const PECoverImageUploader = (props: Props) => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
    return (
       <>
@@ -171,20 +171,20 @@ const PECoverImageUploader = (props: Props) => {
                                  e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                  if (e.target.files != null) {
-                                    setcoverimage(e.target.files[0])
+                                    setcoverimage(e.target.files[0]);
 
                                     const form: any =
-                                       document.querySelector('#cover_image')
+                                       document.querySelector('#cover_image');
                                     const input: any =
                                        document.querySelector(
                                           '#urlcoverimageid'
-                                       )
+                                       );
                                     setTimeout(() => {
-                                       form.submit()
-                                       setcoverimageuploaded(true)
-                                    }, 1000)
+                                       form.submit();
+                                       setcoverimageuploaded(true);
+                                    }, 1000);
                                  }
-                                 1
+                                 1;
                               }}
                            />
                         </Button>
@@ -198,7 +198,7 @@ const PECoverImageUploader = (props: Props) => {
                size="small"
                color="primary"
                onClick={() => {
-                  saveavatarURLMutaiton()
+                  saveavatarURLMutaiton();
                }}
                sx={{ borderRadius: 0.8 }}
             >
@@ -209,7 +209,7 @@ const PECoverImageUploader = (props: Props) => {
             <p style={{ color: 'red' }}>Error cannot Upload Cover Image</p>
          )}
       </>
-   )
-}
+   );
+};
 
-export default PECoverImageUploader
+export default PECoverImageUploader;

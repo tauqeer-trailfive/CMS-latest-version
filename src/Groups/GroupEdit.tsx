@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -10,11 +10,11 @@ import {
    ImageField,
    ReferenceInput,
    SimpleFormIterator,
-} from 'react-admin'
-import { Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Box, Typography } from '@mui/material';
 
-import FullNameField from './IdField'
-import { validateForm } from './GroupCreate'
+import FullNameField from './IdField';
+import { validateForm } from './GroupCreate';
 
 const GroupEdit = () => {
    return (
@@ -93,11 +93,11 @@ const GroupEdit = () => {
             <Box mt="1em" />
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const VisitorTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />
+const VisitorTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />;
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default GroupEdit
+export default GroupEdit;

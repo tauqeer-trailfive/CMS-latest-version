@@ -1,5 +1,11 @@
-import * as React from 'react'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import * as React from 'react';
+import {
+   Table,
+   TableBody,
+   TableCell,
+   TableHead,
+   TableRow,
+} from '@mui/material';
 import {
    Link,
    useTranslate,
@@ -17,13 +23,13 @@ import {
    useDataProvider,
    Loading,
    Error,
-} from 'react-admin'
+} from 'react-admin';
 
-import { Contest, Project } from '../types'
-import { TableCellRight } from './TableCellRight'
-import { useMutation, gql, useQuery } from '@apollo/client'
-import clsx from 'clsx'
-import { useState, useEffect } from 'react'
+import { Contest, Project } from '../types';
+import { TableCellRight } from './TableCellRight';
+import { useMutation, gql, useQuery } from '@apollo/client';
+import clsx from 'clsx';
+import { useState, useEffect } from 'react';
 
 const Contest_Highlight = gql`
    mutation updateContestProject(
@@ -35,7 +41,7 @@ const Contest_Highlight = gql`
          highlighted
       }
    }
-`
+`;
 
 const Contest_Project = gql`
    query ContestProjects($where: ContestProjectWhereInput) {
@@ -56,21 +62,21 @@ const Contest_Project = gql`
          }
       }
    }
-`
+`;
 
 const Basket = () => {
-   const record = useRecordContext<Contest>()
-   const dataProvider = useDataProvider()
-   const translate = useTranslate()
-   const refresh = useRefresh()
+   const record = useRecordContext<Contest>();
+   const dataProvider = useDataProvider();
+   const translate = useTranslate();
+   const refresh = useRefresh();
    const [highlighted_value, sethighlighted_value] =
-      React.useState<boolean>(false)
+      React.useState<boolean>(false);
 
    const PostPagination = () => (
       <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />
-   )
+   );
    const [updateContest, { data, loading, error }] =
-      useMutation(Contest_Highlight)
+      useMutation(Contest_Highlight);
 
    // const [ContestProject, { data, loading, error }] = useQuery(Contest_Project);
 
@@ -93,7 +99,7 @@ const Basket = () => {
    //   }, []);
 
    const ShowData = (_event: any, highlighted: any, id: any) => {
-      sethighlighted_value(highlighted)
+      sethighlighted_value(highlighted);
 
       if (highlighted) {
          updateContest({
@@ -105,7 +111,7 @@ const Basket = () => {
                   id: id,
                },
             },
-         })
+         });
       } else {
          updateContest({
             variables: {
@@ -116,11 +122,11 @@ const Basket = () => {
                   id: id,
                },
             },
-         })
+         });
       }
 
-      refresh()
-   }
+      refresh();
+   };
 
    // const { isLoading, data: projects } = useGetMany<Project>(
    //   "projects",
@@ -206,7 +212,7 @@ const Basket = () => {
             ))}
          </TableBody>
       </Table>
-   )
-}
+   );
+};
 
-export default Basket
+export default Basket;

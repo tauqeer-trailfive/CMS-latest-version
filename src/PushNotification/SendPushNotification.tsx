@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    DateInput,
@@ -15,7 +15,7 @@ import {
    SaveButton,
    DeleteButton,
    useNotify,
-} from 'react-admin'
+} from 'react-admin';
 import {
    Box,
    InputLabel,
@@ -26,42 +26,42 @@ import {
    TextField,
    Button,
    CircularProgress,
-} from '@mui/material'
-import useNotificationHook from './useNotificationHook'
-import SendPushNotificationToUser from './SendPushNotificationToUser'
+} from '@mui/material';
+import useNotificationHook from './useNotificationHook';
+import SendPushNotificationToUser from './SendPushNotificationToUser';
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.text) {
-      errors.text = 'ra.validation.required'
+      errors.text = 'ra.validation.required';
    }
-   return errors
-}
+   return errors;
+};
 
 const SendPushNotification = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
-   const notify = useNotify()
+   const notify = useNotify();
 
-   const { data, error, fetchData, loading } = useNotificationHook()
+   const { data, error, fetchData, loading } = useNotificationHook();
 
-   const [topic, setTopic] = React.useState('')
-   const [openon, setOpenon] = React.useState('')
+   const [topic, setTopic] = React.useState('');
+   const [openon, setOpenon] = React.useState('');
 
-   const [pnTitle, setPnTitle] = React.useState('')
-   const [pnDescription, setpnDescription] = React.useState('')
-   const [UserId, setUserId] = React.useState('')
-   const [ProjectId, setProjectId] = React.useState('')
-   const [ContestId, setContestId] = React.useState('')
+   const [pnTitle, setPnTitle] = React.useState('');
+   const [pnDescription, setpnDescription] = React.useState('');
+   const [UserId, setUserId] = React.useState('');
+   const [ProjectId, setProjectId] = React.useState('');
+   const [ContestId, setContestId] = React.useState('');
 
    const handleTopic = (event: any) => {
-      setTopic(event.target.value)
-   }
+      setTopic(event.target.value);
+   };
    const handleOpenOn = (event: any) => {
-      setOpenon(event.target.value)
-   }
+      setOpenon(event.target.value);
+   };
 
    const PostEditToolbar = () => (
       <Toolbar
@@ -71,7 +71,7 @@ const SendPushNotification = () => {
       >
          <></>
       </Toolbar>
-   )
+   );
    return (
       <Create hasEdit={false} hasShow={false}>
          <SimpleForm
@@ -315,19 +315,19 @@ const SendPushNotification = () => {
             <SendPushNotificationToUser />
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="button" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default SendPushNotification
+export default SendPushNotification;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -12,18 +12,18 @@ import {
    BooleanField,
    DateField,
    ReferenceField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import GroupsListAside from './GroupsListAside'
-import GroupLinkField from './GroupLinkField'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
+import MobileGrid from './MobileGrid';
+import GroupsListAside from './GroupsListAside';
+import GroupLinkField from './GroupLinkField';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
 
-const groupFilters = [<SearchInput source="name" alwaysOn />]
+const groupFilters = [<SearchInput source="name" alwaysOn />];
 
 const GroupListActions = () => (
    <TopToolbar>
@@ -31,13 +31,15 @@ const GroupListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const GroupsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? groupFilters : undefined}
@@ -93,7 +95,7 @@ const GroupsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default GroupsList
+export default GroupsList;

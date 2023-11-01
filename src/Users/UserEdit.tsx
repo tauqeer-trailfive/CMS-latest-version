@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -11,28 +11,35 @@ import {
    SimpleFormIterator,
    ReferenceInput,
    AutocompleteInput,
-} from 'react-admin'
-import { useParams } from 'react-router-dom'
-import { Grid, Box, Typography, Modal, Button, IconButton } from '@mui/material'
-import AddIcon from '@mui/icons-material/AddCircleTwoTone'
-import MinusIcon from '@mui/icons-material/RemoveCircleTwoTone'
+} from 'react-admin';
+import { useParams } from 'react-router-dom';
+import {
+   Grid,
+   Box,
+   Typography,
+   Modal,
+   Button,
+   IconButton,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/AddCircleTwoTone';
+import MinusIcon from '@mui/icons-material/RemoveCircleTwoTone';
 
-import Aside from './Aside'
-import FullNameField from './NameField'
-import { validateForm } from './UserCreate'
-import AvatarUrlField from './AvatarUrlField'
-import HeaderImageField from './HeaderImageField'
+import Aside from './Aside';
+import FullNameField from './NameField';
+import { validateForm } from './UserCreate';
+import AvatarUrlField from './AvatarUrlField';
+import HeaderImageField from './HeaderImageField';
 
 const UserEdit = () => {
-   const [openAvatar, setOpenAvatar] = React.useState(false)
-   const [openheader, setOpenHeader] = React.useState(false)
-   const handleOpenAvatar = () => setOpenAvatar(true)
-   const handleOpenHeader = () => setOpenHeader(true)
-   const handleCloseAvatarModal = () => setOpenAvatar(false)
-   const handleCloseHeaderModal = () => setOpenHeader(false)
-   const translate = useTranslate()
-   const { id } = useParams()
-   const { data } = useGetOne('users', { id })
+   const [openAvatar, setOpenAvatar] = React.useState(false);
+   const [openheader, setOpenHeader] = React.useState(false);
+   const handleOpenAvatar = () => setOpenAvatar(true);
+   const handleOpenHeader = () => setOpenHeader(true);
+   const handleCloseAvatarModal = () => setOpenAvatar(false);
+   const handleCloseHeaderModal = () => setOpenHeader(false);
+   const translate = useTranslate();
+   const { id } = useParams();
+   const { data } = useGetOne('users', { id });
 
    const style = {
       position: 'absolute' as 'absolute',
@@ -45,7 +52,7 @@ const UserEdit = () => {
       boxShadow: 24,
       p: 4,
       borderRadius: 2,
-   }
+   };
 
    function AvatarModal(props: any) {
       return (
@@ -71,7 +78,7 @@ const UserEdit = () => {
                />
             </Box>
          </Modal>
-      )
+      );
    }
 
    function HeaderModal(props: any) {
@@ -98,7 +105,7 @@ const UserEdit = () => {
                />
             </Box>
          </Modal>
-      )
+      );
    }
 
    return (
@@ -238,9 +245,9 @@ const UserEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const UserTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />
+const UserTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />;
 
-export default UserEdit
+export default UserEdit;

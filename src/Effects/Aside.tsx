@@ -1,14 +1,14 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { useTranslate, useRecordContext } from 'react-admin'
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { useTranslate, useRecordContext } from 'react-admin';
 
-import { User } from '../types'
-import { Card, CardContent, Chip } from '@mui/material'
+import { User } from '../types';
+import { Card, CardContent, Chip } from '@mui/material';
 
 const Aside = () => {
-   const translate = useTranslate()
-   const record = useRecordContext<User>()
+   const translate = useTranslate();
+   const record = useRecordContext<User>();
 
    return (
       <Box width={400} display={{ xs: 'none', lg: 'block' }} ml={1}>
@@ -24,7 +24,7 @@ const Aside = () => {
             </CardContent>
          </Card>
       </Box>
-   )
-}
+   );
+};
 
-export default Aside
+export default Aside;

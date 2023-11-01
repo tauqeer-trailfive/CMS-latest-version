@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -14,37 +14,39 @@ import {
    SearchInput,
    BooleanField,
    Button,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import UserLinkField from './UserLinkField'
-import MobileGrid from './MobileGrid'
-import UsersListAside from './UsersListAside'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
-import DownloadCSVIcon from '@mui/icons-material/DownloadForOfflineTwoTone'
-import { gql, useQuery } from '@apollo/client'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import UserLinkField from './UserLinkField';
+import MobileGrid from './MobileGrid';
+import UsersListAside from './UsersListAside';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
+import DownloadCSVIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
+import { gql, useQuery } from '@apollo/client';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const userFilters = [<SearchInput source="artistName" alwaysOn />]
+const userFilters = [<SearchInput source="artistName" alwaysOn />];
 
 const EXPORT_PROJECTS_QUERY = gql`
    query Query($model: ModelNames!) {
       getCsvUrl(model: $model)
    }
-`
+`;
 
 const UsersList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    const { data, loading, error } = useQuery(EXPORT_PROJECTS_QUERY, {
       variables: {
          model: 'user',
       },
-   })
+   });
 
    const UsersListActions = () => (
       <TopToolbar>
@@ -62,7 +64,7 @@ const UsersList = () => {
             }
          />
       </TopToolbar>
-   )
+   );
 
    return (
       <List
@@ -115,7 +117,7 @@ const UsersList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default UsersList
+export default UsersList;

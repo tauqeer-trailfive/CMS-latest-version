@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Box,
    Card,
@@ -7,7 +7,7 @@ import {
    Rating,
    Slider,
    Typography,
-} from '@mui/material'
+} from '@mui/material';
 import {
    ReferenceField,
    TextField,
@@ -18,10 +18,10 @@ import {
    useInput,
    useTranslate,
    useRefresh,
-} from 'react-admin'
-import { Stack, Chip } from '@mui/material'
-import { Project } from '../types'
-import { gql, useMutation } from '@apollo/client'
+} from 'react-admin';
+import { Stack, Chip } from '@mui/material';
+import { Project } from '../types';
+import { gql, useMutation } from '@apollo/client';
 
 const UPDATE_PROJECT = gql`
    mutation UpdateProject(
@@ -32,7 +32,7 @@ const UPDATE_PROJECT = gql`
          id
       }
    }
-`
+`;
 
 const labels: { [index: string]: string } = {
    1: 'Poor',
@@ -44,14 +44,14 @@ const labels: { [index: string]: string } = {
    4: 'Very Good',
 
    5: 'Excellent',
-}
+};
 
 function getLabelText(value: number) {
-   return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`
+   return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 
 const VideoInput = (props) => {
-   const record = useRecordContext(props)
+   const record = useRecordContext(props);
    return (
       <video
          src={`${record.mixdownVideo}`}
@@ -67,27 +67,27 @@ const VideoInput = (props) => {
             marginBottom: 5,
          }}
       />
-   )
-}
+   );
+};
 
 const AudioInput = (props) => {
-   const record = useRecordContext(props)
-   return <audio src={record.mixdownAudio} controls />
-}
+   const record = useRecordContext(props);
+   return <audio src={record.mixdownAudio} controls />;
+};
 
 const InputSlider = (props) => {
-   const record = useRecordContext(props)
-   const refresh = useRefresh()
-   const [value, setValue] = React.useState<number | null>(2)
-   const [hover, setHover] = React.useState(-1)
+   const record = useRecordContext(props);
+   const refresh = useRefresh();
+   const [value, setValue] = React.useState<number | null>(2);
+   const [hover, setHover] = React.useState(-1);
 
    const [updateProjectRating, { data, loading, error }] =
-      useMutation(UPDATE_PROJECT)
+      useMutation(UPDATE_PROJECT);
 
    React.useEffect(() => {
-      refresh()
-      return () => {}
-   }, [data])
+      refresh();
+      return () => {};
+   }, [data]);
 
    return (
       <>
@@ -107,10 +107,10 @@ const InputSlider = (props) => {
                         rating: value,
                      },
                   },
-               })
+               });
             }}
             onChangeActive={(event, newHover) => {
-               setHover(newHover)
+               setHover(newHover);
             }}
          />
          {value && record.rating !== null && (
@@ -119,20 +119,20 @@ const InputSlider = (props) => {
             </Box>
          )}
       </>
-   )
-}
+   );
+};
 
 const ProjectShow = () => {
-   const record = useRecordContext<Project>()
+   const record = useRecordContext<Project>();
 
-   if (!record) return null
+   if (!record) return null;
    const ratingValues = [
       { lable: '1', value: 1 },
       { lable: '2', value: 2 },
       { lable: '3', value: 3 },
       { lable: '4', value: 4 },
       { lable: '5', value: 5 },
-   ]
+   ];
 
    return (
       <Card
@@ -234,7 +234,7 @@ const ProjectShow = () => {
                               <Chip label={item.name} />
                            </Box>
                         </>
-                     )
+                     );
                   })}
                </Grid>
             </Grid>
@@ -279,7 +279,7 @@ const ProjectShow = () => {
             </Box>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default ProjectShow
+export default ProjectShow;

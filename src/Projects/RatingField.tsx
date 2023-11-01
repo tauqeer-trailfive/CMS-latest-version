@@ -1,9 +1,9 @@
-import { Rating } from '@mui/material'
-import React from 'react'
-import { useRecordContext } from 'react-admin'
+import { Rating } from '@mui/material';
+import React from 'react';
+import { useRecordContext } from 'react-admin';
 
 const RatingField = (props) => {
-   const record = useRecordContext(props)
+   const record = useRecordContext(props);
    return (
       <>
          <Rating
@@ -15,7 +15,7 @@ const RatingField = (props) => {
             color="primary"
          />
       </>
-   )
-}
+   );
+};
 
-export default RatingField
+export default RatingField;

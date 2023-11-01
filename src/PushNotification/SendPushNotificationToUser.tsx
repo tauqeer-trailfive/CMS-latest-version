@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
    AutocompleteInput,
    DateInput,
    NumberInput,
    ReferenceInput,
    useNotify,
-} from 'react-admin'
+} from 'react-admin';
 import {
    Box,
    InputLabel,
@@ -16,8 +16,8 @@ import {
    Button,
    TextField,
    FormControl,
-} from '@mui/material'
-import { gql, useLazyQuery } from '@apollo/client'
+} from '@mui/material';
+import { gql, useLazyQuery } from '@apollo/client';
 
 const SEND_USER_NOTI = gql`
    query Query(
@@ -39,7 +39,7 @@ const SEND_USER_NOTI = gql`
          xAmountOfDays: $xAmountOfDays
       )
    }
-`
+`;
 
 const GET_PROJECT_COMMENT = gql`
    query Comments($where: CommentWhereInput) {
@@ -50,57 +50,57 @@ const GET_PROJECT_COMMENT = gql`
          createdAt
       }
    }
-`
+`;
 
-type Props = {}
+type Props = {};
 
 const SendPushNotificationToUser = (props: Props) => {
-   const noti = useNotify()
-   const [type, setType] = React.useState('')
-   const [title, setTitle] = useState('')
-   const [text, setText] = useState('')
-   const [goto, setGoto] = useState('')
-   const [UserId, setUserId] = React.useState<any>(undefined)
-   const [ProjectId, setProjectId] = React.useState<any>(undefined)
-   const [ContestId, setContestId] = React.useState<any>(undefined)
-   const [dateTime, setDateTime] = useState<any>()
-   const [amountOfDays, setAmountOfDays] = useState<any>()
-   const [commentId, setComment] = useState<any>(undefined)
+   const noti = useNotify();
+   const [type, setType] = React.useState('');
+   const [title, setTitle] = useState('');
+   const [text, setText] = useState('');
+   const [goto, setGoto] = useState('');
+   const [UserId, setUserId] = React.useState<any>(undefined);
+   const [ProjectId, setProjectId] = React.useState<any>(undefined);
+   const [ContestId, setContestId] = React.useState<any>(undefined);
+   const [dateTime, setDateTime] = useState<any>();
+   const [amountOfDays, setAmountOfDays] = useState<any>();
+   const [commentId, setComment] = useState<any>(undefined);
 
-   const [sendNoti, { error, loading, data }] = useLazyQuery(SEND_USER_NOTI)
+   const [sendNoti, { error, loading, data }] = useLazyQuery(SEND_USER_NOTI);
    const [
       getComments,
       { error: CommentError, loading: CommentLoading, data: commentData },
-   ] = useLazyQuery(GET_PROJECT_COMMENT)
+   ] = useLazyQuery(GET_PROJECT_COMMENT);
 
    const handleTopic = (event: any) => {
-      setType(event.target.value)
-   }
+      setType(event.target.value);
+   };
 
    const handleGoto = (event: any) => {
-      setGoto(event.target.value)
+      setGoto(event.target.value);
       if (event.target.value === 'ProfileScreen') {
-         setComment(undefined)
-         setProjectId(undefined)
-         setContestId(undefined)
+         setComment(undefined);
+         setProjectId(undefined);
+         setContestId(undefined);
       }
       if (event.target.value === 'PlayJustOneProject') {
-         setUserId(undefined)
-         setContestId(undefined)
+         setUserId(undefined);
+         setContestId(undefined);
       }
       if (event.target.value === 'ContestInfo') {
-         setComment(undefined)
-         setUserId(undefined)
-         setProjectId(undefined)
+         setComment(undefined);
+         setUserId(undefined);
+         setProjectId(undefined);
       }
-   }
+   };
 
    const handleComment = (event: any) => {
-      setComment(event.target.value)
-   }
+      setComment(event.target.value);
+   };
 
    const AllValidationCheck =
-      type === '' || title === '' || text === '' || goto === '' ? true : false
+      type === '' || title === '' || text === '' || goto === '' ? true : false;
 
    const ActiveValidationCheck =
       type === '' ||
@@ -109,7 +109,7 @@ const SendPushNotificationToUser = (props: Props) => {
       goto === '' ||
       dateTime === undefined
          ? true
-         : false
+         : false;
 
    const InActiveValidationCheck =
       type === '' ||
@@ -118,7 +118,7 @@ const SendPushNotificationToUser = (props: Props) => {
       goto === '' ||
       dateTime === undefined
          ? true
-         : false
+         : false;
 
    const xAmountofTimeValidationCheck =
       type === '' ||
@@ -128,35 +128,35 @@ const SendPushNotificationToUser = (props: Props) => {
       dateTime === undefined ||
       amountOfDays === ''
          ? true
-         : false
+         : false;
 
    const checkValidations = () => {
       if (type === 'All') {
-         return AllValidationCheck
+         return AllValidationCheck;
       } else if (type === 'Active') {
-         return ActiveValidationCheck
+         return ActiveValidationCheck;
       } else if (type === 'Inactive') {
-         return InActiveValidationCheck
+         return InActiveValidationCheck;
       } else if (type === 'InactiveForXAmountOfTime') {
-         return xAmountofTimeValidationCheck
+         return xAmountofTimeValidationCheck;
       }
-      return AllValidationCheck
-   }
+      return AllValidationCheck;
+   };
 
    const TypeCheck =
       type === 'Active' ||
       type === 'Inactive' ||
-      type === 'InactiveForXAmountOfTime'
+      type === 'InactiveForXAmountOfTime';
 
    useEffect(() => {
       if (data) {
-         noti(`${data?.sendPushNotificationsToUsers}`, { type: 'success' })
+         noti(`${data?.sendPushNotificationsToUsers}`, { type: 'success' });
       }
       if (error) {
-         noti(`Error: ${error?.message}`, { type: 'error', multiLine: true })
+         noti(`Error: ${error?.message}`, { type: 'error', multiLine: true });
       }
-      return () => {}
-   }, [data, error])
+      return () => {};
+   }, [data, error]);
 
    useEffect(() => {
       getComments({
@@ -167,9 +167,9 @@ const SendPushNotificationToUser = (props: Props) => {
                },
             },
          },
-      })
-      return () => {}
-   }, [ProjectId])
+      });
+      return () => {};
+   }, [ProjectId]);
 
    // //console.log(
    //   `userid : ${UserId} --- ProjectId : ${ProjectId} --- ContestId : ${ContestId}`
@@ -213,7 +213,7 @@ const SendPushNotificationToUser = (props: Props) => {
                   fullWidth
                   defaultValue={title}
                   onChange={(e: any) => {
-                     setTitle(e.target.value)
+                     setTitle(e.target.value);
                   }}
                   required
                />
@@ -229,7 +229,7 @@ const SendPushNotificationToUser = (props: Props) => {
                   fullWidth
                   defaultValue={text}
                   onChange={(e: any) => {
-                     setText(e.target.value)
+                     setText(e.target.value);
                   }}
                   required
                />
@@ -287,7 +287,7 @@ const SendPushNotificationToUser = (props: Props) => {
                         }
                         optionValue="id"
                         onChange={(newValue) => {
-                           setUserId(newValue)
+                           setUserId(newValue);
                         }}
                         noOptionsText="User does'nt exist."
                      />
@@ -313,7 +313,7 @@ const SendPushNotificationToUser = (props: Props) => {
                            }
                            optionValue="id"
                            onChange={(newValue) => {
-                              setProjectId(newValue)
+                              setProjectId(newValue);
                            }}
                            noOptionsText="Project does'nt exist"
                         />
@@ -338,7 +338,7 @@ const SendPushNotificationToUser = (props: Props) => {
                               }
                               optionValue="id"
                               onChange={(newValue) => {
-                                 setComment(newValue)
+                                 setComment(newValue);
                               }}
                               noOptionsText="Comment does'nt exist."
                            />
@@ -364,7 +364,7 @@ const SendPushNotificationToUser = (props: Props) => {
                         optionValue="id"
                         onChange={(newValue) => {
                            //console.log(newValue);
-                           setContestId(newValue)
+                           setContestId(newValue);
                         }}
                         noOptionsText="Contest does'nt exist."
                      />
@@ -381,10 +381,10 @@ const SendPushNotificationToUser = (props: Props) => {
                   fullWidth
                   variant="outlined"
                   onChange={(e: any) => {
-                     const dateValue = e.target.value
-                     const formate = new Date(dateValue).toISOString()
+                     const dateValue = e.target.value;
+                     const formate = new Date(dateValue).toISOString();
                      //console.log(formate);
-                     setDateTime(formate)
+                     setDateTime(formate);
                   }}
                />
             </Box>
@@ -395,8 +395,8 @@ const SendPushNotificationToUser = (props: Props) => {
                <NumberInput
                   source="xAmountOfDays"
                   onChange={(e: any) => {
-                     const Value = parseInt(e.target.value)
-                     setAmountOfDays(Value)
+                     const Value = parseInt(e.target.value);
+                     setAmountOfDays(Value);
                      //console.log(Value);
                   }}
                   variant="outlined"
@@ -434,7 +434,7 @@ const SendPushNotificationToUser = (props: Props) => {
                            xAmountOfDays: amountOfDays,
                         }),
                      },
-                  })
+                  });
                }}
                disabled={checkValidations() || loading}
             >
@@ -459,7 +459,7 @@ const SendPushNotificationToUser = (props: Props) => {
             </Button>
          </Box>
       </>
-   )
-}
+   );
+};
 
-export default SendPushNotificationToUser
+export default SendPushNotificationToUser;

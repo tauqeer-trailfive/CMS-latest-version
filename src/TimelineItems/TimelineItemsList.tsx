@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -11,16 +11,16 @@ import {
    SearchInput,
    NumberField,
    ChipField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import TimelineItemsListAside from './TimelineItemsListAside'
-import TimelineItemLinkField from './TimelineItemLinkField'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import MobileGrid from './MobileGrid';
+import TimelineItemsListAside from './TimelineItemsListAside';
+import TimelineItemLinkField from './TimelineItemLinkField';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const userFilters = [<SearchInput source="name" alwaysOn />]
+const userFilters = [<SearchInput source="name" alwaysOn />];
 
 const TimelineItemListActions = () => (
    <TopToolbar>
@@ -28,13 +28,15 @@ const TimelineItemListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const TimelineItemsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? userFilters : undefined}
@@ -71,7 +73,7 @@ const TimelineItemsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default TimelineItemsList
+export default TimelineItemsList;

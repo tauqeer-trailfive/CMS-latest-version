@@ -1,5 +1,5 @@
-import { TranslationMessages } from 'react-admin'
-import dutchMessages from 'ra-language-dutch'
+import { TranslationMessages } from 'react-admin';
+import dutchMessages from 'ra-language-dutch';
 
 const customDutchMessages: TranslationMessages = {
    ...dutchMessages,
@@ -226,6 +226,6 @@ const customDutchMessages: TranslationMessages = {
          },
       },
    },
-}
+};
 
-export default customDutchMessages
+export default customDutchMessages;

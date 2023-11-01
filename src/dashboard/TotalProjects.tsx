@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Avatar,
    Box,
@@ -9,20 +9,20 @@ import {
    ListItemText,
    CircularProgress,
    Stack,
-} from '@mui/material'
-import UserIcon from '@mui/icons-material/PersonAdd'
-import { Link } from 'react-router-dom'
-import { useTranslate, useGetList, LinearProgress } from 'react-admin'
-import { subDays } from 'date-fns'
+} from '@mui/material';
+import UserIcon from '@mui/icons-material/PersonAdd';
+import { Link } from 'react-router-dom';
+import { useTranslate, useGetList, LinearProgress } from 'react-admin';
+import { subDays } from 'date-fns';
 
-import CardWithIcon from './CardWithIcon'
-import GroupWorkTwoToneIcon from '@mui/icons-material/GroupWorkTwoTone'
-import { Project } from '../types'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/client'
+import CardWithIcon from './CardWithIcon';
+import GroupWorkTwoToneIcon from '@mui/icons-material/GroupWorkTwoTone';
+import { Project } from '../types';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
 
 const TotalProjects = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    const { isLoading, data: projects } = useGetList<Project>('projects', {
       filter: {
@@ -33,7 +33,7 @@ const TotalProjects = () => {
       },
       sort: { field: 'createdAt', order: 'DESC' },
       pagination: { page: 1, perPage: 6 },
-   })
+   });
 
    const GET_PROJECTS_COUNT = gql`
       query AllProjects {
@@ -41,11 +41,13 @@ const TotalProjects = () => {
             count
          }
       }
-   `
+   `;
 
-   const { loading, error, data } = useQuery(GET_PROJECTS_COUNT)
+   const { loading, error, data } = useQuery(GET_PROJECTS_COUNT);
 
-   const project_count = projects ? projects.reduce((nb: number) => ++nb, 0) : 0
+   const project_count = projects
+      ? projects.reduce((nb: number) => ++nb, 0)
+      : 0;
 
    return (
       // <CardWithIcon
@@ -112,7 +114,7 @@ const TotalProjects = () => {
          title={translate('pos.dashboard.new_projects')}
          subtitle={data ? data.projectsMeta?.count : 0}
       />
-   )
-}
+   );
+};
 
-export default TotalProjects
+export default TotalProjects;

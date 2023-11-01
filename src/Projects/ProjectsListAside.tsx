@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Card, CardContent } from '@mui/material'
-import AccessTimeIcon from '@mui/icons-material/AccessTime'
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOnOutlined'
-import MailIcon from '@mui/icons-material/MailOutline'
-import LocalOfferIcon from '@mui/icons-material/LocalOfferOutlined'
-import RoleIcon from '@mui/icons-material/TaskAlt'
-import RatingIcon from '@mui/icons-material/ThumbsUpDownRounded'
-import StatusIcon from '@mui/icons-material/CloudCircleRounded'
-import PrivateIcon from '@mui/icons-material/SecurityRounded'
+import * as React from 'react';
+import { Card, CardContent } from '@mui/material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOnOutlined';
+import MailIcon from '@mui/icons-material/MailOutline';
+import LocalOfferIcon from '@mui/icons-material/LocalOfferOutlined';
+import RoleIcon from '@mui/icons-material/TaskAlt';
+import RatingIcon from '@mui/icons-material/ThumbsUpDownRounded';
+import StatusIcon from '@mui/icons-material/CloudCircleRounded';
+import PrivateIcon from '@mui/icons-material/SecurityRounded';
 
 import {
    FilterList,
@@ -15,14 +15,14 @@ import {
    FilterLiveSearch,
    SavedQueriesList,
    useListContext,
-} from 'react-admin'
+} from 'react-admin';
 import {
    endOfYesterday,
    startOfWeek,
    subWeeks,
    startOfMonth,
    subMonths,
-} from 'date-fns'
+} from 'date-fns';
 
 const ProjectsListAside = () => {
    return (
@@ -130,7 +130,7 @@ const ProjectsListAside = () => {
             </FilterList>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default ProjectsListAside
+export default ProjectsListAside;

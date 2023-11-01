@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Card, CardContent } from '@mui/material'
-import PublicIcon from '@mui/icons-material/PublicRounded'
+import * as React from 'react';
+import { Card, CardContent } from '@mui/material';
+import PublicIcon from '@mui/icons-material/PublicRounded';
 import {
    FilterList,
    FilterListItem,
    FilterLiveSearch,
    SavedQueriesList,
-} from 'react-admin'
-import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded'
+} from 'react-admin';
+import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded';
 
 const PlaylistsListAside = () => {
    return (
@@ -46,7 +46,7 @@ const PlaylistsListAside = () => {
             </FilterList>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default PlaylistsListAside
+export default PlaylistsListAside;

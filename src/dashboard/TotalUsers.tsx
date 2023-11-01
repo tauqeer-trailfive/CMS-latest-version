@@ -6,15 +6,15 @@ import {
    ListItem,
    ListItemAvatar,
    ListItemText,
-} from '@mui/material'
-import { Link } from 'react-router-dom'
-import { useTranslate, useGetList, LinearProgress } from 'react-admin'
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useTranslate, useGetList, LinearProgress } from 'react-admin';
 
-import CardWithIcon from './CardWithIcon'
-import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone'
-import { User } from '../types'
-import { gql, useQuery } from '@apollo/client'
-import React from 'react'
+import CardWithIcon from './CardWithIcon';
+import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone';
+import { User } from '../types';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
 
 const GET_USERS_COUNT = gql`
    query AllUsers {
@@ -22,19 +22,19 @@ const GET_USERS_COUNT = gql`
          count
       }
    }
-`
+`;
 
 const TotalUsers = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
-   const { data } = useQuery(GET_USERS_COUNT)
+   const { data } = useQuery(GET_USERS_COUNT);
    const { isLoading, data: users } = useGetList<User>('users', {
       filter: {
          role: 'USER',
       },
       sort: { field: 'createdAt', order: 'DESC' },
       pagination: { page: 1, perPage: 6 },
-   })
+   });
 
    return (
       // <CardWithIcon
@@ -102,7 +102,7 @@ const TotalUsers = () => {
          title={translate('pos.dashboard.new_users')}
          subtitle={data ? data.usersMeta?.count : 0}
       />
-   )
-}
+   );
+};
 
-export default TotalUsers
+export default TotalUsers;

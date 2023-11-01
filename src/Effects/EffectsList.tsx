@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -11,16 +11,16 @@ import {
    SearchInput,
    NumberField,
    ChipField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import EffectsListAside from './EffectsListAside'
-import EffectLinkField from './EffectLinkField'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import MobileGrid from './MobileGrid';
+import EffectsListAside from './EffectsListAside';
+import EffectLinkField from './EffectLinkField';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const userFilters = [<SearchInput source="name" alwaysOn />]
+const userFilters = [<SearchInput source="name" alwaysOn />];
 
 const EffectListActions = () => (
    <TopToolbar>
@@ -28,13 +28,15 @@ const EffectListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const EffectsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? userFilters : undefined}
@@ -68,7 +70,7 @@ const EffectsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default EffectsList
+export default EffectsList;

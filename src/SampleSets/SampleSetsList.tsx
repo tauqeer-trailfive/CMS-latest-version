@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -14,16 +14,16 @@ import {
    ArrayField,
    SingleFieldList,
    ReferenceField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import SampleSetsListAside from './SampleSetsListAside'
-import SampleSetLinkField from './SampleSetLinkField'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import MobileGrid from './MobileGrid';
+import SampleSetsListAside from './SampleSetsListAside';
+import SampleSetLinkField from './SampleSetLinkField';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const userFilters = [<SearchInput source="name" alwaysOn />]
+const userFilters = [<SearchInput source="name" alwaysOn />];
 
 const SampleSetListActions = () => (
    <TopToolbar>
@@ -31,13 +31,15 @@ const SampleSetListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const SampleSetsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? userFilters : undefined}
@@ -96,7 +98,7 @@ const SampleSetsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default SampleSetsList
+export default SampleSetsList;

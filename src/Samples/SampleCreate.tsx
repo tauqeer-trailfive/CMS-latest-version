@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    SimpleForm,
@@ -11,29 +11,29 @@ import {
    AutocompleteInput,
    ReferenceInput,
    useNotify,
-} from 'react-admin'
+} from 'react-admin';
 import {
    Box,
    Button,
    IconButton,
    LinearProgress,
    Typography,
-} from '@mui/material'
-import { gql, useMutation } from '@apollo/client'
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import DriveFolderUploadTwoToneIcon from '@mui/icons-material/DriveFolderUploadTwoTone'
-import SamplesUploaded from './SamplesUploaded'
-import axios from 'axios'
+} from '@mui/material';
+import { gql, useMutation } from '@apollo/client';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import DriveFolderUploadTwoToneIcon from '@mui/icons-material/DriveFolderUploadTwoTone';
+import SamplesUploaded from './SamplesUploaded';
+import axios from 'axios';
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.name) {
-      errors.name = 'ra.validation.required'
+      errors.name = 'ra.validation.required';
    }
    if (!values.format) {
-      errors.format = 'ra.validation.required'
+      errors.format = 'ra.validation.required';
    }
    // if (!values.samplerate) {
    //   errors.samplerate = "ra.validation.required";
@@ -42,10 +42,10 @@ export const validateForm = (
    //   errors.instrument = "ra.validation.required";
    // }
    if (!values.name) {
-      errors.name = 'ra.validation.required'
+      errors.name = 'ra.validation.required';
    }
-   return errors
-}
+   return errors;
+};
 
 let config_data_bpms: any = {
    'x-goog-meta-test': '',
@@ -55,16 +55,16 @@ let config_data_bpms: any = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 const SampleCreate = () => {
-   const translate = useTranslate()
-   const notify = useNotify()
-   let finalArrayDATA: any[] = []
-   const [filesSuccess, setFilesSuccess] = React.useState<any>()
-   const [ShowLoaders, setShowLoaders] = React.useState(false)
+   const translate = useTranslate();
+   const notify = useNotify();
+   let finalArrayDATA: any[] = [];
+   const [filesSuccess, setFilesSuccess] = React.useState<any>();
+   const [ShowLoaders, setShowLoaders] = React.useState(false);
 
-   const [filesSelected, setFilesSelected] = React.useState<any>()
+   const [filesSelected, setFilesSelected] = React.useState<any>();
 
    const [bpmFiles, setBpmFiles] = React.useState<any>([
       {
@@ -72,10 +72,10 @@ const SampleCreate = () => {
          audioUrl: '',
          mp3Url: '',
       },
-   ])
+   ]);
 
-   const [uploadedAudio, setuploadedAudio] = React.useState<boolean>(false)
-   const [uploadedMp3, setuploadedMp3] = React.useState<boolean>(false)
+   const [uploadedAudio, setuploadedAudio] = React.useState<boolean>(false);
+   const [uploadedMp3, setuploadedMp3] = React.useState<boolean>(false);
 
    const UPLOAD_SAMPLE_IMAGE = gql`
       mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -92,34 +92,34 @@ const SampleCreate = () => {
             mp3download_url
          }
       }
-   `
+   `;
 
    const [uploadSampleImage, { data, loading, error }] =
-      useMutation(UPLOAD_SAMPLE_IMAGE)
+      useMutation(UPLOAD_SAMPLE_IMAGE);
 
-   React.useEffect(() => {}, [bpmFiles])
-   let stateData
+   React.useEffect(() => {}, [bpmFiles]);
+   let stateData;
 
    const uploadFile = async (index: number, key: string, filename: string) => {
-      const finalFilename = new Date().getTime() + '-' + filename
+      const finalFilename = new Date().getTime() + '-' + filename;
       const response = await uploadSampleImage({
          variables: {
             imageName: finalFilename,
             bType: 'image-compression',
          },
-      })
+      });
 
-      const url = response?.data?.singleImageUpload?.mp3download_url
-      stateData = JSON.parse(JSON.stringify(bpmFiles))
-      stateData[index][key] = url
+      const url = response?.data?.singleImageUpload?.mp3download_url;
+      stateData = JSON.parse(JSON.stringify(bpmFiles));
+      stateData[index][key] = url;
       //console.log(stateData);
-      setBpmFiles(stateData)
-   }
+      setBpmFiles(stateData);
+   };
 
    React.useEffect(() => {
-      localStorage.removeItem('BPM_DATA')
-      localStorage.setItem('BPM_DATA', JSON.stringify(filesSuccess))
-   }, [filesSuccess])
+      localStorage.removeItem('BPM_DATA');
+      localStorage.setItem('BPM_DATA', JSON.stringify(filesSuccess));
+   }, [filesSuccess]);
 
    if (data !== null) {
       config_data_bpms = {
@@ -130,7 +130,7 @@ const SampleCreate = () => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
    return (
       <Create redirect="list">
@@ -272,7 +272,7 @@ const SampleCreate = () => {
                         multiple={true}
                         onChange={(e: any) => {
                            //console.log(e.target?.files);
-                           setFilesSelected(e.target?.files)
+                           setFilesSelected(e.target?.files);
                         }}
                      />
                      Choose OGGs
@@ -283,38 +283,38 @@ const SampleCreate = () => {
                      size="large"
                      title="Upload"
                      onClick={() => {
-                        const data = new FormData()
+                        const data = new FormData();
                         for (var x = 0; x < filesSelected.length; x++) {
-                           data.append('file', filesSelected[x])
+                           data.append('file', filesSelected[x]);
                         }
-                        setShowLoaders(false)
-                        setShowLoaders(true)
+                        setShowLoaders(false);
+                        setShowLoaders(true);
                         axios
                            .put('https://play.djaminn.com/uploadFiles', data)
                            .then((res) => {
                               const finalArray = res?.data?.map(
                                  (item, index) => {
-                                    let initalFileName = item.filename
-                                    const match = initalFileName.match(/\d+/)
+                                    let initalFileName = item.filename;
+                                    const match = initalFileName.match(/\d+/);
                                     const firstThreeNumbers = match
                                        ? match[0].slice(0, 3)
-                                       : null
+                                       : null;
                                     return {
                                        value: parseInt(firstThreeNumbers),
                                        audioUrl: item.fileUrl,
                                        originalName: item.filename,
-                                    }
+                                    };
                                  }
-                              )
+                              );
 
-                              setFilesSuccess(finalArray)
+                              setFilesSuccess(finalArray);
                               if (filesSuccess) {
-                                 setShowLoaders(false)
+                                 setShowLoaders(false);
                               }
                            })
                            .catch((error) => {
-                              notify(`${error.message}`)
-                           })
+                              notify(`${error.message}`);
+                           });
                      }}
                   >
                      <DriveFolderUploadTwoToneIcon />
@@ -350,7 +350,7 @@ const SampleCreate = () => {
                                 BPMNO={index + 1}
                              />
                           </Box>
-                       )
+                       );
                     }
                  )
                : ShowLoaders && (
@@ -374,19 +374,19 @@ const SampleCreate = () => {
                  )}
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="h6" gutterBottom color={'pink'}>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default SampleCreate
+export default SampleCreate;

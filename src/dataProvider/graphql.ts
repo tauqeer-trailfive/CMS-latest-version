@@ -1,13 +1,13 @@
-import { InMemoryCache } from '@apollo/client'
+import { InMemoryCache } from '@apollo/client';
 import buildApolloClient, {
    buildQuery as buildQueryFactory,
-} from 'ra-data-graphql-simple'
-import { BuildQueryFactory } from 'ra-data-graphql'
-import { DataProvider } from 'react-admin'
-import gql from 'graphql-tag'
-import { ApolloLink, concat } from 'apollo-link'
-import { HttpLink } from 'apollo-link-http'
-import config from '../configFile'
+} from 'ra-data-graphql-simple';
+import { BuildQueryFactory } from 'ra-data-graphql';
+import { DataProvider } from 'react-admin';
+import gql from 'graphql-tag';
+import { ApolloLink, concat } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
+import config from '../configFile';
 import {
    bpmConnectorOnEditSamples,
    categoriesConnectorInProjEdit,
@@ -26,80 +26,80 @@ import {
    RandomAvatars,
    samplesConnectorOnEditSamplesSet,
    tracksConnectorOnEditProject,
-} from '../utils/utils'
+} from '../utils/utils';
 
 // import schema here
-import schema_dev from '../schema-dev.json'
-import schema_prod from '../schema-prod.json'
+import schema_dev from '../schema-dev.json';
+import schema_prod from '../schema-prod.json';
 
 // prefer schema w.r.t curren enviorment dev or prod
 const schema =
-   import.meta.env.REACT_APP_ENVIORMENT === 'PROD' ? schema_prod : schema_dev
+   import.meta.env.REACT_APP_ENVIORMENT === 'PROD' ? schema_prod : schema_dev;
 
 const getGqlResource = (resource: string) => {
    switch (resource) {
       case 'contests':
-         return 'Contest'
+         return 'Contest';
       case 'users':
-         return 'User'
+         return 'User';
       case 'musicalInstruments':
-         return 'Instrument'
+         return 'Instrument';
       case 'genres':
-         return 'Genre'
+         return 'Genre';
       case 'effects':
-         return 'Effects'
+         return 'Effects';
       case 'presets':
-         return 'PreSet'
+         return 'PreSet';
       case 'bpmTemp':
-         return 'Samples_BPM'
+         return 'Samples_BPM';
       case 'projectcategories':
-         return 'ProjectCategory'
+         return 'ProjectCategory';
       case 'referralcode':
-         return 'ReferralCode'
+         return 'ReferralCode';
       case 'samples':
-         return 'Sample'
+         return 'Sample';
       case 'tracks':
-         return 'Track'
+         return 'Track';
       case 'projects':
-         return 'Project'
+         return 'Project';
       case 'comments':
-         return 'Comment'
+         return 'Comment';
       case 'newsitems':
-         return 'NewsItems'
+         return 'NewsItems';
       case 'samplesets':
-         return 'SampleSet'
+         return 'SampleSet';
       case 'timelineitems':
-         return 'Timelineitem'
+         return 'Timelineitem';
       case 'notification':
-         return 'Notification'
+         return 'Notification';
       case 'playlists':
-         return 'Playlist'
+         return 'Playlist';
       case 'homescreens':
-         return 'HomeScreen'
+         return 'HomeScreen';
       default:
-         throw new Error(`Unknown resource ${resource}`)
+         throw new Error(`Unknown resource ${resource}`);
    }
-}
+};
 
 const authMiddleware = new ApolloLink((operation, forward) => {
    // add the authorization to the headers
-   const token = localStorage.getItem('token')
+   const token = localStorage.getItem('token');
    operation.setContext({
       headers: {
          authorization: `Bearer ${token}`,
       },
-   })
+   });
    if (forward) {
-      return forward(operation)
+      return forward(operation);
    } else {
-      return null
+      return null;
    }
-})
+});
 
-const httpLink = new HttpLink({ uri: config.ip })
+const httpLink = new HttpLink({ uri: config.ip });
 
 const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
-   const buildQuery = buildQueryFactory(introspectionResults)
+   const buildQuery = buildQueryFactory(introspectionResults);
 
    return (type, resource, params) => {
       /* User */
@@ -166,9 +166,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.usersMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'User' && type === 'GET_ONE') {
@@ -200,16 +200,16 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'User' && type === 'UPDATE') {
          const UIns: { id: string; name: string; rank: number }[] =
-            params.data.musicalInstruments
+            params.data.musicalInstruments;
          const PIns: { id: string; name: string; rank: number }[] =
-            params.previousData.musicalInstruments
+            params.previousData.musicalInstruments;
          return {
             query: gql`
                mutation updateUser(
@@ -237,13 +237,13 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             },
             options: { fetchPolicy: 'network-only' },
             parseResponse: (response: any) => {
-               localStorage.removeItem('avatar_url')
+               localStorage.removeItem('avatar_url');
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'User' && type === 'GET_MANY') {
@@ -285,9 +285,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.usersMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'User' && type === 'DELETE') {
@@ -304,9 +304,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'User' && type === 'DELETE_MANY') {
@@ -325,14 +325,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'User' && type === 'CREATE') {
          const randomAvatar =
-            RandomAvatars[Math.floor(Math.random() * RandomAvatars.length)]
+            RandomAvatars[Math.floor(Math.random() * RandomAvatars.length)];
          return {
             query: gql`
                mutation createUserByCMS(
@@ -377,9 +377,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data.user,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Instruments */
@@ -423,9 +423,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.musicalInstrumentMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Instrument' && type === 'GET_ONE') {
@@ -447,9 +447,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Instrument' && type === 'GET_MANY') {
@@ -478,9 +478,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.musicalInstrumentMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Instrument' && type === 'DELETE') {
@@ -504,9 +504,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Instrument' && type === 'DELETE_MANY') {
@@ -526,9 +526,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Instrument' && type === 'CREATE') {
@@ -550,9 +550,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Instrument' && type === 'UPDATE') {
@@ -580,9 +580,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Genres */
@@ -627,9 +627,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.genresMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Genre' && type === 'GET_ONE') {
@@ -650,9 +650,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Genre' && type === 'GET_MANY') {
@@ -679,9 +679,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Genre' && type === 'DELETE') {
@@ -703,9 +703,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Genre' && type === 'DELETE_MANY') {
@@ -723,9 +723,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Genre' && type === 'CREATE') {
@@ -752,9 +752,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Genre' && type === 'UPDATE') {
@@ -786,9 +786,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Effects */
@@ -836,9 +836,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.effectsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Effects' && type === 'GET_MANY') {
@@ -880,9 +880,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.effectsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Effects' && type === 'UPDATE') {
@@ -913,9 +913,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Effects' && type === 'GET_ONE') {
@@ -936,9 +936,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Effects' && type === 'CREATE') {
@@ -970,9 +970,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Effects' && type === 'DELETE') {
@@ -991,9 +991,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Effects' && type === 'DELETE_MANY') {
@@ -1012,9 +1012,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       /* Presets */
@@ -1069,9 +1069,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.preSetsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'PreSet' && type === 'GET_MANY') {
@@ -1107,14 +1107,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.preSetsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'PreSet' && type === 'UPDATE') {
-         const UEffects = params.data.effects
-         const PEffects = params.previousData.effects
+         const UEffects = params.data.effects;
+         const PEffects = params.previousData.effects;
 
          return {
             query: gql`
@@ -1149,9 +1149,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'PreSet' && type === 'GET_ONE') {
@@ -1178,9 +1178,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'PreSet' && type === 'CREATE') {
@@ -1214,9 +1214,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'PreSet' && type === 'DELETE') {
@@ -1235,9 +1235,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'PreSet' && type === 'DELETE_MANY') {
@@ -1256,9 +1256,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       /* BPMS */
@@ -1304,9 +1304,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.bpmMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Samples_BPM' && type === 'GET_ONE') {
@@ -1327,9 +1327,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Samples_BPM' && type === 'UPDATE') {
@@ -1360,9 +1360,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Samples_BPM' && type === 'GET_MANY') {
@@ -1389,9 +1389,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.bpmMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Samples_BPM' && type === 'DELETE') {
@@ -1410,9 +1410,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Samples_BPM' && type === 'DELETE_MANY') {
@@ -1431,9 +1431,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.deleteBpm],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Samples_BPM' && type === 'CREATE') {
@@ -1454,13 +1454,13 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             },
             options: { fetchPolicy: 'network-only' },
             parseResponse: (response: any) => {
-               localStorage.removeItem('bpmmp3file')
-               localStorage.removeItem('bpmaudiofile')
+               localStorage.removeItem('bpmmp3file');
+               localStorage.removeItem('bpmaudiofile');
                return {
                   data: response.data.createBpm,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Project Category */
@@ -1488,9 +1488,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data[0],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ProjectCategory' && type === 'GET_LIST') {
@@ -1537,9 +1537,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.projectCategoriesMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ProjectCategory' && type === 'UPDATE') {
@@ -1573,9 +1573,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ProjectCategory' && type === 'CREATE') {
@@ -1606,9 +1606,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ProjectCategory' && type === 'DELETE') {
@@ -1629,9 +1629,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ProjectCategory' && type === 'DELETE_MANY') {
@@ -1652,9 +1652,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
       /* Contests */
 
@@ -1736,9 +1736,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.contestMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Contest' && type === 'GET_ONE') {
@@ -1802,9 +1802,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Contest' && type === 'UPDATE') {
@@ -1814,10 +1814,10 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
 
          let CONTEST_MEDIA_EDIT_DATA = JSON.parse(
             localStorage.getItem('CONTEST_MEDIA_EDIT_DATA') as any
-         )
+         );
 
-         let startDate = new Date(params.data.startDate).toISOString()
-         let endDate = new Date(params.data.endDate).toISOString()
+         let startDate = new Date(params.data.startDate).toISOString();
+         let endDate = new Date(params.data.endDate).toISOString();
 
          return {
             query: gql`
@@ -1857,12 +1857,12 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                // localStorage.removeItem("contest_image");
                // localStorage.removeItem("banner_image");
-               localStorage.removeItem('CONTEST_MEDIA_EDIT_DATA')
+               localStorage.removeItem('CONTEST_MEDIA_EDIT_DATA');
                return {
                   data: response.data.updateContest,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Contest' && type === 'GET_MANY') {
@@ -1927,9 +1927,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.allContests,
                   total: response.data.allContests.length, // countResult.data.usersMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Contest' && type === 'DELETE') {
@@ -1950,9 +1950,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   // total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Contest' && type === 'DELETE_MANY') {
@@ -1973,27 +1973,27 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: [response.data.deleteContests],
                   // total: response.data.getNewsItems.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Contest' && type === 'CREATE') {
-         let startDate = new Date(params.data.startDate).toISOString()
+         let startDate = new Date(params.data.startDate).toISOString();
 
-         let endDate = new Date(params.data.endDate).toISOString()
+         let endDate = new Date(params.data.endDate).toISOString();
 
          let CONTEST_MEDIA_DATA = JSON.parse(
             localStorage.getItem('CONTEST_MEDIA_DATA') as any
-         )
-         let chatysie = {}
+         );
+         let chatysie = {};
          if (params.data?.baseProject) {
             chatysie = {
                connect: {
                   // id: baseProject,
                   id: params.data.baseProject,
                },
-            }
+            };
          } else {
             chatysie = {
                create: {
@@ -2008,7 +2008,7 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                      },
                   },
                },
-            }
+            };
          }
 
          return {
@@ -2065,17 +2065,17 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             options: { fetchPolicy: 'network-only' },
             // tslint:disable-next-line:object-literal-sort-keys
             parseResponse: (response: any) => {
-               localStorage.removeItem('contest_image')
-               localStorage.removeItem('banner_image')
-               localStorage.removeItem('contest_video')
-               localStorage.removeItem('banner_video')
+               localStorage.removeItem('contest_image');
+               localStorage.removeItem('banner_image');
+               localStorage.removeItem('contest_video');
+               localStorage.removeItem('banner_video');
 
                return {
                   data: response.data.createContest,
                   // total: response.data.createContest.length,
-               }
+               };
             },
-         }
+         };
       }
       /* Referral Codes */
       if (resource === 'ReferralCode' && type === 'GET_LIST') {
@@ -2120,9 +2120,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.referralCodesMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ReferralCode' && type === 'GET_MANY') {
@@ -2148,9 +2148,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.referralCodesMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ReferralCode' && type === 'UPDATE') {
@@ -2181,9 +2181,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ReferralCode' && type === 'GET_ONE') {
@@ -2205,9 +2205,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ReferralCode' && type === 'CREATE') {
@@ -2229,9 +2229,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ReferralCode' && type === 'DELETE') {
@@ -2250,9 +2250,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'ReferralCode' && type === 'DELETE_MANY') {
@@ -2271,9 +2271,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
       /* Samples */
       if (resource === 'Sample' && type === 'GET_LIST') {
@@ -2354,9 +2354,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.samplesMeta.count,
-               }
+               };
             },
-         }
+         };
       }
       if (resource === 'Sample' && type === 'GET_MANY') {
          return {
@@ -2401,9 +2401,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
       if (resource === 'Sample' && type === 'GET_ONE') {
          return {
@@ -2452,14 +2452,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
       if (resource === 'Sample' && type === 'CREATE') {
-         let BPM_DATA: any
+         let BPM_DATA: any;
          if (localStorage.getItem('BPM_DATA') !== undefined) {
-            BPM_DATA = JSON.parse(localStorage.getItem('BPM_DATA') as any)
+            BPM_DATA = JSON.parse(localStorage.getItem('BPM_DATA') as any);
          }
          return {
             query: gql`
@@ -2525,13 +2525,13 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
       if (resource === 'Sample' && type === 'UPDATE') {
-         const cbpms = params.data.bpmTemp
-         const pbpms = params.previousData.bpmTemp
+         const cbpms = params.data.bpmTemp;
+         const pbpms = params.previousData.bpmTemp;
          return {
             query: gql`
                mutation updateSample(
@@ -2595,9 +2595,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
       if (resource === 'Sample' && type === 'DELETE') {
          return {
@@ -2615,9 +2615,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
       if (resource === 'Sample' && type === 'DELETE_MANY') {
          return {
@@ -2635,9 +2635,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       /* Tracks */
@@ -2665,9 +2665,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Track' && type === 'GET_LIST') {
@@ -2726,9 +2726,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.trackMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Track' && type === 'GET_MANY') {
@@ -2763,9 +2763,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.trackMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Track' && type === 'DELETE') {
@@ -2796,9 +2796,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   // total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Track' && type === 'DELETE_MANY') {
@@ -2817,9 +2817,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Track' && type === 'CREATE') {
@@ -2857,9 +2857,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.createTrack,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Track' && type === 'UPDATE') {
@@ -2903,9 +2903,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Projects */
@@ -2967,9 +2967,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Project' && type === 'GET_LIST') {
@@ -3071,9 +3071,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.projectsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Project' && type === 'GET_MANY') {
@@ -3144,9 +3144,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.projectsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Project' && type === 'DELETE') {
@@ -3165,9 +3165,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Project' && type === 'DELETE_MANY') {
@@ -3187,16 +3187,16 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Project' && type === 'CREATE') {
-         const currentUser = localStorage.getItem('user_id')
-         const cmi = params.data.musicalInstruments
-         const cg = params.data.genres
-         const ct = params.data.tracks
+         const currentUser = localStorage.getItem('user_id');
+         const cmi = params.data.musicalInstruments;
+         const cg = params.data.genres;
+         const ct = params.data.tracks;
          return {
             query: gql`
                mutation createProject($data: ProjectCreateInput!) {
@@ -3270,21 +3270,21 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Project' && type === 'UPDATE') {
-         const cmi = params.data.musicalInstruments
-         const pmi = params.previousData.musicalInstruments
-         const cg = params.data.genres
-         const pg = params.previousData.genres
-         const ct = params.data.tracks
-         const pt = params.previousData.tracks
-         const ccat = params.data.category
-         const pcat = params.previousData.category
-         const AddpreDefine = params.data.AddpreDefinedCatagories
+         const cmi = params.data.musicalInstruments;
+         const pmi = params.previousData.musicalInstruments;
+         const cg = params.data.genres;
+         const pg = params.previousData.genres;
+         const ct = params.data.tracks;
+         const pt = params.previousData.tracks;
+         const ccat = params.data.category;
+         const pcat = params.previousData.category;
+         const AddpreDefine = params.data.AddpreDefinedCatagories;
          return {
             query: gql`
                mutation updateProject(
@@ -3360,9 +3360,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Comments */
@@ -3417,9 +3417,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.commentsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Comment' && type === 'GET_MANY') {
@@ -3454,19 +3454,19 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.commentsMeta.count, // countResult.data.usersMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Comment' && type === 'UPDATE') {
-         delete params.data.id
-         delete params.data.__typename
-         delete params.data.createdAt
-         const idUser = params.data.owner.id
-         const idProject = params.data.project.id
-         params.data.owner = { connect: { id: idUser } }
-         params.data.project = { connect: { id: idProject } }
+         delete params.data.id;
+         delete params.data.__typename;
+         delete params.data.createdAt;
+         const idUser = params.data.owner.id;
+         const idProject = params.data.project.id;
+         params.data.owner = { connect: { id: idUser } };
+         params.data.project = { connect: { id: idProject } };
          return {
             query: gql`
                mutation updateComment(
@@ -3493,9 +3493,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Comment' && type === 'GET_ONE') {
@@ -3524,9 +3524,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Comment' && type === 'CREATE') {
@@ -3561,9 +3561,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   // total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Comment' && type === 'DELETE') {
@@ -3584,9 +3584,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   // total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Comment' && type === 'DELETE_MANY') {
@@ -3607,9 +3607,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: [response.data.data],
                   // total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
       /* NewsItems */
       if (resource === 'NewsItems' && type === 'GET_LIST') {
@@ -3656,9 +3656,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.newsItemsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'NewsItems' && type === 'GET_ONE') {
@@ -3682,14 +3682,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'NewsItems' && type === 'UPDATE') {
-         let pubstart = new Date(params.data.publicationStart).toISOString()
-         let pubend = new Date(params.data.publicationEnd).toISOString()
+         let pubstart = new Date(params.data.publicationStart).toISOString();
+         let pubend = new Date(params.data.publicationEnd).toISOString();
          return {
             query: gql`
                mutation updateNewsItem(
@@ -3725,9 +3725,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.updateNewsItem,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'NewsItems' && type === 'GET_MANY') {
@@ -3757,9 +3757,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.newsItemsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'NewsItems' && type === 'DELETE') {
@@ -3778,9 +3778,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'NewsItems' && type === 'DELETE_MANY') {
@@ -3799,9 +3799,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'NewsItems' && type === 'CREATE') {
@@ -3832,9 +3832,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.createNewsItem,
-               }
+               };
             },
-         }
+         };
       }
 
       /* Samples Sets */
@@ -3890,9 +3890,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.sampleSetsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'SampleSet' && type === 'GET_MANY') {
@@ -3932,14 +3932,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.sampleSetsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'SampleSet' && type === 'UPDATE') {
-         const csamples = params.data.samples
-         const psamples = params.previousData.samples
+         const csamples = params.data.samples;
+         const psamples = params.previousData.samples;
          return {
             query: gql`
                mutation updateSampleSet(
@@ -3980,9 +3980,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'SampleSet' && type === 'GET_ONE') {
@@ -4016,9 +4016,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'SampleSet' && type === 'CREATE') {
@@ -4058,9 +4058,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'SampleSet' && type === 'DELETE') {
@@ -4079,9 +4079,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'SampleSet' && type === 'DELETE_MANY') {
@@ -4101,9 +4101,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       /* Timeline Items */
@@ -4135,9 +4135,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Timelineitem' && type === 'GET_LIST') {
@@ -4194,9 +4194,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.timelineItemsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Timelineitem' && type === 'GET_MANY') {
@@ -4230,9 +4230,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Timelineitem' && type === 'DELETE') {
@@ -4251,9 +4251,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Timelineitem' && type === 'DELETE_MANY') {
@@ -4272,9 +4272,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Timelineitem' && type === 'CREATE') {
@@ -4308,17 +4308,17 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Timelineitem' && type === 'UPDATE') {
          if (params.data.endStickyDate === '') {
-            params.data.endStickyDate = null
+            params.data.endStickyDate = null;
          }
          if (params.data.startStickyDate === '') {
-            params.data.startStickyDate = null
+            params.data.startStickyDate = null;
          }
          return {
             query: gql`
@@ -4356,9 +4356,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
       /* Playlists */
       if (resource === 'Playlist' && type === 'GET_ONE') {
@@ -4399,9 +4399,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Playlist' && type === 'GET_LIST') {
@@ -4469,9 +4469,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.playlistsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Playlist' && type === 'GET_MANY') {
@@ -4519,9 +4519,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.playlistsMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Playlist' && type === 'DELETE') {
@@ -4541,9 +4541,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Playlist' && type === 'DELETE_MANY') {
@@ -4561,9 +4561,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Playlist' && type === 'CREATE') {
@@ -4592,9 +4592,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'Playlist' && type === 'UPDATE') {
@@ -4634,9 +4634,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                   projects: params.data.orderedProjects,
                   playlist_project: params.data.update_playlist_projects,
                   total: response.data.data.length,
-               }
+               };
             },
-         }
+         };
       }
       /* HomeScreens */
 
@@ -4675,9 +4675,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data[0],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'HomeScreen' && type === 'GET_LIST') {
@@ -4742,9 +4742,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                return {
                   data: response.data.data,
                   total: response.data.homescreenMeta.count,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'HomeScreen' && type === 'GET_MANY') {
@@ -4788,9 +4788,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'HomeScreen' && type === 'DELETE') {
@@ -4809,9 +4809,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'HomeScreen' && type === 'DELETE_MANY') {
@@ -4829,9 +4829,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: [response.data.data],
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'HomeScreen' && type === 'CREATE') {
@@ -4886,14 +4886,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
       if (resource === 'HomeScreen' && type === 'UPDATE') {
-         const cplaylists = params.data.playlist
-         const pplaylists = params.previousData.playlist
+         const cplaylists = params.data.playlist;
+         const pplaylists = params.previousData.playlist;
          return {
             query: gql`
                mutation updateHomescreenConfig(
@@ -4946,14 +4946,14 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             parseResponse: (response: any) => {
                return {
                   data: response.data.data,
-               }
+               };
             },
-         }
+         };
       }
 
-      return buildQuery(type, resource, params)
-   }
-}
+      return buildQuery(type, resource, params);
+   };
+};
 
 export default async () => {
    const dataProvider = await buildApolloClient({
@@ -4965,19 +4965,19 @@ export default async () => {
          schema: (schema as any).__schema,
       },
       buildQuery: customBuildQuery,
-   })
+   });
 
    return new Proxy<DataProvider>(defaultDataProvider, {
       get: (target, name) => {
          if (typeof name === 'symbol' || name === 'then') {
-            return
+            return;
          }
          return async (resource: string, params: any) => {
-            return dataProvider[name](getGqlResource(resource), params)
-         }
+            return dataProvider[name](getGqlResource(resource), params);
+         };
       },
-   })
-}
+   });
+};
 // Only used to initialize proxy
 const defaultDataProvider: DataProvider = {
    create: () => Promise.reject({ data: null }), // avoids adding a context in tests
@@ -4989,4 +4989,4 @@ const defaultDataProvider: DataProvider = {
    getOne: () => Promise.reject({ data: null }), // avoids adding a context in tests
    update: () => Promise.reject({ data: null }), // avoids adding a context in tests
    updateMany: () => Promise.resolve({ data: [] }), // avoids adding a context in tests
-}
+};

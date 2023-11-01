@@ -1,43 +1,43 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import { Admin, Resource } from 'react-admin'
-import polyglotI18nProvider from 'ra-i18n-polyglot'
+import * as React from 'react';
+import { Admin, Resource } from 'react-admin';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
 
-import authProvider from './Auth/Auth'
-import { Login, Layout } from './layout'
-import { Dashboard } from './dashboard'
-import englishMessages from './i18n/en'
-import { lightTheme, darkTheme } from './layout/themes'
-import users from './Users'
-import instruments from './Instruments'
-import genres from './Genres'
-import effects from './Effects'
-import dataProviderFactory from './dataProvider'
-import presets from './Presets'
-import bpms from './Bpms'
-import projectCategories from './ProjectCategories'
-import contests from './Contests'
-import referralcodes from './ReferralCodes'
-import samples from './Samples'
-import tracks from './Tracks'
-import projects from './Projects'
-import comments from './Comments'
-import newsitems from './NewsItems'
-import samplesets from './SampleSets'
-import timelineitems from './TimelineItems'
-import notification from './PushNotification'
-import playlists from './Playlists'
-import homescreens from './Homesreens'
+import authProvider from './Auth/Auth';
+import { Login, Layout } from './layout';
+import { Dashboard } from './dashboard';
+import englishMessages from './i18n/en';
+import { lightTheme, darkTheme } from './layout/themes';
+import users from './Users';
+import instruments from './Instruments';
+import genres from './Genres';
+import effects from './Effects';
+import dataProviderFactory from './dataProvider';
+import presets from './Presets';
+import bpms from './Bpms';
+import projectCategories from './ProjectCategories';
+import contests from './Contests';
+import referralcodes from './ReferralCodes';
+import samples from './Samples';
+import tracks from './Tracks';
+import projects from './Projects';
+import comments from './Comments';
+import newsitems from './NewsItems';
+import samplesets from './SampleSets';
+import timelineitems from './TimelineItems';
+import notification from './PushNotification';
+import playlists from './Playlists';
+import homescreens from './Homesreens';
 
 const i18nProvider = polyglotI18nProvider(
    (locale) => {
       if (locale === 'nl') {
-         return import('./i18n/nl').then((messages) => messages.default)
+         return import('./i18n/nl').then((messages) => messages.default);
       }
 
       // Always fallback on english
-      return englishMessages
+      return englishMessages;
    },
    'en',
    { allowMissing: true },
@@ -45,7 +45,7 @@ const i18nProvider = polyglotI18nProvider(
       { locale: 'en', name: 'English' },
       // { locale: "nl", name: "Dutch" },
    ]
-)
+);
 
 const App = () => (
    <Admin
@@ -84,6 +84,6 @@ const App = () => (
       <Resource name="playlists" {...playlists} />
       <Resource name="homescreens" {...homescreens} />
    </Admin>
-)
+);
 
-export default App
+export default App;

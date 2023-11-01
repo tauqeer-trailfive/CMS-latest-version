@@ -1,9 +1,9 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
-import { CreateButton } from 'react-admin'
-import SampleSets from './index'
+import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { CreateButton } from 'react-admin';
+import SampleSets from './index';
 
-type Props = {}
+type Props = {};
 
 const EmptyListPage = (props: Props) => {
    return (
@@ -29,7 +29,7 @@ const EmptyListPage = (props: Props) => {
          </Typography>
          <CreateButton label="Create Sample Set" />
       </Box>
-   )
-}
+   );
+};
 
-export default EmptyListPage
+export default EmptyListPage;

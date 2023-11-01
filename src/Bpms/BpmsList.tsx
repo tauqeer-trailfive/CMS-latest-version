@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -12,16 +12,16 @@ import {
    NumberField,
    ChipField,
    UrlField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import BpmsListAside from './BpmsListAside'
-import BpmLinkField from './BpmLinkField'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import MobileGrid from './MobileGrid';
+import BpmsListAside from './BpmsListAside';
+import BpmLinkField from './BpmLinkField';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const BpmFilters = [<SearchInput source="value" alwaysOn />]
+const BpmFilters = [<SearchInput source="value" alwaysOn />];
 
 const BpmListActions = () => (
    <TopToolbar>
@@ -29,13 +29,15 @@ const BpmListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const BpmsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? BpmFilters : undefined}
@@ -65,7 +67,7 @@ const BpmsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default BpmsList
+export default BpmsList;

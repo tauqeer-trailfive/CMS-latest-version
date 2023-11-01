@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -11,15 +11,15 @@ import {
    ArrayInput,
    SimpleFormIterator,
    SelectInput,
-} from 'react-admin'
-import { Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Box, Typography } from '@mui/material';
 
-import Aside from './Aside'
-import IdField from './IdField'
-import { validateForm } from './HomesreenCreate'
+import Aside from './Aside';
+import IdField from './IdField';
+import { validateForm } from './HomesreenCreate';
 
 const HomescreenEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<VisitorTitle />}>
          <SimpleForm
@@ -110,7 +110,7 @@ const HomescreenEdit = () => {
                   >
                      <AutocompleteInput
                         optionText={(choices) => {
-                           return `${choices.name} / ${choices.id}`
+                           return `${choices.name} / ${choices.id}`;
                         }}
                         optionValue="id"
                         fullWidth
@@ -121,21 +121,21 @@ const HomescreenEdit = () => {
             </ArrayInput>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const VisitorTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
+const VisitorTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="button" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default HomescreenEdit
+export default HomescreenEdit;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -10,17 +10,17 @@ import {
    SimpleFormIterator,
    ReferenceInput,
    AutocompleteInput,
-} from 'react-admin'
-import { Grid, Box, Typography, IconButton } from '@mui/material'
-import AddIcon from '@mui/icons-material/AddCircleTwoTone'
-import MinusIcon from '@mui/icons-material/RemoveCircleTwoTone'
+} from 'react-admin';
+import { Grid, Box, Typography, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/AddCircleTwoTone';
+import MinusIcon from '@mui/icons-material/RemoveCircleTwoTone';
 
-import Aside from './Aside'
-import FullNameField from './IdField'
-import { validateForm } from './PresetCreate'
+import Aside from './Aside';
+import FullNameField from './IdField';
+import { validateForm } from './PresetCreate';
 
 const PresetEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<PresetTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -103,9 +103,9 @@ const PresetEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const PresetTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />
+const PresetTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />;
 
-export default PresetEdit
+export default PresetEdit;

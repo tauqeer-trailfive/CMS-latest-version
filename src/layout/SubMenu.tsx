@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { ReactElement, ReactNode } from 'react'
+import * as React from 'react';
+import { ReactElement, ReactNode } from 'react';
 import {
    List,
    MenuItem,
@@ -7,24 +7,24 @@ import {
    Typography,
    Collapse,
    Tooltip,
-} from '@mui/material'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import { useTranslate, useSidebarState } from 'react-admin'
+} from '@mui/material';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useTranslate, useSidebarState } from 'react-admin';
 
 interface Props {
-   dense: boolean
-   handleToggle: () => void
-   icon: ReactElement
-   isOpen: boolean
-   name: string
-   children: ReactNode
+   dense: boolean;
+   handleToggle: () => void;
+   icon: ReactElement;
+   isOpen: boolean;
+   name: string;
+   children: ReactNode;
 }
 
 const SubMenu = (props: Props) => {
-   const { handleToggle, isOpen, name, icon, children, dense } = props
-   const translate = useTranslate()
+   const { handleToggle, isOpen, name, icon, children, dense } = props;
+   const translate = useTranslate();
 
-   const [sidebarIsOpen] = useSidebarState()
+   const [sidebarIsOpen] = useSidebarState();
 
    const header = (
       <MenuItem dense={dense} onClick={handleToggle}>
@@ -35,7 +35,7 @@ const SubMenu = (props: Props) => {
             {translate(name)}
          </Typography>
       </MenuItem>
-   )
+   );
 
    return (
       <div>
@@ -63,7 +63,7 @@ const SubMenu = (props: Props) => {
             </List>
          </Collapse>
       </div>
-   )
-}
+   );
+};
 
-export default SubMenu
+export default SubMenu;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    SimpleForm,
@@ -7,38 +7,38 @@ import {
    PasswordInput,
    email,
    SelectInput,
-} from 'react-admin'
-import { Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Box, Typography } from '@mui/material';
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.name) {
-      errors.name = 'ra.validation.required'
+      errors.name = 'ra.validation.required';
    }
    if (!values.role) {
-      errors.role = 'ra.validation.required'
+      errors.role = 'ra.validation.required';
    }
    if (!values.artistName) {
-      errors.artistName = 'ra.validation.required'
+      errors.artistName = 'ra.validation.required';
    }
    // if (!values.avatarUrl) {
    //   errors.avatarUrl = "ra.validation.required";
    // }
    if (!values.email) {
-      errors.email = 'ra.validation.required'
+      errors.email = 'ra.validation.required';
    } else {
-      const error = email()(values.email)
+      const error = email()(values.email);
       if (error) {
-         errors.email = error
+         errors.email = error;
       }
    }
-   return errors
-}
+   return errors;
+};
 
 const UserCreate = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Create redirect="list">
          <SimpleForm
@@ -95,19 +95,19 @@ const UserCreate = () => {
             <PasswordInput source="password" fullWidth />
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="h6" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default UserCreate
+export default UserCreate;

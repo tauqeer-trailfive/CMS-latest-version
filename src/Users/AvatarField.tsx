@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { Avatar, SxProps } from '@mui/material'
-import { FieldProps, useRecordContext } from 'react-admin'
-import { User } from '../types'
+import * as React from 'react';
+import { Avatar, SxProps } from '@mui/material';
+import { FieldProps, useRecordContext } from 'react-admin';
+import { User } from '../types';
 
 interface Props extends FieldProps<User> {
-   sx?: SxProps
-   size?: string
+   sx?: SxProps;
+   size?: string;
 }
 
 const AvatarField = ({ size = '25', sx }: Props) => {
-   const record = useRecordContext<User>()
-   if (!record) return null
+   const record = useRecordContext<User>();
+   if (!record) return null;
    return (
       <Avatar
          src={`${record.avatarUrl}?size=${size}x${size}`}
@@ -18,7 +18,7 @@ const AvatarField = ({ size = '25', sx }: Props) => {
          sx={sx}
          alt={`${record.name}`}
       />
-   )
-}
+   );
+};
 
-export default AvatarField
+export default AvatarField;

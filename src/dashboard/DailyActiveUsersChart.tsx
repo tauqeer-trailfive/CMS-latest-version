@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Card,
    CardHeader,
@@ -10,7 +10,7 @@ import {
    Select,
    MenuItem,
    SelectChangeEvent,
-} from '@mui/material'
+} from '@mui/material';
 import {
    ResponsiveContainer,
    XAxis,
@@ -19,16 +19,16 @@ import {
    Tooltip,
    BarChart,
    Bar,
-} from 'recharts'
-import { LinearProgress } from 'react-admin'
-import { TooltipProps } from 'recharts'
-import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone'
+} from 'recharts';
+import { LinearProgress } from 'react-admin';
+import { TooltipProps } from 'recharts';
+import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone';
 
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client';
 import {
    NameType,
    ValueType,
-} from 'recharts/types/component/DefaultTooltipContent'
+} from 'recharts/types/component/DefaultTooltipContent';
 
 const GET_ACTIVE_USER = gql`
    query GetActiveUsersGraphData(
@@ -40,25 +40,25 @@ const GET_ACTIVE_USER = gql`
          count
       }
    }
-`
+`;
 
 const DailyActiveUsersChart = () => {
-   const [option, setOption] = React.useState<any>(9)
+   const [option, setOption] = React.useState<any>(9);
 
    const initialDate = new Date(
       new Date().setDate(new Date().getDate() - option)
-   ).setHours(0, 0, 0, 0)
+   ).setHours(0, 0, 0, 0);
 
    const { data, error, loading } = useQuery(GET_ACTIVE_USER, {
       variables: {
          type: 'DAU',
          initialDate: new Date(initialDate),
       },
-   })
+   });
 
    const handleChange = (event: SelectChangeEvent) => {
-      setOption(event.target.value as any)
-   }
+      setOption(event.target.value as any);
+   };
 
    return (
       <Card elevation={5}>
@@ -168,8 +168,8 @@ const DailyActiveUsersChart = () => {
             </div>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
 const CustomTooltip = ({
    active,
@@ -213,10 +213,10 @@ const CustomTooltip = ({
             </h1>
             <p className="label">{`${label} : ${payload?.[0].value} Active Users`}</p>
          </Box>
-      )
+      );
    }
 
-   return null
-}
+   return null;
+};
 
-export default DailyActiveUsersChart
+export default DailyActiveUsersChart;

@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Card, CardContent } from '@mui/material'
-import RoleIcon from '@mui/icons-material/TaskAlt'
+import * as React from 'react';
+import { Card, CardContent } from '@mui/material';
+import RoleIcon from '@mui/icons-material/TaskAlt';
 import {
    FilterList,
    FilterListItem,
    FilterLiveSearch,
    SavedQueriesList,
-} from 'react-admin'
-import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded'
+} from 'react-admin';
+import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded';
 
 const PresetsListAside = () => {
    return (
@@ -64,7 +64,7 @@ const PresetsListAside = () => {
             </FilterList>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default PresetsListAside
+export default PresetsListAside;

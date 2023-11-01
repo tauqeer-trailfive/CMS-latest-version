@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Box,
    Card,
@@ -6,7 +6,7 @@ import {
    Grid,
    tableCellClasses,
    Typography,
-} from '@mui/material'
+} from '@mui/material';
 import {
    ReferenceField,
    TextField,
@@ -14,24 +14,30 @@ import {
    List,
    Link,
    useTranslate,
-} from 'react-admin'
-import { Stack, Chip } from '@mui/material'
-import { Sample } from '../types'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+} from 'react-admin';
+import { Stack, Chip } from '@mui/material';
+import { Sample } from '../types';
+import {
+   Table,
+   TableBody,
+   TableCell,
+   TableHead,
+   TableRow,
+} from '@mui/material';
 
-import { TableCellRight } from './TableCellRight'
-import { TableCellLeft } from './TableCellLeft'
+import { TableCellRight } from './TableCellRight';
+import { TableCellLeft } from './TableCellLeft';
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
 const AudioInput = (props) => {
-   return <audio src={props.source} controls />
-}
+   return <audio src={props.source} controls />;
+};
 
 const SampleShow = () => {
-   const record = useRecordContext<Sample>()
-   const translate = useTranslate()
-   if (!record) return null
+   const record = useRecordContext<Sample>();
+   const translate = useTranslate();
+   if (!record) return null;
    return (
       <Card
          sx={{
@@ -162,7 +168,7 @@ const SampleShow = () => {
          </CardContent>
          {/* <AudioInput source={""} label={""} /> */}
       </Card>
-   )
-}
+   );
+};
 
-export default SampleShow
+export default SampleShow;

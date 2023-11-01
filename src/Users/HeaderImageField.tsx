@@ -1,15 +1,15 @@
-import * as React from 'react'
-import { useTranslate, useRefresh, useNotify } from 'react-admin'
-import { Box, Button, CircularProgress } from '@mui/material'
+import * as React from 'react';
+import { useTranslate, useRefresh, useNotify } from 'react-admin';
+import { Box, Button, CircularProgress } from '@mui/material';
 
-import { useMutation, gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-type Props = {}
+type Props = {};
 
 const UPLOAD_USER_POLICY = gql`
    mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -26,7 +26,7 @@ const UPLOAD_USER_POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 const UPDATE_HEADER_IMAGE = gql`
    mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
@@ -34,7 +34,7 @@ const UPDATE_HEADER_IMAGE = gql`
          id
       }
    }
-`
+`;
 
 let header_image_config_data: any = {
    'x-goog-meta-test': '',
@@ -44,18 +44,18 @@ let header_image_config_data: any = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 const HeaderImageField = (props: Props) => {
-   const { id } = useParams()
-   const refresh = useRefresh()
-   const notify = useNotify()
+   const { id } = useParams();
+   const refresh = useRefresh();
+   const notify = useNotify();
 
-   const [headerimage, setheaderimage] = React.useState<any>()
-   const [headeruploaded, setheaderuploaded] = React.useState<boolean>(false)
+   const [headerimage, setheaderimage] = React.useState<any>();
+   const [headeruploaded, setheaderuploaded] = React.useState<boolean>(false);
 
    const [uploadHeaderImage, { data, loading, error }] =
-      useMutation(UPLOAD_USER_POLICY)
+      useMutation(UPLOAD_USER_POLICY);
 
    const [
       UpdateUser,
@@ -64,7 +64,7 @@ const HeaderImageField = (props: Props) => {
          loading: updateuserLoading,
          error: updateuserError,
       },
-   ] = useMutation(UPDATE_HEADER_IMAGE)
+   ] = useMutation(UPDATE_HEADER_IMAGE);
 
    if (data !== undefined) {
       header_image_config_data = {
@@ -75,7 +75,7 @@ const HeaderImageField = (props: Props) => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
 
    const saveheaderImageMutaiton = () => {
@@ -88,26 +88,26 @@ const HeaderImageField = (props: Props) => {
                headerImage: data?.singleImageUpload.mp3download_url,
             },
          },
-      })
-      notify('Header Image Updated')
-      refresh()
-   }
+      });
+      notify('Header Image Updated');
+      refresh();
+   };
 
    useEffect(() => {
       const uploadHImage = () => {
-         const filename_data = new Date().getTime() + '-' + headerimage.name
-         const filename = 'users' + '/' + 'backgrounds' + '/' + filename_data
+         const filename_data = new Date().getTime() + '-' + headerimage.name;
+         const filename = 'users' + '/' + 'backgrounds' + '/' + filename_data;
 
          uploadHeaderImage({
             variables: {
                imageName: filename,
                bType: 'djam_rn',
             },
-         })
-         localStorage.setItem
-      }
-      headerimage && uploadHImage()
-   }, [headerimage])
+         });
+         localStorage.setItem;
+      };
+      headerimage && uploadHImage();
+   }, [headerimage]);
 
    return (
       <>
@@ -165,20 +165,20 @@ const HeaderImageField = (props: Props) => {
                                  e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                  if (e.target.files != null) {
-                                    setheaderimage(e.target.files[0])
+                                    setheaderimage(e.target.files[0]);
 
                                     const form: any =
-                                       document.querySelector('#header_image')
+                                       document.querySelector('#header_image');
                                     const input: any =
                                        document.querySelector(
                                           '#urlheaderimageid'
-                                       )
+                                       );
                                     setTimeout(() => {
-                                       form.submit()
-                                       setheaderuploaded(true)
-                                    }, 1000)
+                                       form.submit();
+                                       setheaderuploaded(true);
+                                    }, 1000);
                                  }
-                                 1
+                                 1;
                               }}
                            />
                         </Button>
@@ -192,7 +192,7 @@ const HeaderImageField = (props: Props) => {
                size="small"
                color="primary"
                onClick={() => {
-                  saveheaderImageMutaiton()
+                  saveheaderImageMutaiton();
                }}
                sx={{ borderRadius: 0.8 }}
             >
@@ -208,7 +208,7 @@ const HeaderImageField = (props: Props) => {
         </>
       )} */}
       </>
-   )
-}
+   );
+};
 
-export default HeaderImageField
+export default HeaderImageField;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
    Card,
    CardHeader,
@@ -7,7 +7,7 @@ import {
    CircularProgress,
    Chip,
    Badge,
-} from '@mui/material'
+} from '@mui/material';
 import {
    ResponsiveContainer,
    AreaChart,
@@ -16,18 +16,18 @@ import {
    YAxis,
    CartesianGrid,
    Tooltip,
-} from 'recharts'
-import { TooltipProps } from 'recharts'
+} from 'recharts';
+import { TooltipProps } from 'recharts';
 
-import SsidChartTwoToneIcon from '@mui/icons-material/SsidChartTwoTone'
-import { LinearProgress } from 'react-admin'
+import SsidChartTwoToneIcon from '@mui/icons-material/SsidChartTwoTone';
+import { LinearProgress } from 'react-admin';
 
-import { Order } from '../types'
-import { gql, useQuery } from '@apollo/client'
+import { Order } from '../types';
+import { gql, useQuery } from '@apollo/client';
 import {
    NameType,
    ValueType,
-} from 'recharts/types/component/DefaultTooltipContent'
+} from 'recharts/types/component/DefaultTooltipContent';
 
 const ProjectsChart = (props: { orders?: Order[] }) => {
    const GET_PROJECT_GRAPH_DATA = gql`
@@ -37,16 +37,16 @@ const ProjectsChart = (props: { orders?: Order[] }) => {
             count
          }
       }
-   `
+   `;
 
    const initialDate = new Date(
       new Date().setDate(new Date().getDate() - 30)
-   ).setHours(0, 0, 0, 0)
+   ).setHours(0, 0, 0, 0);
    const { data, error, loading } = useQuery(GET_PROJECT_GRAPH_DATA, {
       variables: {
          initialDate: new Date(initialDate),
       },
-   })
+   });
 
    return (
       <Card elevation={5}>
@@ -132,8 +132,8 @@ const ProjectsChart = (props: { orders?: Order[] }) => {
             </div>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
 const CustomTooltip = ({
    active,
@@ -177,10 +177,10 @@ const CustomTooltip = ({
             </h1>
             <p className="label">{`${label} : ${payload?.[0].value} Projects Created`}</p>
          </Box>
-      )
+      );
    }
 
-   return null
-}
+   return null;
+};
 
-export default ProjectsChart
+export default ProjectsChart;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -15,37 +15,39 @@ import {
    BooleanField,
    Button,
    NumberField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import TrackLinkField from './TrackLinkField'
-import MobileGrid from './MobileGrid'
-import TracksListAside from './TracksListAside'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
-import DownloadCSVIcon from '@mui/icons-material/DownloadForOfflineTwoTone'
-import { gql, useQuery } from '@apollo/client'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import TrackLinkField from './TrackLinkField';
+import MobileGrid from './MobileGrid';
+import TracksListAside from './TracksListAside';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
+import DownloadCSVIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
+import { gql, useQuery } from '@apollo/client';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const userFilters = [<SearchInput source="id" alwaysOn />]
+const userFilters = [<SearchInput source="id" alwaysOn />];
 
 const EXPORT_PROJECTS_QUERY = gql`
    query Query($model: ModelNames!) {
       getCsvUrl(model: $model)
    }
-`
+`;
 
 const TracksList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    const { data, loading, error } = useQuery(EXPORT_PROJECTS_QUERY, {
       variables: {
          model: 'track',
       },
-   })
+   });
 
    const TracksListActions = () => (
       <TopToolbar>
@@ -63,7 +65,7 @@ const TracksList = () => {
             }
          />
       </TopToolbar>
-   )
+   );
 
    return (
       <List
@@ -109,7 +111,7 @@ const TracksList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default TracksList
+export default TracksList;

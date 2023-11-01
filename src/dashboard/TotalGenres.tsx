@@ -6,24 +6,24 @@ import {
    ListItem,
    ListItemAvatar,
    ListItemText,
-} from '@mui/material'
-import { Link } from 'react-router-dom'
-import { useTranslate, useGetList, LinearProgress } from 'react-admin'
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useTranslate, useGetList, LinearProgress } from 'react-admin';
 
-import CardWithIcon from './CardWithIcon'
-import PianoTwoToneIcon from '@mui/icons-material/PianoTwoTone'
-import { Genre } from '../types'
-import { useQuery } from '@apollo/client/react/hooks'
-import gql from 'graphql-tag'
-import React from 'react'
+import CardWithIcon from './CardWithIcon';
+import PianoTwoToneIcon from '@mui/icons-material/PianoTwoTone';
+import { Genre } from '../types';
+import { useQuery } from '@apollo/client/react/hooks';
+import gql from 'graphql-tag';
+import React from 'react';
 
 const TotalGenres = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    const { isLoading, data: genres } = useGetList<Genre>('genres', {
       sort: { field: 'rank', order: 'DESC' },
       pagination: { page: 1, perPage: 6 },
-   })
+   });
 
    const GET_GENRES_COUNT = gql`
       query Genres {
@@ -31,9 +31,9 @@ const TotalGenres = () => {
             count
          }
       }
-   `
+   `;
 
-   const { data } = useQuery(GET_GENRES_COUNT)
+   const { data } = useQuery(GET_GENRES_COUNT);
 
    return (
       // <CardWithIcon
@@ -106,7 +106,7 @@ const TotalGenres = () => {
          title={translate('pos.dashboard.new_genres')}
          subtitle={data ? data.genresMeta?.count : 0}
       />
-   )
-}
+   );
+};
 
-export default TotalGenres
+export default TotalGenres;

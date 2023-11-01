@@ -1,9 +1,9 @@
-import { DataProvider } from 'react-admin'
+import { DataProvider } from 'react-admin';
 
 export default (type: string) => {
    // The fake servers require to generate data, which can take some time.
    // Here we start the server initialization but we don't wait for it to finish
-   let dataProviderPromise = getDataProvider(type)
+   let dataProviderPromise = getDataProvider(type);
 
    // Instead we return this proxy which may be called immediately by react-admin if the
    // user is already signed-in. In this case, we simply wait for the dataProvider promise
@@ -15,14 +15,14 @@ export default (type: string) => {
       get(_, name) {
          return (resource: string, params: any) => {
             return dataProviderPromise.then((dataProvider) => {
-               return dataProvider[name.toString()](resource, params)
-            })
-         }
+               return dataProvider[name.toString()](resource, params);
+            });
+         };
       },
-   })
+   });
 
-   return dataProviderWithGeneratedData
-}
+   return dataProviderWithGeneratedData;
+};
 
 const getDataProvider = async (type: string): Promise<DataProvider> => {
    /**
@@ -31,8 +31,8 @@ const getDataProvider = async (type: string): Promise<DataProvider> => {
     * To avoid bundling both libraries, the dataProvider and fake server factories
     * use the import() function, so they are asynchronous.
     */
-   return import('./graphql').then((factory) => factory.default())
-}
+   return import('./graphql').then((factory) => factory.default());
+};
 
 const defaultDataProvider: DataProvider = {
    // @ts-ignore
@@ -48,4 +48,4 @@ const defaultDataProvider: DataProvider = {
    // @ts-ignore
    update: () => Promise.resolve({ data: {} }),
    updateMany: () => Promise.resolve({}),
-}
+};

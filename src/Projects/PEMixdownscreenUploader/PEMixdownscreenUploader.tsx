@@ -1,11 +1,11 @@
-import * as React from 'react'
-import { useTranslate, useRefresh, useNotify } from 'react-admin'
-import { Box, Button, CircularProgress } from '@mui/material'
+import * as React from 'react';
+import { useTranslate, useRefresh, useNotify } from 'react-admin';
+import { Box, Button, CircularProgress } from '@mui/material';
 
-import { useMutation, gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const POLICY = gql`
    mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -22,7 +22,7 @@ const POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 const UPDATE_MIXDOWN_SCREEN = gql`
    mutation UpdateProject(
@@ -35,7 +35,7 @@ const UPDATE_MIXDOWN_SCREEN = gql`
          name
       }
    }
-`
+`;
 
 let mixdown_screen_config_data = {
    'x-goog-meta-test': '',
@@ -45,18 +45,18 @@ let mixdown_screen_config_data = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 type Props = {
-   ProjectId: any
-}
+   ProjectId: any;
+};
 
 const PEMixdownscreenUploader = (props: Props) => {
-   const refresh = useRefresh()
-   const notify = useNotify()
+   const refresh = useRefresh();
+   const notify = useNotify();
 
-   const [mixdownuploaded, setmixdownuploaded] = React.useState<boolean>(false)
-   const [mixdownscreen, setmixdownscreen] = React.useState<any>()
+   const [mixdownuploaded, setmixdownuploaded] = React.useState<boolean>(false);
+   const [mixdownscreen, setmixdownscreen] = React.useState<any>();
 
    const [
       UpdateMixdownScreen,
@@ -65,9 +65,9 @@ const PEMixdownscreenUploader = (props: Props) => {
          loading: updatemixdownscreenLoading,
          error: updatemixdownscreenError,
       },
-   ] = useMutation(UPDATE_MIXDOWN_SCREEN)
+   ] = useMutation(UPDATE_MIXDOWN_SCREEN);
 
-   const [uploadMDScreenImage, { data, loading, error }] = useMutation(POLICY)
+   const [uploadMDScreenImage, { data, loading, error }] = useMutation(POLICY);
 
    const saveavatarURLMutaiton = () => {
       UpdateMixdownScreen({
@@ -79,25 +79,25 @@ const PEMixdownscreenUploader = (props: Props) => {
                id: props.ProjectId,
             },
          },
-      })
-      notify('Mixdownscreen Image Updated')
-      refresh()
-   }
+      });
+      notify('Mixdownscreen Image Updated');
+      refresh();
+   };
 
    useEffect(() => {
       const uploadMDSImage = () => {
-         const filename_data = new Date().getTime() + '-' + mixdownscreen.name
+         const filename_data = new Date().getTime() + '-' + mixdownscreen.name;
          const filename =
-            'projects' + '/' + 'original_covers' + '/' + filename_data
+            'projects' + '/' + 'original_covers' + '/' + filename_data;
          uploadMDScreenImage({
             variables: {
                imageName: filename,
                bType: 'djam_rn',
             },
-         })
-      }
-      mixdownscreen && uploadMDSImage()
-   }, [mixdownscreen])
+         });
+      };
+      mixdownscreen && uploadMDSImage();
+   }, [mixdownscreen]);
 
    if (data !== undefined) {
       mixdown_screen_config_data = {
@@ -108,7 +108,7 @@ const PEMixdownscreenUploader = (props: Props) => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
    return (
       <>
@@ -166,19 +166,21 @@ const PEMixdownscreenUploader = (props: Props) => {
                                  e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                  if (e.target.files != null) {
-                                    setmixdownscreen(e.target.files[0])
+                                    setmixdownscreen(e.target.files[0]);
 
                                     const form: any =
-                                       document.querySelector('#mixdown_screen')
+                                       document.querySelector(
+                                          '#mixdown_screen'
+                                       );
                                     const input: any = document.querySelector(
                                        '#urlmixdownscreenid'
-                                    )
+                                    );
                                     setTimeout(() => {
-                                       form.submit()
-                                       setmixdownuploaded(true)
-                                    }, 1000)
+                                       form.submit();
+                                       setmixdownuploaded(true);
+                                    }, 1000);
                                  }
-                                 1
+                                 1;
                               }}
                            />
                         </Button>
@@ -192,7 +194,7 @@ const PEMixdownscreenUploader = (props: Props) => {
                size="small"
                color="primary"
                onClick={() => {
-                  saveavatarURLMutaiton()
+                  saveavatarURLMutaiton();
                }}
                sx={{ borderRadius: 0.8 }}
             >
@@ -210,7 +212,7 @@ const PEMixdownscreenUploader = (props: Props) => {
             </>
          )}
       </>
-   )
-}
+   );
+};
 
-export default PEMixdownscreenUploader
+export default PEMixdownscreenUploader;

@@ -1,48 +1,48 @@
-import * as React from 'react'
-import { useState } from 'react'
-import Box from '@mui/material/Box'
-import DashboardIcon from '@mui/icons-material/SpaceDashboardRounded'
+import * as React from 'react';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import DashboardIcon from '@mui/icons-material/SpaceDashboardRounded';
 import {
    useTranslate,
    DashboardMenuItem,
    MenuItemLink,
    MenuProps,
    useSidebarState,
-} from 'react-admin'
-import UsersList from '../Users'
-import Instruments from '../Instruments'
-import Genres from '../Genres'
-import Effects from '../Effects'
-import Presets from '../Presets'
-import Bpms from '../Bpms'
-import ProjectCategories from '../ProjectCategories'
-import Contests from '../Contests'
-import Codes from '../ReferralCodes'
-import Samples from '../Samples'
-import Tracks from '../Tracks'
-import Projects from '../Projects'
-import Comments from '../Comments'
-import NewsItems from '../NewsItems'
-import SampleSets from '../SampleSets'
-import TimelineItems from '../TimelineItems'
-import PushNotifications from '../PushNotification'
-import Playlists from '../Playlists'
-import Homesreens from '../Homesreens'
+} from 'react-admin';
+import UsersList from '../Users';
+import Instruments from '../Instruments';
+import Genres from '../Genres';
+import Effects from '../Effects';
+import Presets from '../Presets';
+import Bpms from '../Bpms';
+import ProjectCategories from '../ProjectCategories';
+import Contests from '../Contests';
+import Codes from '../ReferralCodes';
+import Samples from '../Samples';
+import Tracks from '../Tracks';
+import Projects from '../Projects';
+import Comments from '../Comments';
+import NewsItems from '../NewsItems';
+import SampleSets from '../SampleSets';
+import TimelineItems from '../TimelineItems';
+import PushNotifications from '../PushNotification';
+import Playlists from '../Playlists';
+import Homesreens from '../Homesreens';
 
-type MenuName = 'menuCatalog' | 'menuSales' | 'menuCustomers'
+type MenuName = 'menuCatalog' | 'menuSales' | 'menuCustomers';
 
 const Menu = ({ dense = false }: MenuProps) => {
    const [state, setState] = useState({
       menuCatalog: true,
       menuSales: true,
       menuCustomers: true,
-   })
-   const translate = useTranslate()
-   const [open] = useSidebarState()
+   });
+   const translate = useTranslate();
+   const [open] = useSidebarState();
 
    const handleToggle = (menu: MenuName) => {
-      setState((state) => ({ ...state, [menu]: !state[menu] }))
-   }
+      setState((state) => ({ ...state, [menu]: !state[menu] }));
+   };
 
    return (
       <Box
@@ -230,7 +230,7 @@ const Menu = ({ dense = false }: MenuProps) => {
             dense={dense}
          />
       </Box>
-   )
-}
+   );
+};
 
-export default Menu
+export default Menu;

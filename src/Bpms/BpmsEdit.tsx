@@ -1,24 +1,24 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    SimpleForm,
    useTranslate,
    NumberInput,
    useInput,
-} from 'react-admin'
-import { Grid, Box, Typography } from '@mui/material'
-import { useParams } from 'react-router-dom'
-import Aside from './Aside'
-import FullNameField from './IdField'
-import { validateForm } from './BpmsCreate'
-import BPMEAUDIOUploaders from './BPMEUploaders/BPMEAUDIOUploaders'
+} from 'react-admin';
+import { Grid, Box, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import Aside from './Aside';
+import FullNameField from './IdField';
+import { validateForm } from './BpmsCreate';
+import BPMEAUDIOUploaders from './BPMEUploaders/BPMEAUDIOUploaders';
 
 const BpmsEdit = () => {
-   const translate = useTranslate()
-   const { id } = useParams()
+   const translate = useTranslate();
+   const { id } = useParams();
 
    const AudioInput = ({ source, label }: any) => {
-      const { id, field, fieldState } = useInput({ source })
+      const { id, field, fieldState } = useInput({ source });
       return (
          <label htmlFor={id}>
             {label}
@@ -26,8 +26,8 @@ const BpmsEdit = () => {
             <audio id={id} {...field} src={field.value} controls />
             {fieldState.error && <span>{fieldState.error.message}</span>}
          </label>
-      )
-   }
+      );
+   };
    return (
       <Edit title={<BpmsTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -63,19 +63,19 @@ const BpmsEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="button" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const BpmsTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />
+const BpmsTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />;
 
-export default BpmsEdit
+export default BpmsEdit;

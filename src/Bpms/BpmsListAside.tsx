@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Card, CardContent } from '@mui/material'
-import { FilterLiveSearch, SavedQueriesList } from 'react-admin'
-import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded'
+import * as React from 'react';
+import { Card, CardContent } from '@mui/material';
+import { FilterLiveSearch, SavedQueriesList } from 'react-admin';
+import SaveQueryIcon from '@mui/icons-material/BookmarkAddedRounded';
 
 const BpmsListAside = () => {
    return (
@@ -23,7 +23,7 @@ const BpmsListAside = () => {
             <SavedQueriesList icon={<SaveQueryIcon />} />
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default BpmsListAside
+export default BpmsListAside;

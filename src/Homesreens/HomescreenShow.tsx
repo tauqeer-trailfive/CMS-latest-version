@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material'
-import { useRecordContext } from 'react-admin'
-import { Stack, Chip } from '@mui/material'
-import { Homescreen } from '../types'
+import * as React from 'react';
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { useRecordContext } from 'react-admin';
+import { Stack, Chip } from '@mui/material';
+import { Homescreen } from '../types';
 
 const HomescreenShow = () => {
-   const record = useRecordContext<Homescreen>()
-   if (!record) return null
+   const record = useRecordContext<Homescreen>();
+   if (!record) return null;
    return (
       <Card
          sx={{
@@ -61,7 +61,7 @@ const HomescreenShow = () => {
             </Box>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default HomescreenShow
+export default HomescreenShow;

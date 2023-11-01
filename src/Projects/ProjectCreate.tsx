@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    SimpleForm,
@@ -13,16 +13,16 @@ import {
    BooleanInput,
    ReferenceArrayInput,
    ReferenceInput,
-} from 'react-admin'
-import { Badge, Box, Chip, Typography } from '@mui/material'
-import InfoIcon from '@mui/icons-material/Info'
+} from 'react-admin';
+import { Badge, Box, Chip, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.name) {
-      errors.name = 'ra.validation.required'
+      errors.name = 'ra.validation.required';
    }
    // if (!values.description) {
    //   errors.description = "ra.validation.required";
@@ -43,18 +43,18 @@ export const validateForm = (
    //   errors.owner.id = "ra.validation.required";
    // }
    if (!values.tracks) {
-      errors.tracks = 'ra.validation.required'
+      errors.tracks = 'ra.validation.required';
    }
 
-   return errors
-}
+   return errors;
+};
 
 const ProjectCreate = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    const convertStringToNumber = (value) => {
-      const float = parseFloat(value)
-      return isNaN(float) ? null : float
-   }
+      const float = parseFloat(value);
+      return isNaN(float) ? null : float;
+   };
 
    return (
       <Create redirect="list">
@@ -224,19 +224,19 @@ const ProjectCreate = () => {
             />
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="h6" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default ProjectCreate
+export default ProjectCreate;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -15,40 +15,42 @@ import {
    Button,
    ArrayField,
    SingleFieldList,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import ProjectsListAside from './ProjectsListAside'
-import ProjectLinkField from './ProjectLinkField'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
-import RatingField from './RatingField'
-import { gql, useQuery } from '@apollo/client'
-import DownloadCSVIcon from '@mui/icons-material/DownloadForOfflineTwoTone'
-import ProjectShow from './ProjectShow'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import MobileGrid from './MobileGrid';
+import ProjectsListAside from './ProjectsListAside';
+import ProjectLinkField from './ProjectLinkField';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
+import RatingField from './RatingField';
+import { gql, useQuery } from '@apollo/client';
+import DownloadCSVIcon from '@mui/icons-material/DownloadForOfflineTwoTone';
+import ProjectShow from './ProjectShow';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
 const EXPORT_PROJECTS_QUERY = gql`
    query Query($model: ModelNames!) {
       getCsvUrl(model: $model)
    }
-`
+`;
 
-const ProjectFilters = [<SearchInput source="name" alwaysOn />]
+const ProjectFilters = [<SearchInput source="name" alwaysOn />];
 
 const ProjectsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
 
    const { data, loading, error } = useQuery(EXPORT_PROJECTS_QUERY, {
       variables: {
          model: 'project',
       },
-   })
+   });
    const ProjectsListActions = () => (
       <TopToolbar>
          <SelectColumnsButton />
@@ -66,7 +68,7 @@ const ProjectsList = () => {
             }
          />
       </TopToolbar>
-   )
+   );
    return (
       <List
          filters={isSmall ? ProjectFilters : undefined}
@@ -139,7 +141,7 @@ const ProjectsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default ProjectsList
+export default ProjectsList;

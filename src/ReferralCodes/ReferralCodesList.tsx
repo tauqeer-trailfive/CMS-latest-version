@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -11,15 +11,15 @@ import {
    EmailField,
    DateField,
    NumberField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
-import MobileGrid from './MobileGrid'
-import ReferralCodesListAside from './ReferralCodesListAside'
-import ReferralCodeLinkField from './ReferralCodeLinkField'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
+import MobileGrid from './MobileGrid';
+import ReferralCodesListAside from './ReferralCodesListAside';
+import ReferralCodeLinkField from './ReferralCodeLinkField';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const userFilters = [<SearchInput source="name" alwaysOn />]
+const userFilters = [<SearchInput source="name" alwaysOn />];
 
 const ReferralCodeActions = () => (
    <TopToolbar>
@@ -27,13 +27,15 @@ const ReferralCodeActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const ReferralCodesList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? userFilters : undefined}
@@ -71,7 +73,7 @@ const ReferralCodesList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default ReferralCodesList
+export default ReferralCodesList;

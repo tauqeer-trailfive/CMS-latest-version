@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Card,
    CardHeader,
@@ -7,7 +7,7 @@ import {
    CircularProgress,
    Chip,
    Badge,
-} from '@mui/material'
+} from '@mui/material';
 import {
    ResponsiveContainer,
    AreaChart,
@@ -16,20 +16,20 @@ import {
    YAxis,
    CartesianGrid,
    Tooltip,
-} from 'recharts'
-import { LinearProgress, useTranslate } from 'react-admin'
-import { TooltipProps } from 'recharts'
+} from 'recharts';
+import { LinearProgress, useTranslate } from 'react-admin';
+import { TooltipProps } from 'recharts';
 
-import QueryStatsTwoToneIcon from '@mui/icons-material/QueryStatsTwoTone'
+import QueryStatsTwoToneIcon from '@mui/icons-material/QueryStatsTwoTone';
 
-import { format, parseISO } from 'date-fns'
+import { format, parseISO } from 'date-fns';
 
-import { Order } from '../types'
-import { gql, useQuery } from '@apollo/client'
+import { Order } from '../types';
+import { gql, useQuery } from '@apollo/client';
 import {
    NameType,
    ValueType,
-} from 'recharts/types/component/DefaultTooltipContent'
+} from 'recharts/types/component/DefaultTooltipContent';
 
 const UsersChart = (props: { orders?: Order[] }) => {
    const GET_USERS_GRAPH_DATA = gql`
@@ -39,16 +39,16 @@ const UsersChart = (props: { orders?: Order[] }) => {
             count
          }
       }
-   `
+   `;
 
    const initialDate = new Date(
       new Date().setDate(new Date().getDate() - 30)
-   ).setHours(0, 0, 0, 0)
+   ).setHours(0, 0, 0, 0);
    const { data, error, loading } = useQuery(GET_USERS_GRAPH_DATA, {
       variables: {
          initialDate: new Date(initialDate),
       },
-   })
+   });
 
    return (
       <Card elevation={5}>
@@ -135,8 +135,8 @@ const UsersChart = (props: { orders?: Order[] }) => {
             </div>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
 const CustomTooltip = ({
    active,
@@ -180,10 +180,10 @@ const CustomTooltip = ({
             </h1>
             <p className="label">{`${label} : ${payload?.[0].value} Users Created`}</p>
          </Box>
-      )
+      );
    }
 
-   return null
-}
+   return null;
+};
 
-export default UsersChart
+export default UsersChart;

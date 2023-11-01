@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -15,14 +15,14 @@ import {
    DateTimeInput,
    useGetOne,
    ImageField,
-} from 'react-admin'
-import { Box, Typography, Divider } from '@mui/material'
+} from 'react-admin';
+import { Box, Typography, Divider } from '@mui/material';
 
-import IdField from './IdField'
-import { validateForm } from './PlaylistCreate'
-import { useMutation, gql } from '@apollo/client'
-import PECoverImageUploader from './PECoverImageUploader/PECoverImageUploader'
-import { useParams } from 'react-router'
+import IdField from './IdField';
+import { validateForm } from './PlaylistCreate';
+import { useMutation, gql } from '@apollo/client';
+import PECoverImageUploader from './PECoverImageUploader/PECoverImageUploader';
+import { useParams } from 'react-router';
 
 const UPDATE_PLAYLIST_PROJECT = gql`
    mutation updatePlaylistProjectsOrder(
@@ -36,47 +36,47 @@ const UPDATE_PLAYLIST_PROJECT = gql`
          id
       }
    }
-`
+`;
 
 const PlaylistEdit = () => {
-   const { id } = useParams()
-   const translate = useTranslate()
-   const { data: playlist } = useGetOne('playlists', { id: id })
-   const notify = useNotify()
-   const refresh = useRefresh()
-   const redirect = useRedirect()
+   const { id } = useParams();
+   const translate = useTranslate();
+   const { data: playlist } = useGetOne('playlists', { id: id });
+   const notify = useNotify();
+   const refresh = useRefresh();
+   const redirect = useRedirect();
 
-   const [checked, setChecked] = React.useState(false)
+   const [checked, setChecked] = React.useState(false);
 
    const [update_project_playlist, { error: prjectsError }] = useMutation(
       UPDATE_PLAYLIST_PROJECT
-   )
+   );
 
    function reordering_projects(projects) {
-      const idProjects = projects
-      const arrOfId: any[] = []
-      let playlistProjectId
-      let DropDate
-      let AdditionDate
-      let loopcount = 0
+      const idProjects = projects;
+      const arrOfId: any[] = [];
+      let playlistProjectId;
+      let DropDate;
+      let AdditionDate;
+      let loopcount = 0;
       if (idProjects && idProjects.length !== 0) {
          for (const id of idProjects) {
             if (id.dropDate) {
-               DropDate = new Date(id.dropDate).toISOString()
+               DropDate = new Date(id.dropDate).toISOString();
             } else {
-               DropDate = null
+               DropDate = null;
             }
             if (id.additionDate) {
-               AdditionDate = new Date(id.additionDate).toISOString()
+               AdditionDate = new Date(id.additionDate).toISOString();
             } else {
-               AdditionDate = null
+               AdditionDate = null;
             }
-            playlistProjectId = id.id
+            playlistProjectId = id.id;
             if (playlistProjectId) {
-               playlistProjectId: id.id
+               playlistProjectId: id.id;
             }
             if (playlistProjectId == undefined) {
-               playlistProjectId = ''
+               playlistProjectId = '';
             }
             arrOfId.push({
                playlistProjectId: playlistProjectId,
@@ -84,32 +84,32 @@ const PlaylistEdit = () => {
                dropDate: DropDate,
                additionDate: AdditionDate,
                projectId: id.project.id,
-            })
-            loopcount++
+            });
+            loopcount++;
          }
       }
-      return arrOfId
+      return arrOfId;
    }
 
    const onSuccess = (data, projects) => {
-      let reordered_list = reordering_projects(projects.data.orderedProjects)
+      let reordered_list = reordering_projects(projects.data.orderedProjects);
       if (projects.data.update_playlist_projects) {
          update_project_playlist({
             variables: {
                playlistId: data.id,
                projects: reordered_list,
             },
-         })
+         });
          if (prjectsError) {
-            notify(`${prjectsError}`)
-            redirect(`/playlists`)
+            notify(`${prjectsError}`);
+            redirect(`/playlists`);
          }
       }
-      refresh()
-      notify(`Changes saved`)
-      redirect(`/playlists`)
-      refresh()
-   }
+      refresh();
+      notify(`Changes saved`);
+      redirect(`/playlists`);
+      refresh();
+   };
 
    return (
       <Edit
@@ -180,7 +180,7 @@ const PlaylistEdit = () => {
                fullWidth
                checked={checked}
                onChange={(event: React.ChangeEvent<any>) => {
-                  setChecked(event.target.checked)
+                  setChecked(event.target.checked);
                }}
                color="primary"
             />
@@ -231,11 +231,11 @@ const PlaylistEdit = () => {
             )}
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const PlaylistTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
+const PlaylistTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default PlaylistEdit
+export default PlaylistEdit;

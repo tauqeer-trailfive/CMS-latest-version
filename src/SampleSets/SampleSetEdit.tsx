@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -12,15 +12,15 @@ import {
    AutocompleteArrayInput,
    ArrayInput,
    SimpleFormIterator,
-} from 'react-admin'
-import { Grid, Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Grid, Box, Typography } from '@mui/material';
 
-import Aside from './Aside'
-import IdField from './IdField'
-import { validateForm } from './SampleSetCreate'
+import Aside from './Aside';
+import IdField from './IdField';
+import { validateForm } from './SampleSetCreate';
 
 const SampleSetEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<SampleSetTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -135,9 +135,9 @@ const SampleSetEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const SampleSetTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
+const SampleSetTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
 
-export default SampleSetEdit
+export default SampleSetEdit;

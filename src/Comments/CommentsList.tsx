@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -12,16 +12,16 @@ import {
    NumberField,
    ChipField,
    ReferenceField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import MobileGrid from './MobileGrid'
-import CommentsListAside from './CommentsListAside'
-import CommentLinkField from './CommentLinkField'
-import NotFoundRecord from './NotFoundRecord'
-import EmptyListPage from './EmptyListPage'
+import MobileGrid from './MobileGrid';
+import CommentsListAside from './CommentsListAside';
+import CommentLinkField from './CommentLinkField';
+import NotFoundRecord from './NotFoundRecord';
+import EmptyListPage from './EmptyListPage';
 
-const userFilters = [<SearchInput source="name" alwaysOn />]
+const userFilters = [<SearchInput source="name" alwaysOn />];
 
 const CommentListActions = () => (
    <TopToolbar>
@@ -29,13 +29,15 @@ const CommentListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const CommentsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? userFilters : undefined}
@@ -93,7 +95,7 @@ const CommentsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default CommentsList
+export default CommentsList;

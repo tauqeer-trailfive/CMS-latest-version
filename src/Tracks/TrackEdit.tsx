@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    SimpleForm,
@@ -8,16 +8,16 @@ import {
    NumberInput,
    ReferenceInput,
    AutocompleteInput,
-} from 'react-admin'
-import { useParams } from 'react-router-dom'
-import { Grid, Box, Typography, Modal } from '@mui/material'
+} from 'react-admin';
+import { useParams } from 'react-router-dom';
+import { Grid, Box, Typography, Modal } from '@mui/material';
 
-import Aside from './Aside'
-import FullNameField from './IdField'
-import { validateForm } from './TrackCreate'
+import Aside from './Aside';
+import FullNameField from './IdField';
+import { validateForm } from './TrackCreate';
 
 const TrackEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Edit title={<UserTitle />}>
@@ -99,10 +99,10 @@ const TrackEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const UserTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />
-const Separator = () => <Box pt="1em" />
+const UserTitle = () => <FullNameField size="32" sx={{ margin: '5px 0' }} />;
+const Separator = () => <Box pt="1em" />;
 
-export default TrackEdit
+export default TrackEdit;

@@ -1,16 +1,23 @@
-import * as React from 'react'
-import { Box, Card, CardActions, Button, Typography, Link } from '@mui/material'
-import HomeIcon from '@mui/icons-material/Home'
-import CodeIcon from '@mui/icons-material/Code'
-import { useTranslate } from 'react-admin'
+import * as React from 'react';
+import {
+   Box,
+   Card,
+   CardActions,
+   Button,
+   Typography,
+   Link,
+} from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import CodeIcon from '@mui/icons-material/Code';
+import { useTranslate } from 'react-admin';
 
-import djaminnlogo from '../images/logo.png'
-import cover from '../images/login_image.png'
-import playstore from '../images/playstore.png'
-import appstore from '../images/appstore.png'
+import djaminnlogo from '../images/logo.png';
+import cover from '../images/login_image.png';
+import playstore from '../images/playstore.png';
+import appstore from '../images/appstore.png';
 
 const Welcome = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Card
@@ -79,7 +86,7 @@ const Welcome = () => {
             />
          </Box>
       </Card>
-   )
-}
+   );
+};
 
-export default Welcome
+export default Welcome;

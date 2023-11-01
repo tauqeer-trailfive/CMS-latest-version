@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { useState } from 'react'
-import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import * as React from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 import {
    Avatar,
@@ -11,8 +11,8 @@ import {
    CircularProgress,
    Typography,
    Backdrop,
-} from '@mui/material'
-import LockIcon from '@mui/icons-material/LockPersonTwoTone'
+} from '@mui/material';
+import LockIcon from '@mui/icons-material/LockPersonTwoTone';
 import {
    Form,
    required,
@@ -20,27 +20,27 @@ import {
    useTranslate,
    useLogin,
    useNotify,
-} from 'react-admin'
+} from 'react-admin';
 
-import Box from '@mui/material/Box'
-import logo from '../images/logo.png'
-import cover from '../images/login_image.png'
+import Box from '@mui/material/Box';
+import logo from '../images/logo.png';
+import cover from '../images/login_image.png';
 
 const Login = () => {
-   const [loading, setLoading] = useState(false)
-   const translate = useTranslate()
+   const [loading, setLoading] = useState(false);
+   const translate = useTranslate();
 
-   const notify = useNotify()
-   const login = useLogin()
-   const location = useLocation()
+   const notify = useNotify();
+   const login = useLogin();
+   const location = useLocation();
 
    const handleSubmit = (auth: FormValues) => {
-      setLoading(true)
+      setLoading(true);
       login(
          auth,
          location.state ? (location.state as any).nextPathname : '/'
       ).catch((error: Error) => {
-         setLoading(false)
+         setLoading(false);
          notify(
             typeof error === 'string'
                ? error
@@ -58,9 +58,9 @@ const Login = () => {
                         : undefined,
                },
             }
-         )
-      })
-   }
+         );
+      });
+   };
 
    return (
       <Form onSubmit={handleSubmit} noValidate>
@@ -146,17 +146,17 @@ const Login = () => {
             </Backdrop>
          </Box>
       </Form>
-   )
-}
+   );
+};
 
 Login.propTypes = {
    authProvider: PropTypes.func,
    previousRoute: PropTypes.string,
-}
+};
 
-export default Login
+export default Login;
 
 interface FormValues {
-   username?: string
-   password?: string
+   username?: string;
+   password?: string;
 }

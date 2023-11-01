@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    DateInput,
    Edit,
@@ -12,14 +12,14 @@ import {
    useRefresh,
    useNotify,
    useInput,
-} from 'react-admin'
-import { Grid, Box, Typography, Button } from '@mui/material'
+} from 'react-admin';
+import { Grid, Box, Typography, Button } from '@mui/material';
 
-import { useMutation, gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const POLICY = gql`
    mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -36,7 +36,7 @@ const POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 const UPDATE_BPM_MP3_FILE = gql`
    mutation updateBpm($data: BpmUpdateInput, $where: BpmWhereUniqueInput) {
@@ -44,7 +44,7 @@ const UPDATE_BPM_MP3_FILE = gql`
          id
       }
    }
-`
+`;
 
 let config_data_mp3 = {
    'x-goog-meta-test': '',
@@ -54,7 +54,7 @@ let config_data_mp3 = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 let config_data_audio = {
    'x-goog-meta-test': '',
@@ -64,41 +64,41 @@ let config_data_audio = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 type Props = {
-   BPMId: any
-}
+   BPMId: any;
+};
 
 const BPMEMP3Uploaders = (props: Props) => {
-   const translate = useTranslate()
-   const { id } = useParams()
-   const refresh = useRefresh()
-   const notify = useNotify()
+   const translate = useTranslate();
+   const { id } = useParams();
+   const refresh = useRefresh();
+   const notify = useNotify();
 
-   const [mp3file, setmp3file] = React.useState<any>()
+   const [mp3file, setmp3file] = React.useState<any>();
 
-   const [mp3uploaded, setmp3uploaded] = React.useState<boolean>(false)
+   const [mp3uploaded, setmp3uploaded] = React.useState<boolean>(false);
 
-   const [uploadMp3File, { data, loading, error }] = useMutation(POLICY)
+   const [uploadMp3File, { data, loading, error }] = useMutation(POLICY);
 
    const [
       updateBpmFile,
       { data: updatebpmData, loading: updatebpmLoading, error: updatebpmError },
-   ] = useMutation(UPDATE_BPM_MP3_FILE)
+   ] = useMutation(UPDATE_BPM_MP3_FILE);
 
    useEffect(() => {
       const uploadMp3 = () => {
-         const filename = new Date().getTime() + '-' + mp3file.name
+         const filename = new Date().getTime() + '-' + mp3file.name;
          uploadMp3File({
             variables: {
                imageName: filename,
                bType: 'image-compression',
             },
-         })
-      }
-      mp3file && uploadMp3()
-   }, [mp3file])
+         });
+      };
+      mp3file && uploadMp3();
+   }, [mp3file]);
 
    if (data !== undefined) {
       config_data_mp3 = {
@@ -109,7 +109,7 @@ const BPMEMP3Uploaders = (props: Props) => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
 
    const savemp3Mutaiton = () => {
@@ -122,10 +122,10 @@ const BPMEMP3Uploaders = (props: Props) => {
                id: props.BPMId,
             },
          },
-      })
-      notify('resources.bpms.fields.mp3changed')
-      refresh()
-   }
+      });
+      notify('resources.bpms.fields.mp3changed');
+      refresh();
+   };
 
    return (
       <>
@@ -180,17 +180,17 @@ const BPMEMP3Uploaders = (props: Props) => {
                                     e: React.ChangeEvent<HTMLInputElement>
                                  ) => {
                                     if (e.target.files != null) {
-                                       setmp3file(e.target.files[0])
+                                       setmp3file(e.target.files[0]);
                                        const form: any =
-                                          document.querySelector('#mp3_file')
+                                          document.querySelector('#mp3_file');
                                        const input: any =
-                                          document.querySelector('#urlmp3id')
+                                          document.querySelector('#urlmp3id');
                                        setTimeout(() => {
-                                          form.submit()
-                                          setmp3uploaded(true)
-                                       }, 1000)
+                                          form.submit();
+                                          setmp3uploaded(true);
+                                       }, 1000);
                                     }
-                                    1
+                                    1;
                                  }}
                               />
                            </Button>
@@ -216,7 +216,7 @@ const BPMEMP3Uploaders = (props: Props) => {
                   size="small"
                   color="primary"
                   onClick={() => {
-                     savemp3Mutaiton()
+                     savemp3Mutaiton();
                   }}
                   sx={{ borderRadius: 0.2 }}
                >
@@ -236,7 +236,7 @@ const BPMEMP3Uploaders = (props: Props) => {
             <Box pt="3em" />
          </Box>
       </>
-   )
-}
+   );
+};
 
-export default BPMEMP3Uploaders
+export default BPMEMP3Uploaders;

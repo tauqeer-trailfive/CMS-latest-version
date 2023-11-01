@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material'
+import * as React from 'react';
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import {
    ReferenceField,
    TextField,
@@ -8,16 +8,22 @@ import {
    ArrayField,
    ChipField,
    BooleanField,
-} from 'react-admin'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { Stack, Chip } from '@mui/material'
-import { TableCellRight } from './TableCellRight'
-import { Contest } from '../types'
-import Basket from './Basket'
+} from 'react-admin';
+import {
+   Table,
+   TableBody,
+   TableCell,
+   TableHead,
+   TableRow,
+} from '@mui/material';
+import { Stack, Chip } from '@mui/material';
+import { TableCellRight } from './TableCellRight';
+import { Contest } from '../types';
+import Basket from './Basket';
 
 const ContestShow = () => {
-   const record = useRecordContext<Contest>()
-   if (!record) return null
+   const record = useRecordContext<Contest>();
+   if (!record) return null;
    return (
       <Card
          sx={{
@@ -74,11 +80,11 @@ const ContestShow = () => {
             </Box>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
 const ContestDescriptionField = () => {
-   const record = useRecordContext<Contest>()
+   const record = useRecordContext<Contest>();
    return record ? (
       <Box
          sx={{
@@ -96,7 +102,7 @@ const ContestDescriptionField = () => {
             {record.description}
          </Typography>
       </Box>
-   ) : null
-}
+   ) : null;
+};
 
-export default ContestShow
+export default ContestShow;

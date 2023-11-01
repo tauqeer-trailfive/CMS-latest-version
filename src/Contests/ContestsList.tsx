@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -16,19 +16,19 @@ import {
    Datagrid,
    SearchInput,
    BooleanField,
-} from 'react-admin'
-import { useMediaQuery, Theme } from '@mui/material'
+} from 'react-admin';
+import { useMediaQuery, Theme } from '@mui/material';
 
-import ContestLinkField from './ContestLinkField'
-import MobileGrid from './MobileGrid'
-import ContestsListAside from './ContestsListAside'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
-import ContestShow from './ContestShow'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+import ContestLinkField from './ContestLinkField';
+import MobileGrid from './MobileGrid';
+import ContestsListAside from './ContestsListAside';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
+import ContestShow from './ContestShow';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const ContestFilters = [<SearchInput source="artistName" alwaysOn />]
+const ContestFilters = [<SearchInput source="artistName" alwaysOn />];
 
 const ContestsListActions = () => (
    <TopToolbar>
@@ -36,13 +36,15 @@ const ContestsListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const ContestsList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? ContestFilters : undefined}
@@ -91,7 +93,7 @@ const ContestsList = () => {
             </DatagridConfigurable>
          )}
       </List>
-   )
-}
+   );
+};
 
-export default ContestsList
+export default ContestsList;

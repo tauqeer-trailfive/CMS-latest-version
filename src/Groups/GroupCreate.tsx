@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    SimpleForm,
@@ -10,21 +10,21 @@ import {
    ReferenceInput,
    AutocompleteInput,
    BooleanInput,
-} from 'react-admin'
-import { Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Box, Typography } from '@mui/material';
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.name) {
-      errors.name = 'ra.validation.required'
+      errors.name = 'ra.validation.required';
    }
-   return errors
-}
+   return errors;
+};
 
 const GroupCreate = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Create redirect="list">
          <SimpleForm
@@ -104,9 +104,9 @@ const GroupCreate = () => {
             <BooleanInput source="isPublic" />
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default GroupCreate
+export default GroupCreate;

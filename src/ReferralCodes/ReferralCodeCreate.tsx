@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Create,
    SimpleForm,
@@ -8,7 +8,7 @@ import {
    email,
    SelectInput,
    NumberInput,
-} from 'react-admin'
+} from 'react-admin';
 import {
    Badge,
    Box,
@@ -17,12 +17,12 @@ import {
    CircularProgress,
    CircularProgressProps,
    Typography,
-} from '@mui/material'
-import { gql, useMutation } from '@apollo/client'
-import { useNavigate } from 'react-router-dom'
-import InfoIcon from '@mui/icons-material/Info'
-import AddBoxIcon from '@mui/icons-material/AddBox'
-import UploadIcon from '@mui/icons-material/Upload'
+} from '@mui/material';
+import { gql, useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+import InfoIcon from '@mui/icons-material/Info';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import UploadIcon from '@mui/icons-material/Upload';
 
 const CREATE_REFCODES = gql`
    mutation createReferralCode($data: ReferralCodeCreateInput!) {
@@ -34,7 +34,7 @@ const CREATE_REFCODES = gql`
          status
       }
    }
-`
+`;
 
 function CircularProgressWithLabel(
    props: CircularProgressProps & { value: number }
@@ -66,42 +66,42 @@ function CircularProgressWithLabel(
             >{`${Math.round(props.value)}%`}</Typography>
          </Box>
       </Box>
-   )
+   );
 }
 
 export const validateForm = (
    values: Record<string, any>
 ): Record<string, any> => {
-   const errors = {} as any
+   const errors = {} as any;
    if (!values.code) {
-      errors.code = 'ra.validation.required'
+      errors.code = 'ra.validation.required';
    }
    if (!values.email) {
-      errors.email = 'ra.validation.required'
+      errors.email = 'ra.validation.required';
    }
-   return errors
-}
+   return errors;
+};
 
 const ReferralCodeCreate = () => {
-   const translate = useTranslate()
-   const [file, setfile] = React.useState<any>('')
-   const [spinnerLoading, setspinnerLoading] = React.useState(0)
-   const [showLoader, setShowLoad] = React.useState(false)
-   const navigate = useNavigate()
+   const translate = useTranslate();
+   const [file, setfile] = React.useState<any>('');
+   const [spinnerLoading, setspinnerLoading] = React.useState(0);
+   const [showLoader, setShowLoad] = React.useState(false);
+   const navigate = useNavigate();
    const [mutateFunction, { data, loading, error }] =
-      useMutation(CREATE_REFCODES)
+      useMutation(CREATE_REFCODES);
 
    function generateString(length) {
-      const characters = '0123456789'
-      let result = ' '
-      const charactersLength = characters.length
+      const characters = '0123456789';
+      let result = ' ';
+      const charactersLength = characters.length;
       for (let i = 0; i < length; i++) {
          result += characters.charAt(
             Math.floor(Math.random() * charactersLength)
-         )
+         );
       }
 
-      return result
+      return result;
    }
 
    // useEffect(() => {
@@ -120,18 +120,18 @@ const ReferralCodeCreate = () => {
    // }, [LoadStart]);
 
    const buttonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setShowLoad(true)
-      event.preventDefault()
-      const button: HTMLButtonElement = event.currentTarget
-      const refcode = generateString(4)
-      let fileReader = new FileReader()
+      setShowLoad(true);
+      event.preventDefault();
+      const button: HTMLButtonElement = event.currentTarget;
+      const refcode = generateString(4);
+      let fileReader = new FileReader();
       fileReader.onload = (e) => {
-         const csvContent = (fileReader.result as string).split('\n')
+         const csvContent = (fileReader.result as string).split('\n');
          for (let i = 1; i < csvContent.length; i++) {
-            const line = csvContent[i]
-            const email = line.split(',')
-            const refcode = generateString(4)
-            setspinnerLoading((prev) => (prev >= 100 ? 0 : prev + 10))
+            const line = csvContent[i];
+            const email = line.split(',');
+            const refcode = generateString(4);
+            setspinnerLoading((prev) => (prev >= 100 ? 0 : prev + 10));
 
             mutateFunction({
                variables: {
@@ -140,16 +140,16 @@ const ReferralCodeCreate = () => {
                      email: email[0],
                   },
                },
-            })
+            });
          }
-      }
+      };
 
-      fileReader.readAsText(file)
+      fileReader.readAsText(file);
 
       setTimeout(() => {
-         navigate('/referralcode')
-      }, 5000)
-   }
+         navigate('/referralcode');
+      }, 5000);
+   };
    return (
       <Create redirect="list">
          <SimpleForm
@@ -235,7 +235,7 @@ const ReferralCodeCreate = () => {
                                  e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                  if (e.target.files != null) {
-                                    setfile(e.target.files[0]) //error
+                                    setfile(e.target.files[0]); //error
                                  }
                               }}
                            />
@@ -292,19 +292,19 @@ const ReferralCodeCreate = () => {
             </Box>
          </SimpleForm>
       </Create>
-   )
-}
+   );
+};
 
 const SectionTitle = ({ label }: { label: string }) => {
-   const translate = useTranslate()
+   const translate = useTranslate();
 
    return (
       <Typography variant="h6" gutterBottom>
          {translate(label as string)}
       </Typography>
-   )
-}
+   );
+};
 
-const Separator = () => <Box pt="1em" />
+const Separator = () => <Box pt="1em" />;
 
-export default ReferralCodeCreate
+export default ReferralCodeCreate;

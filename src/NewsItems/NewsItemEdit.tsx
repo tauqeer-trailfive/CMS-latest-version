@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Edit,
    TextInput,
@@ -7,15 +7,15 @@ import {
    NumberInput,
    SelectInput,
    DateInput,
-} from 'react-admin'
-import { Grid, Box, Typography } from '@mui/material'
+} from 'react-admin';
+import { Grid, Box, Typography } from '@mui/material';
 
-import Aside from './Aside'
-import IdField from './IdField'
-import { validateForm } from './NewsItemCreate'
+import Aside from './Aside';
+import IdField from './IdField';
+import { validateForm } from './NewsItemCreate';
 
 const NewsItemEdit = () => {
-   const translate = useTranslate()
+   const translate = useTranslate();
    return (
       <Edit title={<NewsItemTitle />}>
          <SimpleForm validate={validateForm} sx={{ mx: 2, my: 2 }}>
@@ -75,9 +75,9 @@ const NewsItemEdit = () => {
             </div>
          </SimpleForm>
       </Edit>
-   )
-}
+   );
+};
 
-const NewsItemTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />
+const NewsItemTitle = () => <IdField size="32" sx={{ margin: '5px 0' }} />;
 
-export default NewsItemEdit
+export default NewsItemEdit;

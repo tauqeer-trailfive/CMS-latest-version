@@ -1,20 +1,20 @@
-import * as React from 'react'
-import { FC, createElement } from 'react'
-import { Card, Box, Typography, Divider } from '@mui/material'
-import { ReactNode } from 'react'
+import * as React from 'react';
+import { FC, createElement } from 'react';
+import { Card, Box, Typography, Divider } from '@mui/material';
+import { ReactNode } from 'react';
 
-import cartouche from './cartouche.png'
-import cartoucheDark from './cartoucheDark.png'
+import cartouche from './cartouche.png';
+import cartoucheDark from './cartoucheDark.png';
 
 interface Props {
-   icon: FC<any>
-   title?: string
-   subtitle?: string | number
-   children?: ReactNode
+   icon: FC<any>;
+   title?: string;
+   subtitle?: string | number;
+   children?: ReactNode;
 }
 
 const UserEngagmentCard = (props: Props) => {
-   const { icon, title, subtitle, children } = props
+   const { icon, title, subtitle, children } = props;
 
    return (
       // @ts-ignore
@@ -70,7 +70,7 @@ const UserEngagmentCard = (props: Props) => {
          {children && <Divider />}
          {children}
       </Card>
-   )
-}
+   );
+};
 
-export default UserEngagmentCard
+export default UserEngagmentCard;

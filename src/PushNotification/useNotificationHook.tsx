@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 const useNotificationHook = () => {
-   const [data, setData] = useState(null)
-   const [loading, setLoading] = useState(false)
-   const [error, setError] = useState(null)
+   const [data, setData] = useState(null);
+   const [loading, setLoading] = useState(false);
+   const [error, setError] = useState(null);
 
    const fetchData = async (requestData) => {
       try {
-         setLoading(true)
+         setLoading(true);
          const response = await fetch('https://fcm.googleapis.com/fcm/send', {
             method: 'POST',
             headers: {
@@ -16,17 +16,17 @@ const useNotificationHook = () => {
                'Content-Type': 'application/json',
             },
             body: JSON.stringify(requestData),
-         })
-         const result = await response.json()
-         setData(result)
+         });
+         const result = await response.json();
+         setData(result);
       } catch (e: any) {
-         setError(e)
+         setError(e);
       } finally {
-         setLoading(false)
+         setLoading(false);
       }
-   }
+   };
 
-   return { data, loading, error, fetchData }
-}
+   return { data, loading, error, fetchData };
+};
 
-export default useNotificationHook
+export default useNotificationHook;

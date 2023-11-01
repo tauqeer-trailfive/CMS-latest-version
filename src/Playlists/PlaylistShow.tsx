@@ -1,17 +1,17 @@
-import * as React from 'react'
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material'
-import { useRecordContext } from 'react-admin'
-import { Stack } from '@mui/material'
-import { Playlist } from '../types'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell, { tableCellClasses } from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
+import * as React from 'react';
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { useRecordContext } from 'react-admin';
+import { Stack } from '@mui/material';
+import { Playlist } from '../types';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 const PlaylistShow = () => {
-   const record = useRecordContext<Playlist>()
+   const record = useRecordContext<Playlist>();
    return (
       <Card
          sx={{
@@ -151,7 +151,7 @@ const PlaylistShow = () => {
             </Box>
          </CardContent>
       </Card>
-   )
-}
+   );
+};
 
-export default PlaylistShow
+export default PlaylistShow;

@@ -1,15 +1,15 @@
-import * as React from 'react'
-import { useTranslate, useRefresh, useNotify } from 'react-admin'
-import { Box, Button, CircularProgress } from '@mui/material'
+import * as React from 'react';
+import { useTranslate, useRefresh, useNotify } from 'react-admin';
+import { Box, Button, CircularProgress } from '@mui/material';
 
-import { useMutation, gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
-import CloudDoneIcon from '@mui/icons-material/CloudDone'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-type Props = {}
+type Props = {};
 
 const UPLOAD_USER_POLICY = gql`
    mutation singleImageUpload($imageName: String!, $bType: String!) {
@@ -26,7 +26,7 @@ const UPLOAD_USER_POLICY = gql`
          mp3download_url
       }
    }
-`
+`;
 
 const UPDATE_USER_IMAGE = gql`
    mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
@@ -34,7 +34,7 @@ const UPDATE_USER_IMAGE = gql`
          id
       }
    }
-`
+`;
 
 let user_avatar_config_data: any = {
    'x-goog-meta-test': '',
@@ -44,17 +44,17 @@ let user_avatar_config_data: any = {
    'x-goog-date': '',
    'x-goog-signature': '',
    policy: '',
-}
+};
 
 const AvatarUrlField = (props: Props) => {
-   const translate = useTranslate()
-   const { id } = useParams()
-   const refresh = useRefresh()
-   const notify = useNotify()
+   const translate = useTranslate();
+   const { id } = useParams();
+   const refresh = useRefresh();
+   const notify = useNotify();
 
    const [useravataruploaded, setuseravataruploaded] =
-      React.useState<boolean>(false)
-   const [useravatar, setuseravatar] = React.useState<any>()
+      React.useState<boolean>(false);
+   const [useravatar, setuseravatar] = React.useState<any>();
 
    const [
       UpdateUser,
@@ -63,10 +63,10 @@ const AvatarUrlField = (props: Props) => {
          loading: updateuserLoading,
          error: updateuserError,
       },
-   ] = useMutation(UPDATE_USER_IMAGE)
+   ] = useMutation(UPDATE_USER_IMAGE);
 
    const [uploadavatarImage, { data, loading, error }] =
-      useMutation(UPLOAD_USER_POLICY)
+      useMutation(UPLOAD_USER_POLICY);
 
    const saveavatarURLMutaiton = () => {
       UpdateUser({
@@ -78,24 +78,24 @@ const AvatarUrlField = (props: Props) => {
                avatarUrl: data?.singleImageUpload.mp3download_url,
             },
          },
-      })
-      notify('User Image Updated')
-      refresh()
-   }
+      });
+      notify('User Image Updated');
+      refresh();
+   };
 
    useEffect(() => {
       const uploadAImage = () => {
-         const filename_data = new Date().getTime() + '-' + useravatar.name
-         const filename = 'users' + '/' + 'avatars' + '/' + filename_data
+         const filename_data = new Date().getTime() + '-' + useravatar.name;
+         const filename = 'users' + '/' + 'avatars' + '/' + filename_data;
          uploadavatarImage({
             variables: {
                imageName: filename,
                bType: 'djam_rn',
             },
-         })
-      }
-      useravatar && uploadAImage()
-   }, [useravatar])
+         });
+      };
+      useravatar && uploadAImage();
+   }, [useravatar]);
 
    if (data !== undefined) {
       user_avatar_config_data = {
@@ -106,7 +106,7 @@ const AvatarUrlField = (props: Props) => {
          'x-goog-date': data?.singleImageUpload.x_goog_date,
          'x-goog-signature': data?.singleImageUpload.x_goog_signature,
          policy: data?.singleImageUpload.policy,
-      }
+      };
    }
 
    return (
@@ -165,18 +165,18 @@ const AvatarUrlField = (props: Props) => {
                                  e: React.ChangeEvent<HTMLInputElement>
                               ) => {
                                  if (e.target.files != null) {
-                                    setuseravatar(e.target.files[0])
+                                    setuseravatar(e.target.files[0]);
 
                                     const form: any =
-                                       document.querySelector('#user_avatar')
+                                       document.querySelector('#user_avatar');
                                     const input: any =
                                        document.querySelector(
                                           '#urluseravatarid'
-                                       )
+                                       );
                                     setTimeout(() => {
-                                       form.submit()
-                                       setuseravataruploaded(true)
-                                    }, 1000)
+                                       form.submit();
+                                       setuseravataruploaded(true);
+                                    }, 1000);
                                  }
                               }}
                            />
@@ -191,7 +191,7 @@ const AvatarUrlField = (props: Props) => {
                size="small"
                color="primary"
                onClick={() => {
-                  saveavatarURLMutaiton()
+                  saveavatarURLMutaiton();
                }}
                sx={{ borderRadius: 0.8 }}
             >
@@ -207,7 +207,7 @@ const AvatarUrlField = (props: Props) => {
         </>
       )} */}
       </>
-   )
-}
+   );
+};
 
-export default AvatarUrlField
+export default AvatarUrlField;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    List,
    DatagridConfigurable,
@@ -16,19 +16,19 @@ import {
    BooleanField,
    useTranslate,
    useListContext,
-} from 'react-admin'
-import { useMediaQuery, Theme, Tabs, Tab, Divider } from '@mui/material'
-import MobileGrid from './MobileGrid'
-import HomesreensListAside from './HomesreensListAside'
-import HomesreenLinkField from './HomesreenLinkField'
-import CheckCircle from '@mui/icons-material/CheckCircleTwoTone'
-import CancelCircle from '@mui/icons-material/CancelTwoTone'
-import { gql, useQuery } from '@apollo/client'
-import HomescreenShow from './HomescreenShow'
-import EmptyListPage from './EmptyListPage'
-import NotFoundRecord from './NotFoundRecord'
+} from 'react-admin';
+import { useMediaQuery, Theme, Tabs, Tab, Divider } from '@mui/material';
+import MobileGrid from './MobileGrid';
+import HomesreensListAside from './HomesreensListAside';
+import HomesreenLinkField from './HomesreenLinkField';
+import CheckCircle from '@mui/icons-material/CheckCircleTwoTone';
+import CancelCircle from '@mui/icons-material/CancelTwoTone';
+import { gql, useQuery } from '@apollo/client';
+import HomescreenShow from './HomescreenShow';
+import EmptyListPage from './EmptyListPage';
+import NotFoundRecord from './NotFoundRecord';
 
-const HomesreensFilters = [<SearchInput source="title" alwaysOn />]
+const HomesreensFilters = [<SearchInput source="title" alwaysOn />];
 
 const HomesreenListActions = () => (
    <TopToolbar>
@@ -36,13 +36,15 @@ const HomesreenListActions = () => (
       <CreateButton />
       <ExportButton />
    </TopToolbar>
-)
+);
 
 const HomesreensList = () => {
    const isXsmall = useMediaQuery<Theme>((theme) =>
       theme.breakpoints.down('sm')
-   )
-   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'))
+   );
+   const isSmall = useMediaQuery<Theme>((theme) =>
+      theme.breakpoints.down('md')
+   );
    return (
       <List
          filters={isSmall ? HomesreensFilters : undefined}
@@ -55,8 +57,8 @@ const HomesreensList = () => {
       >
          {isXsmall ? <MobileGrid /> : <TabbedDatagrid />}
       </List>
-   )
-}
+   );
+};
 
 const TabbedDatagrid = () => {
    return (
@@ -102,7 +104,7 @@ const TabbedDatagrid = () => {
          />
          <DateField source="createdAt" label="Created At" showTime />
       </DatagridConfigurable>
-   )
-}
+   );
+};
 
-export default HomesreensList
+export default HomesreensList;
