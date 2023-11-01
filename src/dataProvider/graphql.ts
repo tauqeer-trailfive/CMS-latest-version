@@ -4727,9 +4727,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
             variables: {
                orderBy: `${params.sort.field}_${params.sort.order}`,
                where: {
-                  ...(params?.filter?.region && {
-                     region_some: { name: params.filter.region },
-                  }),
                   ...((params.filter.title || params.filter.q) && {
                      title_contains: params.filter.title || params.filter.q,
                   }),
@@ -4863,10 +4860,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                         name
                         artistName
                      }
-                     region {
-                        id
-                        name
-                     }
                      status
                      priority
                   }
@@ -4899,8 +4892,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
       }
 
       if (resource === 'HomeScreen' && type === 'UPDATE') {
-         const cregions = params.data.region
-         const pregions = params.previousData.region
          const cplaylists = params.data.playlist
          const pplaylists = params.previousData.playlist
          return {
@@ -4930,10 +4921,6 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                         username
                         name
                         artistName
-                     }
-                     region {
-                        id
-                        name
                      }
                      status
                      priority
