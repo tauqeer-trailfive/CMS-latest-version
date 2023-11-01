@@ -1,9 +1,9 @@
-import NotificationsIcon from "@mui/icons-material/NotificationAddRounded";
-import SendPushNotification from "./SendPushNotification";
+import NotificationsIcon from '@mui/icons-material/NotificationAddRounded'
+import SendPushNotification from './SendPushNotification'
 
 const resource = {
-  create: SendPushNotification,
-  icon: NotificationsIcon,
-};
+   create: SendPushNotification,
+   icon: NotificationsIcon,
+}
 
-export default resource;
+export default resource

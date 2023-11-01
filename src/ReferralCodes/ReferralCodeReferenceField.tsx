@@ -1,20 +1,20 @@
-import * as React from "react";
-import { ReferenceField, ReferenceFieldProps } from "react-admin";
+import * as React from 'react'
+import { ReferenceField, ReferenceFieldProps } from 'react-admin'
 
-import IdField from "./IdField";
+import IdField from './IdField'
 
 const ReferralCodeReferenceField = (
-  props: Omit<ReferenceFieldProps, "reference" | "children" | "source"> & {
-    source?: string;
-  }
+   props: Omit<ReferenceFieldProps, 'reference' | 'children' | 'source'> & {
+      source?: string
+   }
 ) => (
-  <ReferenceField source="id" reference="referralcode" {...props}>
-    <IdField />
-  </ReferenceField>
-);
+   <ReferenceField source="id" reference="referralcode" {...props}>
+      <IdField />
+   </ReferenceField>
+)
 
 ReferralCodeReferenceField.defaultProps = {
-  source: "id",
-};
+   source: 'id',
+}
 
-export default ReferralCodeReferenceField;
+export default ReferralCodeReferenceField

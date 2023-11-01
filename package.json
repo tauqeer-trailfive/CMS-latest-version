@@ -54,6 +54,7 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "@vitejs/plugin-react": "^2.2.0",
+    "prettier": "3.0.3",
     "rewire": "^5.0.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "typescript": "^5.1.3",
