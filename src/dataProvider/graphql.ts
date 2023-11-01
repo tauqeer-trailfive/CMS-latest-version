@@ -3055,6 +3055,9 @@ const customBuildQuery: BuildQueryFactory = (introspectionResults) => {
                   ...(params?.filter?.rating && {
                      rating: params.filter.rating,
                   }),
+                  ...(params?.filter?.rating_gte && {
+                     rating_gte: params.filter.rating_gte,
+                  }),
                   ...(params?.filter?.private && {
                      private: params.filter.private,
                   }),

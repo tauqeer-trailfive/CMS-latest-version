@@ -75,6 +75,38 @@ const ProjectsListAside = () => {
                   }}
                />
             </FilterList>
+            <FilterList label="Filter By Rating (>=)" icon={<RatingIcon />}>
+               <FilterListItem
+                  label="Poor"
+                  value={{
+                     rating_gte: 1,
+                  }}
+               />
+               <FilterListItem
+                  label="Fair"
+                  value={{
+                     rating_gte: 2,
+                  }}
+               />
+               <FilterListItem
+                  label="Good"
+                  value={{
+                     rating_gte: 3,
+                  }}
+               />
+               <FilterListItem
+                  label="Very Good"
+                  value={{
+                     rating_gte: 4,
+                  }}
+               />
+               <FilterListItem
+                  label="Excellent"
+                  value={{
+                     rating_gte: 5,
+                  }}
+               />
+            </FilterList>
 
             <FilterList
                label="resources.projects.filters.status"
